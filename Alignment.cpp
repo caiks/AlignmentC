@@ -2,56 +2,39 @@
 
 using namespace Alignment;
 
-VarStr::VarStr(const std::string& s)
+Var::Var(const std::string& s)
 {
     cl = 1;
-    rep = s;
+    rep_str = s;
 }
 
-void VarStr::printOn(std::ostream& stream) const
-{
-    stream << rep;
-}
-
-std::ostream& Alignment::operator<<(std::ostream& stream, const VarStr& v) {
-    v.printOn(stream);
-    return stream;
-}
-
-VarInt::VarInt(const int& i)
+Var::Var(const int& i)
 {
     cl = 2;
-    rep = i;
+    rep_int = i;
 }
 
-void VarInt::printOn(std::ostream& stream) const
-{
-    stream << rep;
-}
-
-std::ostream& Alignment::operator<<(std::ostream& stream, const VarInt& v) {
-    v.printOn(stream);
-    return stream;
-}
-
-VarPair::VarPair(const Variable* p0, const Variable* p1)
+Var::Var(const Var* p0, const Var* p1)
 {
     cl = 5;
     rep0 = p0;
     rep1 = p1;
 }
 
-void VarPair::printOn(std::ostream& stream) const
-{
-    stream << "<";
-    rep0->printOn(stream);
-    stream << ",";
-    rep1->printOn(stream);
-    stream << ">";
-}
-
-std::ostream& Alignment::operator<<(std::ostream& stream, const VarPair& v) {
-    v.printOn(stream);
+std::ostream& Alignment::operator<<(std::ostream& stream, const Var& v) {
+    switch (v.cl) {
+    case 1: 
+	stream << v.rep_str;
+	break;       
+    case 2: 
+	stream << v.rep_int;
+	break;
+    case 5: 
+	stream << "<" << *v.rep0  << "," << *v.rep1 << ">";
+	break;
+    default:
+	throw std::runtime_error("std::ostream& operator<<(std::ostream&, const Var&) fail");
+    }
     return stream;
 }
 
