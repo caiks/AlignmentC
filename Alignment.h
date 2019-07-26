@@ -2,15 +2,21 @@
 #define ALIGNMENT_H
 
 #include <string>
+#include <iostream>
 
 namespace Alignment
 {
     class Variable
     {
-	public: Variable();
-	public: Variable(const Variable&);
-	public: virtual ~Variable();
-	public: int cl;
+	protected: int cl;
+    };
+
+    class VarStr : public Variable
+    {
+	public: VarStr(const std::string&);
+	protected: std::string rep;
+
+	friend std::ostream& operator<<(std::ostream&, const VarStr&);
     };
 }
 #endif

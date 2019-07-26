@@ -6,7 +6,6 @@ using namespace std;
 
 void main()
 {
-    Variable v;
-    v.cl = 1;
-    cout << v.cl << endl;
+    VarStr v("aa");
+    cout << v << endl;
 }

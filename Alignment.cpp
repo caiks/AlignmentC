@@ -2,14 +2,14 @@
 
 using namespace Alignment;
 
-Variable::Variable() : cl(0)
+VarStr::VarStr(const std::string& s)
 {
+    cl = 1;
+    rep = s;
 }
 
-Variable::Variable(const Variable& other) : cl(other.cl)
-{
-}
-
-Variable::~Variable()
-{
+std::ostream& Alignment::operator<<(std::ostream& stream,
+    const VarStr& v) {
+    stream << v.rep;
+    return stream;
 }
