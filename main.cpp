@@ -6,6 +6,13 @@ using namespace std;
 
 void main()
 {
-    VarStr v("aa");
-    cout << v << endl;
+    VarStr v1("aa");
+    cout << v1 << endl;
+
+    VarInt v2(3);
+    cout << v2 << endl;
+
+    VarPair v3(new VarStr("aa"), new VarInt(3));
+    cout << v3 << endl;
+
 }
