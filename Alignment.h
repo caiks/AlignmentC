@@ -1,21 +1,22 @@
 ﻿#ifndef ALIGNMENT_H
 #define ALIGNMENT_H
 
-#include <string>
 #include <iostream>
+#include <memory>
+#include <string>
 
 namespace Alignment
 {
-    class Var
+    struct Var
     {
-	public: Var(const std::string&);
-	public: Var(const int&);
-	public: Var(const Var*, const Var*);
-	protected: int cl;
-	protected: std::string rep_str;
-	protected: int rep_int;
-	protected: const Var* rep0;
-	protected: const Var* rep1;
+	Var(const std::string&);
+	Var(int);
+	Var(std::shared_ptr<Var>, std::shared_ptr<Var>);
+	int cl;
+	std::string rep_str;
+	int rep_int;
+	std::shared_ptr<Var> rep0;
+	std::shared_ptr<Var> rep1;
 	friend std::ostream& operator<<(std::ostream&, const Var&);
     };
 }

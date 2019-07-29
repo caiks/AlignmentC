@@ -8,17 +8,17 @@ Var::Var(const std::string& s)
     rep_str = s;
 }
 
-Var::Var(const int& i)
+Var::Var(int i)
 {
     cl = 2;
     rep_int = i;
 }
 
-Var::Var(const Var* p0, const Var* p1)
+Var::Var(std::shared_ptr<Var> v0, std::shared_ptr<Var> v1)
 {
     cl = 5;
-    rep0 = p0;
-    rep1 = p1;
+    rep0 = v0;
+    rep1 = v1;
 }
 
 std::ostream& Alignment::operator<<(std::ostream& stream, const Var& v) {
