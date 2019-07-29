@@ -14,7 +14,7 @@ Var::Var(int i)
     rep_int = i;
 }
 
-Var::Var(std::shared_ptr<Var> v0, std::shared_ptr<Var> v1)
+Var::Var(const std::shared_ptr<Var>& v0, const std::shared_ptr<Var>& v1)
 {
     cl = 5;
     rep0 = v0;
