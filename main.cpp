@@ -12,10 +12,10 @@ void main()
     Var v2(3);
     cout << v2 << endl;
 
-    Var v3(make_shared<Var>("aa"), make_shared<Var>(3));
+    Var v3(Var("aa"), Var(3));
     cout << v3 << endl;
 
-    Var v4(make_shared<Var>("aa"), make_shared<Var>(make_shared<Var>("aa"), make_shared<Var>(3)));
+    Var v4(Var("aa"), Var(Var("aa"), Var(3)));
     cout << v4 << endl;
 
 

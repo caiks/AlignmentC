@@ -11,7 +11,7 @@ namespace Alignment
     {
 	Var(const std::string&);
 	Var(int);
-	Var(const std::shared_ptr<Var>&, const std::shared_ptr<Var>&);
+	Var(const Var&, const Var&);
 	int cl;
 	std::string rep_str;
 	int rep_int;
