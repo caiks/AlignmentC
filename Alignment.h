@@ -7,6 +7,8 @@
 
 namespace Alignment
 {
+    // data Variable = VarStr String | VarInt Integer | VarPartition Partition | VarIndex Int | VarPair(Variable, Variable)
+
     class Var
     {
 	private: Var() = default;
@@ -66,6 +68,15 @@ namespace Alignment
 	}
 	public: friend inline bool operator!=(const Var& _l, const Var& _r) { return !(_l == _r); }
 
+	public: std::size_t hash() const
+	{
+	    if (this->cl == 1)
+		return this->cl + (std::hash<std::string>{}(this->rep_str) << 3);
+	    else if (this->cl == 2)
+		return this->cl + (std::hash<int>{}(this->rep_int) << 3);
+	    return this->cl + (this->rep_var0->hash() << 3) + (this->rep_var1->hash() << 4);
+	}
+
 	public: friend std::ostream& operator<<(std::ostream& _out, const Var& _v)
 	{
 	    if (_v.cl == 1)
@@ -75,15 +86,6 @@ namespace Alignment
 	    else
 		_out << "<" << *_v.rep_var0 << "," << *_v.rep_var1 << ">";
 	    return _out;
-	}
-
-        public: std::size_t hash() const
-	{
-	    if (this->cl == 1)
-		return this->cl + (std::hash<std::string>{}(this->rep_str) << 3);
-	    else if (this->cl == 2)
-		return this->cl + (std::hash<int>{}(this->rep_int) << 3);
-	    return this->cl + (this->rep_var0->hash() << 3) + (this->rep_var1->hash() << 4);
 	}
 
 	private: char cl;
@@ -97,6 +99,102 @@ namespace Alignment
 template<> struct std::hash<Alignment::Var>
 {
     std::size_t operator()(Alignment::Var const& _v) const noexcept
+    {
+	return _v.hash();
+    }
+};
+
+namespace Alignment
+{
+    // data Value = ValStr String | ValInt Integer | ValDouble Double | ValComponent Component | ValIndex Int
+
+    class Value
+    {
+    private: Value() = default;
+
+    public: Value(const Value& _v)
+    {
+	this->cl = _v.cl;
+	this->rep_str = _v.rep_str;
+	this->rep_int = _v.rep_int;
+	this->rep_double = _v.rep_double;
+    }
+
+    public: Value(const std::string& _s)
+    {
+	this->cl = 1;
+	this->rep_str = _s;
+    }
+
+    public: Value(int _i)
+    {
+	this->cl = 2;
+	this->rep_int = _i;
+    }
+
+    public: Value(double _d)
+    {
+	this->cl = 3;
+	this->rep_double = _d;
+    }
+
+    public: friend bool operator<(const Value& _l, const Value& _r)
+    {
+	if (_l.cl < _r.cl)
+	    return true;
+	if (_l.cl > _r.cl)
+	    return false;
+	if (_l.cl == 1)
+	    return _l.rep_str < _r.rep_str;
+	else if (_l.cl == 2)
+	    return _l.rep_int < _r.rep_int;
+	return _l.rep_double < _r.rep_double;
+    }
+    public: friend inline bool operator> (const Value& _l, const Value& _r) { return _r < _l; }
+    public: friend inline bool operator<=(const Value& _l, const Value& _r) { return !(_l > _r); }
+    public: friend inline bool operator>=(const Value& _l, const Value& _r) { return !(_l < _r); }
+    public: friend bool operator==(const Value& _l, const Value& _r)
+    {
+	if (_l.cl != _r.cl)
+	    return false;
+	if (_l.cl == 1)
+	    return _l.rep_str == _r.rep_str;
+	else if (_l.cl == 2)
+	    return _l.rep_int == _r.rep_int;
+	return _l.rep_double == _r.rep_double;
+    }
+    public: friend inline bool operator!=(const Value& _l, const Value& _r) { return !(_l == _r); }
+
+    public: std::size_t hash() const
+    {
+	if (this->cl == 1)
+	    return this->cl + (std::hash<std::string>{}(this->rep_str) << 2);
+	else if (this->cl == 2)
+	    return this->cl + (std::hash<int>{}(this->rep_int) << 2);
+	return this->cl + (std::hash<int>{}(this->rep_double) << 2);
+    }
+
+    public: friend std::ostream& operator<<(std::ostream& _out, const Value& _v)
+    {
+	if (_v.cl == 1)
+	    _out << _v.rep_str;
+	else if (_v.cl == 2)
+	    _out << _v.rep_int;
+	else
+	    _out << _v.rep_double;
+	return _out;
+    }
+
+    private: char cl;
+    private: std::string rep_str;
+    private: int rep_int;
+    private: double rep_double;
+    };
+}
+
+template<> struct std::hash<Alignment::Value>
+{
+    std::size_t operator()(Alignment::Value const& _v) const noexcept
     {
 	return _v.hash();
     }
