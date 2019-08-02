@@ -3,13 +3,14 @@
 #include <iostream>
 #include <set>
 #include <unordered_set>
+#include <vector>
 
 using namespace Alignment;
 using namespace std;
 
 void main()
 {
-    if (true)
+    if (false)
     {
 	Rational a, b;
 	a = 5;
@@ -195,5 +196,25 @@ void main()
 	for (auto v : vv3)
 	    cout << " " << v;
 	cout << endl;
+    }
+
+    if (true)
+    {
+	auto suit = Var("suit");
+	auto rank = Var("rank");
+
+	auto vv = vector<Var>{ suit, rank };
+
+	cout << vv << endl;
+    }
+
+    if (true)
+    {
+	auto suit = Var("suit");
+	auto rank = Var("rank");
+
+	auto vv = set<Var>{ suit, rank };
+
+	cout << vv << endl;
     }
 }
