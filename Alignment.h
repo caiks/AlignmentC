@@ -41,7 +41,7 @@ namespace Alignment
 	    this->rep_var1 = std::make_shared<Var>(_v1);
 	}
 
-	public: friend bool operator<(const Var& _l, const Var& _r)
+	friend bool operator<(const Var& _l, const Var& _r)
 	{
 	    if (_l.cl < _r.cl)
 		return true;
@@ -53,10 +53,10 @@ namespace Alignment
 		return _l.rep_int < _r.rep_int;
 	    return *_l.rep_var0 < *_r.rep_var0 || ( !(*_r.rep_var0 < *_l.rep_var0) && *_l.rep_var1 < *_r.rep_var1);
 	}
-	public: friend inline bool operator> (const Var& _l, const Var& _r) { return _r < _l; }
-	public: friend inline bool operator<=(const Var& _l, const Var& _r) { return !(_l > _r); }
-	public: friend inline bool operator>=(const Var& _l, const Var& _r) { return !(_l < _r); }
-	public: friend bool operator==(const Var& _l, const Var& _r)
+	friend inline bool operator> (const Var& _l, const Var& _r) { return _r < _l; }
+	friend inline bool operator<=(const Var& _l, const Var& _r) { return !(_l > _r); }
+	friend inline bool operator>=(const Var& _l, const Var& _r) { return !(_l < _r); }
+	friend bool operator==(const Var& _l, const Var& _r)
 	{
 	    if (_l.cl != _r.cl)
 		return false;
@@ -66,7 +66,7 @@ namespace Alignment
 		return _l.rep_int == _r.rep_int;
 	    return *_l.rep_var0 == *_r.rep_var0 && *_l.rep_var1 == *_r.rep_var1;
 	}
-	public: friend inline bool operator!=(const Var& _l, const Var& _r) { return !(_l == _r); }
+	friend inline bool operator!=(const Var& _l, const Var& _r) { return !(_l == _r); }
 
 	public: std::size_t hash() const
 	{
@@ -77,7 +77,7 @@ namespace Alignment
 	    return this->cl + (this->rep_var0->hash() << 3) + (this->rep_var1->hash() << 4);
 	}
 
-	public: friend std::ostream& operator<<(std::ostream& _out, const Var& _v)
+	friend std::ostream& operator<<(std::ostream& _out, const Var& _v)
 	{
 	    if (_v.cl == 1)
 		_out << _v.rep_str;
@@ -138,7 +138,7 @@ namespace Alignment
 	this->rep_double = _d;
     }
 
-    public: friend bool operator<(const Value& _l, const Value& _r)
+    friend bool operator<(const Value& _l, const Value& _r)
     {
 	if (_l.cl < _r.cl)
 	    return true;
@@ -150,10 +150,10 @@ namespace Alignment
 	    return _l.rep_int < _r.rep_int;
 	return _l.rep_double < _r.rep_double;
     }
-    public: friend inline bool operator> (const Value& _l, const Value& _r) { return _r < _l; }
-    public: friend inline bool operator<=(const Value& _l, const Value& _r) { return !(_l > _r); }
-    public: friend inline bool operator>=(const Value& _l, const Value& _r) { return !(_l < _r); }
-    public: friend bool operator==(const Value& _l, const Value& _r)
+    friend inline bool operator> (const Value& _l, const Value& _r) { return _r < _l; }
+    friend inline bool operator<=(const Value& _l, const Value& _r) { return !(_l > _r); }
+    friend inline bool operator>=(const Value& _l, const Value& _r) { return !(_l < _r); }
+    friend bool operator==(const Value& _l, const Value& _r)
     {
 	if (_l.cl != _r.cl)
 	    return false;
@@ -163,7 +163,7 @@ namespace Alignment
 	    return _l.rep_int == _r.rep_int;
 	return _l.rep_double == _r.rep_double;
     }
-    public: friend inline bool operator!=(const Value& _l, const Value& _r) { return !(_l == _r); }
+    friend inline bool operator!=(const Value& _l, const Value& _r) { return !(_l == _r); }
 
     public: std::size_t hash() const
     {
@@ -174,7 +174,7 @@ namespace Alignment
 	return this->cl + (std::hash<int>{}(this->rep_double) << 2);
     }
 
-    public: friend std::ostream& operator<<(std::ostream& _out, const Value& _v)
+    friend std::ostream& operator<<(std::ostream& _out, const Value& _v)
     {
 	if (_v.cl == 1)
 	    _out << _v.rep_str;
@@ -227,7 +227,7 @@ namespace Alignment
 	this->rep_int = _i;
     }
 
-    public: friend bool operator<(const Id& _l, const Id& _r)
+    friend bool operator<(const Id& _l, const Id& _r)
     {
 	if (_l.cl < _r.cl)
 	    return true;
@@ -237,10 +237,10 @@ namespace Alignment
 	    return _l.rep_str < _r.rep_str;
 	return _l.rep_int < _r.rep_int;
     }
-    public: friend inline bool operator> (const Id& _l, const Id& _r) { return _r < _l; }
-    public: friend inline bool operator<=(const Id& _l, const Id& _r) { return !(_l > _r); }
-    public: friend inline bool operator>=(const Id& _l, const Id& _r) { return !(_l < _r); }
-    public: friend bool operator==(const Id& _l, const Id& _r)
+    friend inline bool operator> (const Id& _l, const Id& _r) { return _r < _l; }
+    friend inline bool operator<=(const Id& _l, const Id& _r) { return !(_l > _r); }
+    friend inline bool operator>=(const Id& _l, const Id& _r) { return !(_l < _r); }
+    friend bool operator==(const Id& _l, const Id& _r)
     {
 	if (_l.cl != _r.cl)
 	    return false;
@@ -248,7 +248,7 @@ namespace Alignment
 	    return _l.rep_str == _r.rep_str;
 	return _l.rep_int == _r.rep_int;
     }
-    public: friend inline bool operator!=(const Id& _l, const Id& _r) { return !(_l == _r); }
+    friend inline bool operator!=(const Id& _l, const Id& _r) { return !(_l == _r); }
 
     public: std::size_t hash() const
     {
@@ -257,7 +257,7 @@ namespace Alignment
 	return this->cl + (std::hash<int>{}(this->rep_int) << 2);
     }
 
-    public: friend std::ostream& operator<<(std::ostream& _out, const Id& _v)
+    friend std::ostream& operator<<(std::ostream& _out, const Id& _v)
     {
 	if (_v.cl == 1)
 	    _out << _v.rep_str;
