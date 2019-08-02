@@ -39,21 +39,41 @@ namespace Alignment
 	    this->rep_var1 = std::make_shared<Var>(_v1);
 	}
 
+	public: friend bool operator<(const Var& _l, const Var& _r)
+	{
+	    if (_l.cl < _r.cl)
+		return true;
+	    if (_l.cl > _r.cl)
+		return false;
+	    if (_l.cl == 1)
+		return _l.rep_str < _r.rep_str;
+	    else if (_l.cl == 2)
+		return _l.rep_int < _r.rep_int;
+	    return *_l.rep_var0 < *_r.rep_var0 || ( !(*_r.rep_var0 < *_l.rep_var0) && *_l.rep_var1 < *_r.rep_var1);
+	}
+	public: friend inline bool operator> (const Var& _l, const Var& _r) { return _r < _l; }
+	public: friend inline bool operator<=(const Var& _l, const Var& _r) { return !(_l > _r); }
+	public: friend inline bool operator>=(const Var& _l, const Var& _r) { return !(_l < _r); }
+	public: friend bool operator==(const Var& _l, const Var& _r)
+	{
+	    if (_l.cl != _r.cl)
+		return false;
+	    if (_l.cl == 1)
+		return _l.rep_str == _r.rep_str;
+	    else if (_l.cl == 2)
+		return _l.rep_int == _r.rep_int;
+	    return *_l.rep_var0 == *_r.rep_var0 && *_l.rep_var1 == *_r.rep_var1;
+	}
+	public: friend inline bool operator!=(const Var& _l, const Var& _r) { return !(_l == _r); }
+
 	public: friend std::ostream& operator<<(std::ostream& _out, const Var& _v)
 	{
-	    switch (_v.cl) {
-	    case 1:
+	    if (_v.cl == 1)
 		_out << _v.rep_str;
-		break;
-	    case 2:
+	    else if (_v.cl == 2)
 		_out << _v.rep_int;
-		break;
-	    case 5:
+	    else
 		_out << "<" << *_v.rep_var0 << "," << *_v.rep_var1 << ">";
-		break;
-	    default:
-		throw std::logic_error("std::ostream& operator<<(std::ostream&, const Var&)");
-	    }
 	    return _out;
 	}
 
