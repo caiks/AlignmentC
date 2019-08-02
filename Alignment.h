@@ -79,12 +79,11 @@ namespace Alignment
 
         public: std::size_t hash() const
 	{
-	    std::size_t const h1(std::hash<char>{}(this->cl));
 	    if (this->cl == 1)
-		return h1 ^ (std::hash<std::string>{}(this->rep_str) << 1);
+		return this->cl + (std::hash<std::string>{}(this->rep_str) << 3);
 	    else if (this->cl == 2)
-		return h1 ^ (std::hash<int>{}(this->rep_int) << 1);
-	    return (h1 ^ (this->rep_var0->hash() << 1) >> 1) ^ (this->rep_var1->hash() << 1) >> 1;
+		return this->cl + (std::hash<int>{}(this->rep_int) << 3);
+	    return this->cl + (this->rep_var0->hash() << 3) + (this->rep_var1->hash() << 4);
 	}
 
 	private: char cl;
@@ -93,19 +92,15 @@ namespace Alignment
 	private: std::shared_ptr<Var> rep_var0;
 	private: std::shared_ptr<Var> rep_var1;
     };
-
 }
 
-namespace std
+template<> struct std::hash<Alignment::Var>
 {
-    using namespace Alignment;
-    template<> struct std::hash<Var>
+    std::size_t operator()(Alignment::Var const& _v) const noexcept
     {
-	std::size_t operator()(Var const& _v) const noexcept
-	{
-	    return _v.hash();
-	}
-    };
-}
+	return _v.hash();
+    }
+};
+
 
 #endif

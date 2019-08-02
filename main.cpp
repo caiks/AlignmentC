@@ -71,6 +71,12 @@ void main()
 	cout << " " << v;
     cout << endl;
 
+    cout << "v1.hash() == " << v1.hash() << endl;
+    cout << "v2.hash() == " << v2.hash() << endl;
+    cout << "v3.hash() == " << v3.hash() << endl;
+    cout << "v4.hash() == " << v4.hash() << endl;
+    cout << "v5.hash() == " << v5.hash() << endl;
+
     unordered_set<Var> vv3 = { v5,v4,v3,v2,v1 };
     cout << "vv3 =";
     for (auto v : vv3)
