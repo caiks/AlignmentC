@@ -8,6 +8,7 @@ using namespace std;
 
 void main()
 {
+    if (false) 
     {
 	Var v1("aa");
 	cout << v1 << endl;
@@ -85,6 +86,7 @@ void main()
 	cout << endl;
     }
 
+    if (false) 
     {
 	Value v1("aa");
 	cout << v1 << endl;
@@ -133,6 +135,48 @@ void main()
 	cout << "v3.hash() == " << v3.hash() << endl;
 
 	unordered_set<Value> vv3 = { v3,v2,v1 };
+	cout << "vv3 =";
+	for (auto v : vv3)
+	    cout << " " << v;
+	cout << endl;
+    }
+
+    if (true) 
+    {
+	Id v1("aa");
+	cout << v1 << endl;
+
+	Id v2(3);
+	cout << v2 << endl;
+
+	cout << "v1 < v1 == " << (v1 < v1) << endl;
+	cout << "v1 > v1 == " << (v1 > v1) << endl;
+	cout << "v1 == v1 == " << (v1 == v1) << endl;
+
+	cout << "v2 < v2 == " << (v2 < v2) << endl;
+	cout << "v2 > v2 == " << (v2 > v2) << endl;
+	cout << "v2 == v2 == " << (v2 == v2) << endl;
+
+	cout << "v1 < v2 == " << (v1 < v2) << endl;
+	cout << "v1 > v2 == " << (v1 > v2) << endl;
+	cout << "v1 == v2 == " << (v1 == v2) << endl;
+
+	set<Id> vv1 = { v1,v2 };
+	cout << "vv1 =";
+	for (auto v : vv1)
+	    cout << " " << v;
+	cout << endl;
+
+	set<Id> vv2 = { v2,v1 };
+	cout << "vv2 =";
+	for (auto v : vv2)
+	    cout << " " << v;
+	cout << endl;
+
+	cout << "v1.hash() == " << v1.hash() << endl;
+	cout << "v2.hash() == " << v2.hash() << endl;
+
+	unordered_set<Id> vv3 = { v2,v1 };
 	cout << "vv3 =";
 	for (auto v : vv3)
 	    cout << " " << v;
