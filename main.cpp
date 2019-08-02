@@ -1,3 +1,4 @@
+#include "AlignmentUtil.h"
 #include "Alignment.h"
 #include <iostream>
 #include <set>
@@ -8,6 +9,19 @@ using namespace std;
 
 void main()
 {
+    if (true)
+    {
+	Rational a, b;
+	a = 5;
+	cout << a << endl;
+	b = a + 7;
+	cout << b << endl;
+	b = 0.75;
+	cout << b << endl;
+	a++;
+	cout << a << endl;
+    }
+
     if (false) 
     {
 	Var v1("aa");
@@ -141,7 +155,7 @@ void main()
 	cout << endl;
     }
 
-    if (true) 
+    if (false)
     {
 	Id v1("aa");
 	cout << v1 << endl;
