@@ -54,83 +54,88 @@ private:
     void simplify();
 };
 
-
-template<class T> std::ostream& operator<<(std::ostream& _out, const std::set<T>& _qq)
+template<class T1,class T2> std::ostream& operator<<(std::ostream& out, const std::pair<T1,T2>& qq)
 {
-    _out << "{";
-    for (auto it = _qq.begin(); it != _qq.end(); ++it)
-    {
-	if (it != _qq.begin())
-	    _out << ",";
-	_out << *it;
-    }
-    _out << "}";
-    return _out;
+    out << "(" << qq.first << "," << qq.second << ")";
+    return out;
 }
 
-template<class T> std::ostream& operator<<(std::ostream& _out, const std::unordered_set<T>& _qq)
+template<class T> std::ostream& operator<<(std::ostream& out, const std::set<T>& qq)
 {
-    _out << "{";
-    for (auto it = _qq.begin(); it != _qq.end(); ++it)
+    out << "{";
+    for (auto it = qq.begin(); it != qq.end(); ++it)
     {
-	if (it != _qq.begin())
-	    _out << ",";
-	_out << *it;
+	if (it != qq.begin())
+	    out << ",";
+	out << *it;
     }
-    _out << "}";
-    return _out;
+    out << "}";
+    return out;
 }
 
-template<class Key, class T> std::ostream& operator<<(std::ostream& _out, const std::map<Key,T>& _qq)
+template<class T> std::ostream& operator<<(std::ostream& out, const std::unordered_set<T>& qq)
 {
-    _out << "{";
-    for (auto it = _qq.begin(); it != _qq.end(); ++it)
+    out << "{";
+    for (auto it = qq.begin(); it != qq.end(); ++it)
     {
-	if (it != _qq.begin())
-	    _out << ",";
-	_out << "(" << it->first << "," << it->second << ")";
+	if (it != qq.begin())
+	    out << ",";
+	out << *it;
     }
-    _out << "}";
-    return _out;
+    out << "}";
+    return out;
 }
 
-template<class Key, class T> std::ostream& operator<<(std::ostream& _out, const std::unordered_map<Key,T>& _qq)
+template<class Key, class T> std::ostream& operator<<(std::ostream& out, const std::map<Key,T>& qq)
 {
-    _out << "{";
-    for (auto it = _qq.begin(); it != _qq.end(); ++it)
+    out << "{";
+    for (auto it = qq.begin(); it != qq.end(); ++it)
     {
-	if (it != _qq.begin())
-	    _out << ",";
-	_out << "(" << it->first << "," << it->second << ")";
+	if (it != qq.begin())
+	    out << ",";
+	out << "(" << it->first << "," << it->second << ")";
     }
-    _out << "}";
-    return _out;
+    out << "}";
+    return out;
 }
 
-template<class T, std::size_t N > std::ostream& operator<<(std::ostream& _out, const std::array<T,N>& _qq)
+template<class Key, class T> std::ostream& operator<<(std::ostream& out, const std::unordered_map<Key,T>& qq)
 {
-    _out << "[";
-    for (auto it = _qq.begin(); it != _qq.end(); ++it)
+    out << "{";
+    for (auto it = qq.begin(); it != qq.end(); ++it)
     {
-	if (it != _qq.begin())
-	    _out << ",";
-	_out << *it;
+	if (it != qq.begin())
+	    out << ",";
+	out << "(" << it->first << "," << it->second << ")";
     }
-    _out << "]";
-    return _out;
+    out << "}";
+    return out;
 }
 
-template<class T> std::ostream& operator<<(std::ostream& _out, const std::vector<T>& _qq)
+template<class T, std::size_t N > std::ostream& operator<<(std::ostream& out, const std::array<T,N>& qq)
 {
-    _out << "[";
-    for (auto it = _qq.begin(); it != _qq.end(); ++it)
+    out << "[";
+    for (auto it = qq.begin(); it != qq.end(); ++it)
     {
-	if (it != _qq.begin())
-	    _out << ",";
-	_out << *it;
+	if (it != qq.begin())
+	    out << ",";
+	out << *it;
     }
-    _out << "]";
-    return _out;
+    out << "]";
+    return out;
+}
+
+template<class T> std::ostream& operator<<(std::ostream& out, const std::vector<T>& qq)
+{
+    out << "[";
+    for (auto it = qq.begin(); it != qq.end(); ++it)
+    {
+	if (it != qq.begin())
+	    out << ",";
+	out << *it;
+    }
+    out << "]";
+    return out;
 }
 
 #endif

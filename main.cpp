@@ -25,19 +25,19 @@ void main()
 
     if (false) 
     {
-	Var v1("aa");
+	Variable v1("aa");
 	cout << v1 << endl;
 
-	Var v2(3);
+	Variable v2(3);
 	cout << v2 << endl;
 
-	Var v3(Var("aa"), Var(3));
+	Variable v3(Variable("aa"), Variable(3));
 	cout << v3 << endl;
 
-	Var v4(Var("aa"), Var(Var("aa"), Var(3)));
+	Variable v4(Variable("aa"), Variable(Variable("aa"), Variable(3)));
 	cout << v4 << endl;
 
-	Var v5(Var("aa"), Var(Var(3),Var("aa")));
+	Variable v5(Variable("aa"), Variable(Variable(3),Variable("aa")));
 	cout << v5 << endl;
 
 	cout << "v1 < v1 == " << (v1 < v1) << endl;
@@ -76,13 +76,13 @@ void main()
 	cout << "v4 > v5 == " << (v4 > v5) << endl;
 	cout << "v4 == v5 == " << (v4 == v5) << endl;
 
-	set<Var> vv1 = { v1,v2,v3,v4,v5 };
+	set<Variable> vv1 = { v1,v2,v3,v4,v5 };
 	cout << "vv1 =";
 	for (auto v : vv1)
 	    cout << " " << v;
 	cout << endl;
 
-	set<Var> vv2 = { v5,v4,v3,v2,v1 };
+	set<Variable> vv2 = { v5,v4,v3,v2,v1 };
 	cout << "vv2 =";
 	for (auto v : vv2)
 	    cout << " " << v;
@@ -94,7 +94,7 @@ void main()
 	cout << "v4.hash() == " << v4.hash() << endl;
 	cout << "v5.hash() == " << v5.hash() << endl;
 
-	unordered_set<Var> vv3 = { v5,v4,v3,v2,v1 };
+	unordered_set<Variable> vv3 = { v5,v4,v3,v2,v1 };
 	cout << "vv3 =";
 	for (auto v : vv3)
 	    cout << " " << v;
@@ -200,21 +200,48 @@ void main()
 
     if (true)
     {
-	auto suit = Var("suit");
-	auto rank = Var("rank");
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
 
-	auto vv = vector<Var>{ suit, rank };
+	auto vv = vector<Variable>{ suit, rank };
 
 	cout << vv << endl;
     }
 
     if (true)
     {
-	auto suit = Var("suit");
-	auto rank = Var("rank");
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
 
-	auto vv = set<Var>{ suit, rank };
+	auto vv = set<Variable>{ suit, rank };
 
 	cout << vv << endl;
+
+	auto hearts = Value("hearts");
+	auto clubs = Value("clubs");
+	auto diamonds = Value("diamonds");
+	auto spades = Value("spades");
+
+	auto wws = std::set<Value>{ hearts, clubs, diamonds, spades };
+
+	cout << wws << endl;
+
+	auto jack = Value("J");
+	auto queen = Value("Q");
+	auto king = Value("K");
+	auto ace = Value("A");
+
+	auto wwr = std::set<Value>{ jack,queen,king,ace };
+	for (int i = 2; i <= 10; i++)
+	    wwr.insert(Value(i));
+
+	cout << wwr << endl;
+
+	auto uu = listsSystem_u(std::vector<std::pair<Variable, std::set<Value>>> {std::pair<Variable, std::set<Value>>(suit, wws), std::pair<Variable, std::set<Value>>(rank, wwr)});
+
+	cout << uu << endl;
+
+	cout << systemsList(uu) << endl;
+
     }
 }
