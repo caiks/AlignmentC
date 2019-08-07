@@ -140,9 +140,10 @@ bool operator>=(const Rational& left, const Rational& right) {
 
 ostream& operator<<(ostream& out, const Rational& obj) {
     out << obj.numerator;
-    if (obj.numerator != 0 && obj.denominator != 1) {
-	out << "%" << obj.denominator;
-    }
+//    if (obj.numerator != 0 && obj.denominator != 1) {
+//	out << "%" << obj.denominator;
+	out << " % " << obj.denominator;
+    //    }
     return out;
 }
 
