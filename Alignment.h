@@ -308,21 +308,9 @@ namespace Alignment
 	}
 	friend inline bool operator!=(const System& l, const System& r) { return !(l == r); }
 
-	// listsSystem_u ::[(Variable, Set.Set Value)]->System
+	friend System listsSystem_u(const std::vector<std::pair<Variable, std::set<Value>>>& ll);
 
-	friend System listsSystem_u(const std::vector<std::pair<Variable, std::set<Value>>>& ll)
-	{
-	    std::map<Variable, std::set<Value>> m(ll.begin(), ll.end());
-	    return System(m);
-	}
-
-	// systemsList::System ->[(Variable, Set.Set Value)]
-
-	friend std::vector<std::pair<Variable, std::set<Value>>> systemsList(const System& uu)
-	{
-	    std::vector<std::pair<Variable, std::set<Value>>> ll(uu._map.begin(), uu._map.end());
-	    return ll;
-	}
+	friend std::vector<std::pair<Variable, std::set<Value>>> systemsList(const System& uu);
 
 	private: std::map<Variable,std::set<Value>> _map;
     };
