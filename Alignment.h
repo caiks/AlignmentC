@@ -1,6 +1,8 @@
 ﻿#ifndef ALIGNMENT_H
 #define ALIGNMENT_H
 
+#include "AlignmentUtil.h"
+
 #include <iostream>
 #include <memory>
 #include <string>
