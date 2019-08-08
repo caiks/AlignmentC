@@ -290,9 +290,9 @@ namespace Alignment
     {
 	public: System(const std::map<Variable, std::set<Value>>& m) : _map(m) {}
 
-	public: std::map<Variable, std::set<Value>>& map_u()
+	public: std::map<Variable, std::set<Value>>& map_u() const
 	{
-	    return _map;
+	    return (std::map<Variable, std::set<Value>>&)_map;
 	}
 
 	friend inline bool operator<(const System& l, const System& r)
@@ -308,12 +308,17 @@ namespace Alignment
 	}
 	friend inline bool operator!=(const System& l, const System& r) { return !(l == r); }
 
-	friend System listsSystem_u(const std::vector<std::pair<Variable, std::set<Value>>>& ll);
-
-	friend std::vector<std::pair<Variable, std::set<Value>>> systemsList(const System& uu);
-
 	private: std::map<Variable,std::set<Value>> _map;
     };
+
+    // listsSystem_u ::[(Variable, Set.Set Value)]->System
+    System listsSystem_u(const std::vector<std::pair<Variable, std::set<Value>>>& ll);
+
+    // systemsList::System ->[(Variable, Set.Set Value)]
+    std::vector<std::pair<Variable, std::set<Value>>> systemsList(const System& uu);
+
+    // pairSystemsUnion::System -> System -> System
+    System pairSystemsUnion(const System&, const System&);
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::System& uu);

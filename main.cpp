@@ -241,6 +241,11 @@ void main()
 
 	cout << uu << endl;
 
+	auto uu1 = listsSystem_u(std::vector<std::pair<Variable, std::set<Value>>> {std::pair<Variable, std::set<Value>>(suit, wws)});
+	auto uu2 = listsSystem_u(std::vector<std::pair<Variable, std::set<Value>>> {std::pair<Variable, std::set<Value>>(rank, wwr)});
+
+	cout << pairSystemsUnion(uu1,uu2) << endl;
+
 	cout << systemsList(uu) << endl;
 
     }
