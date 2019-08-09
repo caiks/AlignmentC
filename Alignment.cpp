@@ -64,7 +64,7 @@ ValUSet Alignment::systemsVarsSetValue(const System& uu, const Variable& u)
 }
 
 // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
-int Alignment::systemsSetVarsVolume_u(const System& uu, const VarUSet& vv)
+unsigned long long Alignment::systemsSetVarsVolume_u(const System& uu, const VarUSet& vv)
 {
     auto v = 1;
     for (auto it = vv.begin(); it != vv.end(); ++it)

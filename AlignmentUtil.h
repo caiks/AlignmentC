@@ -29,6 +29,7 @@ class Rational {
 public:
     Rational();
     Rational(double x);
+    Rational(long long numerator_, long long denominator_ = 1);
     Rational(int numerator_, int denominator_ = 1);
 
     Rational& operator=(const Rational& obj);
@@ -43,14 +44,14 @@ public:
     Rational operator+() const;
     Rational operator-() const;
 
-    void setNumerator(int numerator_);
-    int getNumerator() const;
-    void setDenominator(int denominator_);
-    int getDenominator() const;
+    void setNumerator(long long numerator_);
+    long long getNumerator() const;
+    void setDenominator(long long denominator_);
+    long long getDenominator() const;
 
 private:
-    int numerator;
-    int denominator;
+    long long numerator;
+    long long denominator;
     void simplify();
 };
 

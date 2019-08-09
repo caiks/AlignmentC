@@ -339,7 +339,7 @@ namespace Alignment
     ValUSet systemsVarsSetValue(const System&, const Variable&);
 
     // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
-    int systemsSetVarsVolume_u(const System&, const VarUSet&);
+    unsigned long long systemsSetVarsVolume_u(const System&, const VarUSet&);
 
 
 }

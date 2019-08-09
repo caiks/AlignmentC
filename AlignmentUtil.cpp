@@ -13,7 +13,7 @@
 
 using namespace std;
 
-int absInt(int x) {
+long long absInt(long long x) {
     if (x >= 0) {
 	return x;
     }
@@ -22,11 +22,11 @@ int absInt(int x) {
     }
 }
 
-void getFactors(int num, vector<int>& factorSet) {
+void getFactors(long long num, vector<long long>& factorSet) {
     if (num != 1) {
 	factorSet.push_back(num);
     }
-    for (int i = 2; i <= sqrt(static_cast<double>(num)); i++) {
+    for (long long i = 2; i <= sqrt(static_cast<double>(num)); i++) {
 	if (num%i == 0) {
 	    factorSet.push_back(i);
 	    factorSet.push_back(num / i);
@@ -34,11 +34,11 @@ void getFactors(int num, vector<int>& factorSet) {
     }
 }
 
-void simplifyFun(int& a, int& b) {
-    int tempN = a;
-    int tempD = b;
-    int small, temp;
-    vector<int> factorSet;
+void simplifyFun(long long& a, long long& b) {
+    long long tempN = a;
+    long long tempD = b;
+    long long small, temp;
+    vector<long long> factorSet;
     if (tempN == tempD) {
 	a = 1;
 	b = 1;
@@ -63,7 +63,7 @@ void simplifyFun(int& a, int& b) {
     }
 
     getFactors(small, factorSet);
-    for (int i = 0; i < factorSet.size(); i++) {
+    for (long long i = 0; i < factorSet.size(); i++) {
 	temp = factorSet[i];
 	while (tempN%temp == 0 && tempD%temp == 0) {
 	    tempN /= temp;
@@ -78,8 +78,8 @@ void simplifyFun(int& a, int& b) {
 //friend functions definitions
 Rational operator+(const Rational& left, const Rational& right) {
     Rational temp;
-    int tempLD = left.getDenominator();
-    int tempRD = right.getDenominator();
+    long long tempLD = left.getDenominator();
+    long long tempRD = right.getDenominator();
     simplifyFun(tempLD, tempRD);
     temp.setDenominator(left.getDenominator()*tempRD);
     temp.setNumerator(left.getNumerator()*tempRD + right.getNumerator()*tempLD);
@@ -95,10 +95,10 @@ Rational operator*(const Rational& left, const Rational& right) {
     Rational temp;
     Rational temp_2(right.getNumerator(), left.getDenominator());
     Rational temp_3(left.getNumerator(), right.getDenominator());
-    int a = temp_2.getDenominator();
-    int b = temp_2.getNumerator();
-    int c = temp_3.getDenominator();
-    int d = temp_3.getNumerator();
+    long long a = temp_2.getDenominator();
+    long long b = temp_2.getNumerator();
+    long long c = temp_3.getDenominator();
+    long long d = temp_3.getNumerator();
     temp.setNumerator(b*d);
     temp.setDenominator(a*c);
     return temp;
@@ -119,14 +119,14 @@ bool operator!=(const Rational& left, const Rational& right) {
 }
 
 bool operator<(const Rational& left, const Rational& right) {
-    int lside = left.getNumerator()*right.getDenominator();
-    int rside = left.getDenominator()*right.getNumerator();
+    long long lside = left.getNumerator()*right.getDenominator();
+    long long rside = left.getDenominator()*right.getNumerator();
     return (lside < rside);
 }
 
 bool operator>(const Rational& left, const Rational& right) {
-    int lside = left.getNumerator()*right.getDenominator();
-    int rside = left.getDenominator()*right.getNumerator();
+    long long lside = left.getNumerator()*right.getDenominator();
+    long long rside = left.getDenominator()*right.getNumerator();
     return (lside > rside);
 }
 
@@ -149,14 +149,14 @@ ostream& operator<<(ostream& out, const Rational& obj) {
 
 istream& operator >> (istream& in, Rational& obj) {
     string inputstr;
-    int num = 0;
-    int sign = 1;
+    long long num = 0;
+    long long sign = 1;
     bool slashExist = false;
     bool dotExist = false;
     bool validInput = true;
-    int virtualDenominator = 1;
+    long long virtualDenominator = 1;
     cin >> inputstr;
-    for (int i = 0; i < inputstr.size(); i++) {
+    for (long long i = 0; i < inputstr.size(); i++) {
 	char temp = inputstr[i];
 	if (temp == '.') {
 	    if (dotExist == false && slashExist == false && i != 0) {
@@ -248,8 +248,8 @@ Rational::Rational() {
 }
 
 Rational::Rational(double x) {
-    int i = 1;
-    while (x*i - static_cast<int>(x*i) != 0) {
+    long long i = 1;
+    while (x*i - static_cast<long long>(x*i) != 0) {
 	if (i > INT_MAX / 10) {
 	    cout << "this frational number : " << x << " can not be transfer to rational number, it's too long, now set it 0." << endl;
 	    setNumerator(0);
@@ -262,6 +262,12 @@ Rational::Rational(double x) {
     }
     setNumerator(x*i);
     setDenominator(i);
+    simplify();
+}
+
+Rational::Rational(long long numerator_, long long denominator_) {
+    setNumerator(numerator_);
+    setDenominator(denominator_);
     simplify();
 }
 
@@ -329,15 +335,15 @@ Rational Rational::operator-() const {
     return temp;
 }
 
-void Rational::setNumerator(int numerator_) {
+void Rational::setNumerator(long long numerator_) {
     numerator = numerator_;
 }
 
-int Rational::getNumerator() const {
+long long Rational::getNumerator() const {
     return numerator;
 }
 
-void Rational::setDenominator(int denominator_) {
+void Rational::setDenominator(long long denominator_) {
     if (denominator_ == 0) {
 	denominator = 1;
 	numerator = 0;
@@ -348,14 +354,14 @@ void Rational::setDenominator(int denominator_) {
     }
 }
 
-int Rational::getDenominator() const {
+long long Rational::getDenominator() const {
     return denominator;
 }
 
 
 void Rational::simplify() {
-    int tempN = numerator;
-    int tempD = denominator;
+    long long tempN = numerator;
+    long long tempD = denominator;
     simplifyFun(tempN, tempD);
     setNumerator(tempN);
     setDenominator(tempD);
