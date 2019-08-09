@@ -14,19 +14,6 @@ void Alignment::System::update(const System& xx)
     }
 }
 
-// listsSystem_u ::[(Variable, Set.Set Value)]->System
-System Alignment::listsSystem_u(const std::vector<VarValSetPair>& ll)
-{
-    return System(ll);
-}
-
-// systemsList::System ->[(Variable, Set.Set Value)]
-std::vector<VarValSetPair> Alignment::systemsList(const System& uu)
-{
-    std::vector<VarValSetPair> ll(uu.map_u().begin(), uu.map_u().end());
-    return ll;
-}
-
 std::ostream& operator<<(std::ostream& out, const System& uu)
 {
     std::map<Variable, std::set<Value>> mm;
@@ -41,10 +28,35 @@ std::ostream& operator<<(std::ostream& out, const System& uu)
     return out;
 }
 
+
+// listsSystem_u ::[(Variable, Set.Set Value)]->System
+System Alignment::listsSystem_u(const std::vector<VarValSetPair>& ll)
+{
+    return System(ll);
+}
+
+// systemsList::System ->[(Variable, Set.Set Value)]
+std::vector<VarValSetPair> Alignment::systemsList(const System& uu)
+{
+    std::vector<VarValSetPair> ll(uu.map_u().begin(), uu.map_u().end());
+    return ll;
+}
+
+
 // pairSystemsUnion::System -> System -> System
 System Alignment::pairSystemsUnion(const System& uu, const System& xx)
 {
     System yy(uu);
     yy.update(xx);
     return yy;
+}
+
+
+// systemsSetVar :: System -> Set.Set Variable
+VarSet Alignment::systemsSetVar(const System& uu)
+{
+    VarSet qq;
+    for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
+	qq.insert(it->first);
+    return qq;
 }

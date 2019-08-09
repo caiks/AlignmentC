@@ -10,7 +10,7 @@ using namespace std;
 
 void main()
 {
-    if (true)
+    if (false)
     {
 	Rational a, b;
 	a = 5;
@@ -23,7 +23,7 @@ void main()
 	cout << a << endl;
     }
 
-    if (true) 
+    if (false) 
     {
 	Variable v1("aa");
 	cout << v1 << endl;
@@ -92,7 +92,7 @@ void main()
 	cout << "vv3 =" << vv3 << endl;
     }
 
-    if (true) 
+    if (false) 
     {
 	Value v1("aa");
 	cout << v1 << endl;
@@ -138,7 +138,7 @@ void main()
 	cout << "vv3 =" << vv3 << endl;
     }
 
-    if (true)
+    if (false)
     {
 	Id v1("aa");
 	cout << v1 << endl;
@@ -171,7 +171,7 @@ void main()
 	cout << "vv3 =" << vv3 << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -214,12 +214,15 @@ void main()
 
 	cout << uu << endl;
 
-	auto uu1 = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(suit, wws)});
-	auto uu2 = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(rank, wwr)});
+	//auto uu1 = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(suit, wws)});
+	//auto uu2 = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(rank, wwr)});
 
-	cout << pairSystemsUnion(uu1,uu2) << endl;
+	//cout << pairSystemsUnion(uu1,uu2) << endl;
 
 	cout << systemsList(uu) << endl;
+
+	auto uvars = systemsSetVar;
+	cout << uvars(uu) << endl;
 
     }
 }

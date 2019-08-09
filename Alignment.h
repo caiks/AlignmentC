@@ -290,6 +290,7 @@ namespace Alignment
 {
     // newtype System = System (Map.Map Variable (Set.Set Value)) 
 
+    typedef std::unordered_set<Variable> VarSet;
     typedef std::unordered_set<Value> ValSet;
     typedef std::pair<Variable, ValSet> VarValSetPair;
     typedef std::unordered_map<Variable, ValSet> VarValSetMap;
@@ -329,6 +330,10 @@ namespace Alignment
 
     // pairSystemsUnion::System -> System -> System
     System pairSystemsUnion(const System&, const System&);
+
+    // systemsSetVar :: System -> Set.Set Variable
+    VarSet systemsSetVar(const System&);
+
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::System& uu);
