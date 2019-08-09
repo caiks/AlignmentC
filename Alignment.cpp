@@ -31,8 +31,7 @@ System Alignment::listsSystem_u(const std::vector<VarValUSetPair>& ll)
 // systemsList::System ->[(Variable, Set.Set Value)]
 std::vector<VarValUSetPair> Alignment::systemsList(const System& uu)
 {
-    std::vector<VarValUSetPair> ll(uu.map_u().begin(), uu.map_u().end());
-    return ll;
+    return std::vector<VarValUSetPair>(uu.map_u().begin(), uu.map_u().end());;
 }
 
 
@@ -82,8 +81,27 @@ System Alignment::systemRegular(int d, int n)
     ValUSet ww(d);
     for (int j = 1; j <= d; j++)
 	ww.insert(Value(j));
-    VarValUSetMap mm(n);
+    VarValUSetUMap mm(n);
     for (int i = 1; i <=n; i++)
 	mm[Variable(i)] = ww;
     return System(mm);
 }
+
+std::ostream& operator<<(std::ostream& out, const State& ss)
+{
+    out << ss.map_u();
+    return out;
+}
+
+// listsState :: [(Variable, Value)] -> State
+State Alignment::listsState(const std::vector<VarValPair>& ll)
+{
+    return State(ll);
+}
+
+// statesList :: State -> [(Variable, Value)]
+std::vector<VarValPair> Alignment::statesList(const State& ss)
+{
+    return std::vector<VarValPair>(ss.map_u().begin(), ss.map_u().end());
+}
+

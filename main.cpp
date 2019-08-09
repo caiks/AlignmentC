@@ -253,5 +253,14 @@ void main()
 	    << uu1 << endl << endl;
 	cout << "vol(uu1,uvars(uu1))" << endl
 	    << vol(uu1,uvars(uu1)) << endl << endl;
+
+	auto llss = listsState;
+	auto ssll = statesList;
+
+	auto ss = llss(std::vector<VarValPair>{VarValPair(suit, spades), VarValPair(rank, ace)});
+	cout << "ss" << endl
+	    << ss << endl << endl;
+	cout << "rpln(cout,ssll(ss))" << endl;
+	rpln(cout,ssll(ss)); cout << endl;
     }
 }

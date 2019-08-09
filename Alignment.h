@@ -294,12 +294,12 @@ namespace Alignment
     typedef std::unordered_set<Variable> VarUSet;
     typedef std::unordered_set<Value> ValUSet;
     typedef std::pair<Variable, ValUSet> VarValUSetPair;
-    typedef std::unordered_map<Variable, ValUSet> VarValUSetMap;
+    typedef std::unordered_map<Variable, ValUSet> VarValUSetUMap;
 
 
     class System
     {
-	public: System(const VarValUSetMap& m) : _map(m) {}
+	public: System(const VarValUSetUMap& m) : _map(m) {}
 
 	public: System(const std::vector<VarValUSetPair>& ll) 
 	{
@@ -308,9 +308,9 @@ namespace Alignment
 		_map[it->first] = it->second;
 	}
 
-	public: inline VarValUSetMap& map_u() const
+	public: inline VarValUSetUMap& map_u() const
 	{
-	    return (VarValUSetMap&)_map;
+	    return (VarValUSetUMap&)_map;
 	}
 
 	public: void update(const System&);	
@@ -321,7 +321,7 @@ namespace Alignment
 	}
 	friend inline bool operator!=(const System& l, const System& r) { return !(l == r); }
 
-	private: VarValUSetMap _map;
+	private: VarValUSetUMap _map;
     };
 
     // listsSystem_u ::[(Variable, Set.Set Value)]->System
@@ -348,6 +348,77 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream& out, const Alignment::System& uu);
 
+namespace Alignment
+{
+    // newtype State = State (Map.Map Variable Value)
+
+    typedef std::map<Variable, Value> VarValMap;
+    typedef std::pair<Variable, Value> VarValPair;
+
+    class State
+    {
+    public: State(const VarValMap& m) : _map(m), _hash(0) {}
+
+    public: State(const std::vector<VarValPair>& ll)
+    {
+	_hash = 0;
+	for (auto it = ll.begin(); it != ll.end(); ++it)
+	    _map.insert_or_assign(it->first,it->second);
+    }
+
+    public: inline VarValMap& map_u() const
+    {
+	return (VarValMap&)_map;
+    }
+
+    public: void update(const State&);
+
+    friend inline bool operator==(const State& l, const State& r)
+    {
+	return l._map == r._map;
+    }
+    friend inline bool operator!=(const State& l, const State& r) { return !(l == r); }
+
+    friend bool operator<(const State& l, const State& r)
+    {
+	return l._map < r._map;
+    }
+    friend inline bool operator> (const State& l, const State& r) { return r < l; }
+    friend inline bool operator<=(const State& l, const State& r) { return !(l > r); }
+    friend inline bool operator>=(const State& l, const State& r) { return !(l < r); }
+
+    public: std::size_t hash() const
+    {
+	if (!_hash)
+	    for (auto it = _map.begin(); it != _map.end(); ++it)
+	    {
+		(std::size_t)_hash *= 3;
+		(std::size_t)_hash += it->first.hash() + it->second.hash();
+	    }
+	return _hash;
+    }
+
+    private: VarValMap _map;
+    private: std::size_t _hash;
+    };
+
+    // listsState :: [(Variable, Value)] -> State
+    State listsState(const std::vector<VarValPair>&);
+
+    // statesList :: State -> [(Variable, Value)]
+    std::vector<VarValPair> statesList(const State&);
+}
+
+std::ostream& operator<<(std::ostream&, const Alignment::State&);
+
+
+template<> struct std::hash<Alignment::State>
+{
+    std::size_t operator()(Alignment::State const& v) const noexcept
+    {
+	return v.hash();
+    }
+};
 
 
 #endif
