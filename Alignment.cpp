@@ -2,11 +2,22 @@
 
 using namespace Alignment;
 
+void Alignment::System::update(const System& xx)
+{
+    for (auto it = xx.map_u().begin(); it != xx.map_u().end(); ++it)
+    {
+	auto& v = it->first;
+	auto& ww = it->second;
+	auto& yymv = _map[v];
+	for (auto it2 = ww.begin(); it2 != ww.end(); ++it2)
+	    yymv.insert(*it2);
+    }
+}
+
 // listsSystem_u ::[(Variable, Set.Set Value)]->System
 System Alignment::listsSystem_u(const std::vector<VarValSetPair>& ll)
 {
-    VarValSetMap m(ll.begin(), ll.end());
-    return System(m);
+    return System(ll);
 }
 
 // systemsList::System ->[(Variable, Set.Set Value)]
@@ -18,23 +29,22 @@ std::vector<VarValSetPair> Alignment::systemsList(const System& uu)
 
 std::ostream& operator<<(std::ostream& out, const System& uu)
 {
-    out << uu.map_u();
+    std::map<Variable, std::set<Value>> mm;
+    for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
+    {
+	auto& v = it->first;
+	auto& ww = it->second;
+	std::set<Value> xx(ww.begin(),ww.end());
+	mm[v] = xx;
+    }
+    out << mm;
     return out;
 }
 
 // pairSystemsUnion::System -> System -> System
 System Alignment::pairSystemsUnion(const System& uu, const System& xx)
 {
-    auto& uum = uu.map_u();
-    auto& xxm = xx.map_u();
-    auto yym = VarValSetMap(uum);
-    for (auto it = xxm.begin(); it != xxm.end(); ++it)
-    {
-	auto& v = it->first;
-	auto& ww = it->second;
-	auto& yymv = yym[v];
-	for (auto it2 = ww.begin(); it2 != ww.end(); ++it2)
-	    yymv.insert(Value(*it2));
-    }
-    return System(yym);
+    System yy(uu);
+    yy.update(xx);
+    return yy;
 }

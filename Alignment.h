@@ -297,12 +297,20 @@ namespace Alignment
 
     class System
     {
-	public: System(VarValSetMap& m) : _map(m) {}
+	public: System(const VarValSetMap& m) : _map(m) {}
 
-	public: VarValSetMap& map_u() const
+	public: System(const std::vector<VarValSetPair>& ll) 
+	{
+	    for (auto it = ll.begin(); it != ll.end(); ++it)
+		_map[it->first] = it->second;
+	}
+
+	public: inline VarValSetMap& map_u() const
 	{
 	    return (VarValSetMap&)_map;
 	}
+
+	public: void update(const System&);	
 
 	friend inline bool operator==(const System& l, const System& r)
 	{
