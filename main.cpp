@@ -10,7 +10,7 @@ using namespace std;
 
 void main()
 {
-    if (false)
+    if (true)
     {
 	Rational a, b;
 	a = 5;
@@ -23,7 +23,7 @@ void main()
 	cout << a << endl;
     }
 
-    if (false) 
+    if (true) 
     {
 	Variable v1("aa");
 	cout << v1 << endl;
@@ -77,16 +77,10 @@ void main()
 	cout << "v4 == v5 == " << (v4 == v5) << endl;
 
 	set<Variable> vv1 = { v1,v2,v3,v4,v5 };
-	cout << "vv1 =";
-	for (auto v : vv1)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv1 =" << vv1 << endl;
 
 	set<Variable> vv2 = { v5,v4,v3,v2,v1 };
-	cout << "vv2 =";
-	for (auto v : vv2)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv2 =" << vv2 << endl;
 
 	cout << "v1.hash() == " << v1.hash() << endl;
 	cout << "v2.hash() == " << v2.hash() << endl;
@@ -95,13 +89,10 @@ void main()
 	cout << "v5.hash() == " << v5.hash() << endl;
 
 	unordered_set<Variable> vv3 = { v5,v4,v3,v2,v1 };
-	cout << "vv3 =";
-	for (auto v : vv3)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv3 =" << vv3 << endl;
     }
 
-    if (false) 
+    if (true) 
     {
 	Value v1("aa");
 	cout << v1 << endl;
@@ -134,29 +125,20 @@ void main()
 	cout << "v2 == v3 == " << (v2 == v3) << endl;
 
 	set<Value> vv1 = { v1,v2,v3 };
-	cout << "vv1 =";
-	for (auto v : vv1)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv1 =" << vv1 << endl;
 
 	set<Value> vv2 = { v3,v2,v1 };
-	cout << "vv2 =";
-	for (auto v : vv2)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv2 =" << vv2 << endl;
 
 	cout << "v1.hash() == " << v1.hash() << endl;
 	cout << "v2.hash() == " << v2.hash() << endl;
 	cout << "v3.hash() == " << v3.hash() << endl;
 
 	unordered_set<Value> vv3 = { v3,v2,v1 };
-	cout << "vv3 =";
-	for (auto v : vv3)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv3 =" << vv3 << endl;
     }
 
-    if (false)
+    if (true)
     {
 	Id v1("aa");
 	cout << v1 << endl;
@@ -177,25 +159,16 @@ void main()
 	cout << "v1 == v2 == " << (v1 == v2) << endl;
 
 	set<Id> vv1 = { v1,v2 };
-	cout << "vv1 =";
-	for (auto v : vv1)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv1 =" << vv1 << endl;
 
 	set<Id> vv2 = { v2,v1 };
-	cout << "vv2 =";
-	for (auto v : vv2)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv2 =" << vv2 << endl;
 
 	cout << "v1.hash() == " << v1.hash() << endl;
 	cout << "v2.hash() == " << v2.hash() << endl;
 
 	unordered_set<Id> vv3 = { v2,v1 };
-	cout << "vv3 =";
-	for (auto v : vv3)
-	    cout << " " << v;
-	cout << endl;
+	cout << "vv3 =" << vv3 << endl;
     }
 
     if (true)
