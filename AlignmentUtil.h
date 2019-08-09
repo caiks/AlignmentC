@@ -54,6 +54,11 @@ private:
     void simplify();
 };
 
+template<class T> std::set<T> sorted(const std::unordered_set<T>& qq)
+{
+    return std::set<T>(qq.begin(),qq.end());
+}
+
 template<class T1,class T2> std::ostream& operator<<(std::ostream& out, const std::pair<T1,T2>& qq)
 {
     out << "(" << qq.first << "," << qq.second << ")";

@@ -30,15 +30,15 @@ std::ostream& operator<<(std::ostream& out, const System& uu)
 
 
 // listsSystem_u ::[(Variable, Set.Set Value)]->System
-System Alignment::listsSystem_u(const std::vector<VarValSetPair>& ll)
+System Alignment::listsSystem_u(const std::vector<VarValUSetPair>& ll)
 {
     return System(ll);
 }
 
 // systemsList::System ->[(Variable, Set.Set Value)]
-std::vector<VarValSetPair> Alignment::systemsList(const System& uu)
+std::vector<VarValUSetPair> Alignment::systemsList(const System& uu)
 {
-    std::vector<VarValSetPair> ll(uu.map_u().begin(), uu.map_u().end());
+    std::vector<VarValUSetPair> ll(uu.map_u().begin(), uu.map_u().end());
     return ll;
 }
 
@@ -53,9 +53,9 @@ System Alignment::pairSystemsUnion(const System& uu, const System& xx)
 
 
 // systemsSetVar :: System -> Set.Set Variable
-VarSet Alignment::systemsSetVar(const System& uu)
+VarUSet Alignment::systemsSetVar(const System& uu)
 {
-    VarSet qq;
+    VarUSet qq;
     for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
 	qq.insert(it->first);
     return qq;
