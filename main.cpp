@@ -186,43 +186,65 @@ void main()
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
 
-	auto vv = set<Variable>{ suit, rank };
+	auto vv = VarUSet{ suit,rank };
 
-	cout << vv << endl;
+	cout << "vv" << endl 
+	    << sorted(vv) << endl << endl;
 
 	auto hearts = Value("hearts");
 	auto clubs = Value("clubs");
 	auto diamonds = Value("diamonds");
 	auto spades = Value("spades");
 
-	auto wws = ValUSet{ hearts, clubs, diamonds, spades };
+	auto wws = ValUSet{hearts,clubs,diamonds,spades};
 
-	cout << wws << endl;
+	cout << "wws" << endl 
+	    << sorted(wws) << endl << endl;
 
 	auto jack = Value("J");
 	auto queen = Value("Q");
 	auto king = Value("K");
 	auto ace = Value("A");
 
-	auto wwr = ValUSet{ jack,queen,king,ace };
+	auto wwr = ValUSet{jack,queen,king,ace };
 	for (int i = 2; i <= 10; i++)
 	    wwr.insert(Value(i));
 
-	cout << wwr << endl;
+	cout << "wwr" << endl 
+	    << sorted(wwr) << endl << endl;
 
-	auto uu = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(suit, wws), VarValUSetPair(rank, wwr)});
+	auto uu = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(suit,wws), VarValUSetPair(rank,wwr)});
 
-	cout << uu << endl;
+	cout << "uu" << endl 
+	    << uu << endl << endl;
+
+	cout << "rpln(cout,systemsList(uu))" << endl;
+	rpln(cout,systemsList(uu)); cout << endl;
 
 	//auto uu1 = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(suit, wws)});
 	//auto uu2 = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(rank, wwr)});
 
 	//cout << pairSystemsUnion(uu1,uu2) << endl;
 
-	cout << systemsList(uu) << endl;
-
 	auto uvars = systemsSetVar;
-	cout << sorted(uvars(uu)) << endl;
+	cout << "uvars(uu)" << endl 
+	    << sorted(uvars(uu)) << endl << endl;
+
+	auto uat = systemsVarsSetValue;
+	cout << "uat(uu,suit)" << endl
+	    << sorted(uat(uu,suit)) << endl << endl;
+	cout << "uat(uu,suit).size()" << endl
+	    << uat(uu,suit).size() << endl << endl;
+	cout << "uat(uu,rank).size()" << endl
+	    << uat(uu,rank).size() << endl << endl;
+
+	auto vol = systemsSetVarsVolume_u;
+	cout << "vol(uu,vv)" << endl
+	    << vol(uu,vv) << endl << endl;
+	cout << "vol(uu,VarUSet{ suit })" << endl
+	    << vol(uu,VarUSet{suit}) << endl << endl;
+	cout << "vol(uu,VarUSet{rank})" << endl
+	    << vol(uu,VarUSet{rank}) << endl << endl;
 
     }
 }

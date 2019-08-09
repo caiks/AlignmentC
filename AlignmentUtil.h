@@ -143,4 +143,13 @@ template<class T> std::ostream& operator<<(std::ostream& out, const std::vector<
     return out;
 }
 
+template<class T> void rpln(std::ostream& out, const std::vector<T>& qq)
+{
+    for (auto it = qq.begin(); it != qq.end(); ++it)
+    {
+	out << *it << endl;
+    }
+}
+
+
 #endif

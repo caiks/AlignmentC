@@ -290,6 +290,7 @@ namespace Alignment
 {
     // newtype System = System (Map.Map Variable (Set.Set Value)) 
 
+    typedef std::set<Variable> VarSet;
     typedef std::unordered_set<Variable> VarUSet;
     typedef std::unordered_set<Value> ValUSet;
     typedef std::pair<Variable, ValUSet> VarValUSetPair;
@@ -333,6 +334,13 @@ namespace Alignment
 
     // systemsSetVar :: System -> Set.Set Variable
     VarUSet systemsSetVar(const System&);
+
+    // systemsVarsSetValue :: System -> Variable -> Maybe (Set.Set Value)
+    ValUSet systemsVarsSetValue(const System&, const Variable&);
+
+    // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
+    int systemsSetVarsVolume_u(const System&, const VarUSet&);
+
 
 }
 

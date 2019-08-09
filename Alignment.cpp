@@ -6,10 +6,8 @@ void Alignment::System::update(const System& xx)
 {
     for (auto it = xx.map_u().begin(); it != xx.map_u().end(); ++it)
     {
-	auto& v = it->first;
-	auto& ww = it->second;
-	auto& yymv = _map[v];
-	for (auto it2 = ww.begin(); it2 != ww.end(); ++it2)
+	auto& yymv = _map[it->first];
+	for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
 	    yymv.insert(*it2);
     }
 }
@@ -18,12 +16,7 @@ std::ostream& operator<<(std::ostream& out, const System& uu)
 {
     std::map<Variable, std::set<Value>> mm;
     for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
-    {
-	auto& v = it->first;
-	auto& ww = it->second;
-	std::set<Value> xx(ww.begin(),ww.end());
-	mm[v] = xx;
-    }
+	mm[it->first] = std::set<Value>(it->second.begin(), it->second.end());
     out << mm;
     return out;
 }
@@ -59,4 +52,26 @@ VarUSet Alignment::systemsSetVar(const System& uu)
     for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
 	qq.insert(it->first);
     return qq;
+}
+
+// systemsVarsSetValue :: System -> Variable -> Maybe (Set.Set Value)
+ValUSet Alignment::systemsVarsSetValue(const System& uu, const Variable& u)
+{
+    auto it = uu.map_u().find(u);
+    if (it != uu.map_u().end())
+	return it->second;
+    return ValUSet();
+}
+
+// systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
+int Alignment::systemsSetVarsVolume_u(const System& uu, const VarUSet& vv)
+{
+    auto v = 1;
+    for (auto it = vv.begin(); it != vv.end(); ++it)
+    {
+	auto it2 = uu.map_u().find(*it);
+	if (it2 != uu.map_u().end())
+	    v *= it2->second.size();
+    }
+    return v;
 }
