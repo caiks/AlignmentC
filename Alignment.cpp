@@ -3,16 +3,16 @@
 using namespace Alignment;
 
 // listsSystem_u ::[(Variable, Set.Set Value)]->System
-System Alignment::listsSystem_u(const std::vector<std::pair<Variable, std::set<Value>>>& ll)
+System Alignment::listsSystem_u(const std::vector<VarValSetPair>& ll)
 {
-    std::map<Variable, std::set<Value>> m(ll.begin(), ll.end());
+    VarValSetMap m(ll.begin(), ll.end());
     return System(m);
 }
 
 // systemsList::System ->[(Variable, Set.Set Value)]
-std::vector<std::pair<Variable, std::set<Value>>> Alignment::systemsList(const System& uu)
+std::vector<VarValSetPair> Alignment::systemsList(const System& uu)
 {
-    std::vector<std::pair<Variable, std::set<Value>>> ll(uu.map_u().begin(), uu.map_u().end());
+    std::vector<VarValSetPair> ll(uu.map_u().begin(), uu.map_u().end());
     return ll;
 }
 
@@ -27,7 +27,7 @@ System Alignment::pairSystemsUnion(const System& uu, const System& xx)
 {
     auto& uum = uu.map_u();
     auto& xxm = xx.map_u();
-    auto yym = std::map<Variable, std::set<Value>>(uum);
+    auto yym = VarValSetMap(uum);
     for (auto it = xxm.begin(); it != xxm.end(); ++it)
     {
 	auto& v = it->first;

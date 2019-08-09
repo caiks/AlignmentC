@@ -290,36 +290,34 @@ namespace Alignment
 {
     // newtype System = System (Map.Map Variable (Set.Set Value)) 
 
+    typedef std::unordered_set<Value> ValSet;
+    typedef std::pair<Variable, ValSet> VarValSetPair;
+    typedef std::unordered_map<Variable, ValSet> VarValSetMap;
+
+
     class System
     {
-	public: System(const std::map<Variable, std::set<Value>>& m) : _map(m) {}
+	public: System(VarValSetMap& m) : _map(m) {}
 
-	public: std::map<Variable, std::set<Value>>& map_u() const
+	public: VarValSetMap& map_u() const
 	{
-	    return (std::map<Variable, std::set<Value>>&)_map;
+	    return (VarValSetMap&)_map;
 	}
 
-	friend inline bool operator<(const System& l, const System& r)
-	{
-	    return l._map < r._map;
-	}
-	friend inline bool operator> (const System& l, const System& r) { return r < l; }
-	friend inline bool operator<=(const System& l, const System& r) { return !(l > r); }
-	friend inline bool operator>=(const System& l, const System& r) { return !(l < r); }
 	friend inline bool operator==(const System& l, const System& r)
 	{
 	    return l._map == r._map;
 	}
 	friend inline bool operator!=(const System& l, const System& r) { return !(l == r); }
 
-	private: std::map<Variable,std::set<Value>> _map;
+	private: VarValSetMap _map;
     };
 
     // listsSystem_u ::[(Variable, Set.Set Value)]->System
-    System listsSystem_u(const std::vector<std::pair<Variable, std::set<Value>>>& ll);
+    System listsSystem_u(const std::vector<VarValSetPair>& ll);
 
     // systemsList::System ->[(Variable, Set.Set Value)]
-    std::vector<std::pair<Variable, std::set<Value>>> systemsList(const System& uu);
+    std::vector<VarValSetPair> systemsList(const System& uu);
 
     // pairSystemsUnion::System -> System -> System
     System pairSystemsUnion(const System&, const System&);

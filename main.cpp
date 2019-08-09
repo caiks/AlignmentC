@@ -195,7 +195,7 @@ void main()
 	auto diamonds = Value("diamonds");
 	auto spades = Value("spades");
 
-	auto wws = std::set<Value>{ hearts, clubs, diamonds, spades };
+	auto wws = ValSet{ hearts, clubs, diamonds, spades };
 
 	cout << wws << endl;
 
@@ -204,18 +204,18 @@ void main()
 	auto king = Value("K");
 	auto ace = Value("A");
 
-	auto wwr = std::set<Value>{ jack,queen,king,ace };
+	auto wwr = ValSet{ jack,queen,king,ace };
 	for (int i = 2; i <= 10; i++)
 	    wwr.insert(Value(i));
 
 	cout << wwr << endl;
 
-	auto uu = listsSystem_u(std::vector<std::pair<Variable, std::set<Value>>> {std::pair<Variable, std::set<Value>>(suit, wws), std::pair<Variable, std::set<Value>>(rank, wwr)});
+	auto uu = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(suit, wws), VarValSetPair(rank, wwr)});
 
 	cout << uu << endl;
 
-	auto uu1 = listsSystem_u(std::vector<std::pair<Variable, std::set<Value>>> {std::pair<Variable, std::set<Value>>(suit, wws)});
-	auto uu2 = listsSystem_u(std::vector<std::pair<Variable, std::set<Value>>> {std::pair<Variable, std::set<Value>>(rank, wwr)});
+	auto uu1 = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(suit, wws)});
+	auto uu2 = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(rank, wwr)});
 
 	cout << pairSystemsUnion(uu1,uu2) << endl;
 
