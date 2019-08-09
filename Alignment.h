@@ -303,6 +303,7 @@ namespace Alignment
 
 	public: System(const std::vector<VarValUSetPair>& ll) 
 	{
+	    _map.reserve(ll.size());
 	    for (auto it = ll.begin(); it != ll.end(); ++it)
 		_map[it->first] = it->second;
 	}
@@ -341,7 +342,8 @@ namespace Alignment
     // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
     unsigned long long systemsSetVarsVolume_u(const System&, const VarUSet&);
 
-
+    // systemRegular::Integer->Integer->Maybe System
+    System systemRegular(int, int);
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::System& uu);

@@ -246,5 +246,12 @@ void main()
 	cout << "vol(uu,VarUSet{rank})" << endl
 	    << vol(uu,VarUSet{rank}) << endl << endl;
 
+	auto sysreg = systemRegular;
+
+	auto uu1 = sysreg(3, 2);
+	cout << "uu1" << endl
+	    << uu1 << endl << endl;
+	cout << "vol(uu1,uvars(uu1))" << endl
+	    << vol(uu1,uvars(uu1)) << endl << endl;
     }
 }

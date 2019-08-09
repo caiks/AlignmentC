@@ -48,7 +48,7 @@ System Alignment::pairSystemsUnion(const System& uu, const System& xx)
 // systemsSetVar :: System -> Set.Set Variable
 VarUSet Alignment::systemsSetVar(const System& uu)
 {
-    VarUSet qq;
+    VarUSet qq(uu.map_u().size());
     for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
 	qq.insert(it->first);
     return qq;
@@ -74,4 +74,16 @@ unsigned long long Alignment::systemsSetVarsVolume_u(const System& uu, const Var
 	    v *= it2->second.size();
     }
     return v;
+}
+
+// pairSystemsUnion::System -> System -> System
+System Alignment::systemRegular(int d, int n)
+{
+    ValUSet ww(d);
+    for (int j = 1; j <= d; j++)
+	ww.insert(Value(j));
+    VarValUSetMap mm(n);
+    for (int i = 1; i <=n; i++)
+	mm[Variable(i)] = ww;
+    return System(mm);
 }
