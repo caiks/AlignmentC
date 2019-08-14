@@ -315,6 +315,10 @@ System Alignment::systemRegular(int d, int n)
     return System(mm);
 }
 
+State::State() : _map(), _hash(0)
+{
+}
+
 State::State(const VarValMap& m) : _map(m), _hash(0) 
 {
 }
@@ -355,3 +359,26 @@ std::vector<VarValPair> Alignment::statesList(const State& ss)
     return std::vector<VarValPair>(ss.map_u().begin(), ss.map_u().end());
 }
 
+// statesSetVar :: State -> Set.Set Variable
+VarUSet Alignment::statesSetVar(const State& ss)
+{
+    VarUSet qq(ss.map_u().size());
+    for (auto it = ss.map_u().begin(); it != ss.map_u().end(); ++it)
+	qq.insert(it->first);
+    return qq;
+}
+
+// statesVarsValue::State -> Variable -> Maybe Value
+Value Alignment::statesVarsValue(const State& ss, const Variable& u)
+{
+    auto it = ss.map_u().find(u);
+    if (it != ss.map_u().end())
+	return it->second;
+    return Value("");
+}
+
+// stateEmpty :: State
+State Alignment::stateEmpty()
+{
+    return State();
+}

@@ -10,7 +10,7 @@ using namespace std;
 
 void main()
 {
-    if (true)
+    if (false)
     {
 	Rational a, b;
 	a = 5;
@@ -262,5 +262,16 @@ void main()
 	    << ss << endl << endl;
 	cout << "rpln(cout,ssll(ss))" << endl;
 	rpln(cout,ssll(ss)); cout << endl;
+
+	auto svars = statesSetVar;
+	cout << "svars(ss)" << endl
+	    << sorted(svars(ss)) << endl << endl;
+
+	auto sat = statesVarsValue;
+	cout << "sat(ss,suit)" << endl
+	    << sat(ss,suit) << endl << endl;
+
+	cout << "svars(stateEmpty())" << endl
+	    << sorted(svars(stateEmpty())) << endl << endl;
     }
 }

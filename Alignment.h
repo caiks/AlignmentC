@@ -201,6 +201,8 @@ namespace Alignment
 
     class State
     {
+    public: State();
+
     public: State(const VarValMap&);
 
     public: State(const std::vector<VarValPair>&);
@@ -237,6 +239,16 @@ namespace Alignment
 
     // statesList :: State -> [(Variable, Value)]
     std::vector<VarValPair> statesList(const State&);
+
+    // statesSetVar :: State -> Set.Set Variable
+    VarUSet statesSetVar(const State&);
+
+    // statesVarsValue::State -> Variable -> Maybe Value
+    Value statesVarsValue(const State&, const Variable&);
+
+    // stateEmpty :: State
+    State stateEmpty();
+
 }
 
 std::ostream& operator<<(std::ostream&, const Alignment::State&);
