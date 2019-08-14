@@ -252,23 +252,23 @@ std::ostream& operator<<(std::ostream& out, const System& uu)
 
 
 // listsSystem_u ::[(Variable, Set.Set Value)]->System
-System Alignment::listsSystem_u(const std::vector<VarValUSetPair>& ll)
+std::unique_ptr<System> Alignment::listsSystem_u(const std::vector<VarValUSetPair>& ll)
 {
-    return System(ll);
+    return std::make_unique<System>(ll);
 }
 
 // systemsList::System ->[(Variable, Set.Set Value)]
-std::vector<VarValUSetPair> Alignment::systemsList(const System& uu)
+std::unique_ptr<std::vector<VarValUSetPair>> Alignment::systemsList(const System& uu)
 {
-    return std::vector<VarValUSetPair>(uu.map_u().begin(), uu.map_u().end());;
+    return std::make_unique<std::vector<VarValUSetPair>>(uu.map_u().begin(), uu.map_u().end());
 }
 
 
 // pairSystemsUnion::System -> System -> System
-System Alignment::pairSystemsUnion(const System& uu, const System& xx)
+std::unique_ptr<System> Alignment::pairSystemsUnion(const System& uu, const System& xx)
 {
-    System yy(uu);
-    yy.update(xx);
+    auto yy = std::make_unique<System>(uu);
+    yy->update(xx);
     return yy;
 }
 
@@ -305,7 +305,7 @@ unsigned long long Alignment::systemsSetVarsVolume_u(const System& uu, const Var
 }
 
 // pairSystemsUnion::System -> System -> System
-System Alignment::systemRegular(int d, int n)
+std::unique_ptr<System> Alignment::systemRegular(int d, int n)
 {
     ValUSet ww(d);
     for (int j = 1; j <= d; j++)
@@ -313,7 +313,7 @@ System Alignment::systemRegular(int d, int n)
     VarValUSetUMap mm(n);
     for (int i = 1; i <=n; i++)
 	mm[Variable(i)] = ww;
-    return System(mm);
+    return std::make_unique<System>(mm);
 }
 
 State::State() : _map(), _hash(0)
@@ -386,10 +386,10 @@ State Alignment::stateEmpty()
 
 
 // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
-StateUSet Alignment::systemsSetVarsSetStateCartesian_u(const System& uu, const VarUSet& vv)
+std::unique_ptr<StateUSet> Alignment::systemsSetVarsSetStateCartesian_u(const System& uu, const VarUSet& vv)
 {
-    if (vv.size() == 0)	
-	return StateUSet{State()};
+    if (vv.size() == 0)
+	return std::unique_ptr<StateUSet>(new StateUSet{State()});
     std::vector<std::vector<VarValPair>> qq{std::vector<VarValPair>{}};
     for (auto& u : vv)
     {
@@ -405,8 +405,8 @@ StateUSet Alignment::systemsSetVarsSetStateCartesian_u(const System& uu, const V
 	    }
 	qq = qq1;
     }
-    StateUSet xx(qq.size());
+    auto xx = std::make_unique<StateUSet>(qq.size());
     for (auto& ss : qq)
-	xx.insert(State(ss));
+	xx->insert(State(ss));
     return xx;
 }

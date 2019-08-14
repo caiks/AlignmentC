@@ -216,10 +216,10 @@ void main()
 	auto uu = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(suit,wws), VarValUSetPair(rank,wwr)});
 
 	cout << "uu" << endl 
-	    << uu << endl << endl;
+	    << *uu << endl << endl;
 
 	cout << "rpln(cout,systemsList(uu))" << endl;
-	rpln(cout,systemsList(uu)); cout << endl;
+	rpln(cout,*systemsList(*uu)); cout << endl;
 
 	//auto uu1 = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(suit, wws)});
 	//auto uu2 = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(rank, wwr)});
@@ -228,31 +228,31 @@ void main()
 
 	auto uvars = systemsSetVar;
 	cout << "uvars(uu)" << endl 
-	    << sorted(uvars(uu)) << endl << endl;
+	    << sorted(uvars(*uu)) << endl << endl;
 
 	auto uat = systemsVarsSetValue;
 	cout << "uat(uu,suit)" << endl
-	    << sorted(uat(uu,suit)) << endl << endl;
+	    << sorted(uat(*uu,suit)) << endl << endl;
 	cout << "uat(uu,suit).size()" << endl
-	    << uat(uu,suit).size() << endl << endl;
+	    << uat(*uu,suit).size() << endl << endl;
 	cout << "uat(uu,rank).size()" << endl
-	    << uat(uu,rank).size() << endl << endl;
+	    << uat(*uu,rank).size() << endl << endl;
 
 	auto vol = systemsSetVarsVolume_u;
-	cout << "vol(uu,vv)" << endl
-	    << vol(uu,vv) << endl << endl;
-	cout << "vol(uu,VarUSet{ suit })" << endl
-	    << vol(uu,VarUSet{suit}) << endl << endl;
+	cout << "vol(*uu,vv)" << endl
+	    << vol(*uu,vv) << endl << endl;
+	cout << "vol(uu,VarUSet{suit})" << endl
+	    << vol(*uu,VarUSet{suit}) << endl << endl;
 	cout << "vol(uu,VarUSet{rank})" << endl
-	    << vol(uu,VarUSet{rank}) << endl << endl;
+	    << vol(*uu,VarUSet{rank}) << endl << endl;
 
 	auto sysreg = systemRegular;
 
 	auto uu1 = sysreg(3, 2);
 	cout << "uu1" << endl
-	    << uu1 << endl << endl;
+	    << *uu1 << endl << endl;
 	cout << "vol(uu1,uvars(uu1))" << endl
-	    << vol(uu1,uvars(uu1)) << endl << endl;
+	    << vol(*uu1,uvars(*uu1)) << endl << endl;
 
 	auto llss = listsState;
 	auto ssll = statesList;
@@ -276,10 +276,10 @@ void main()
 
 	auto cart = systemsSetVarsSetStateCartesian_u;
 	cout << "rpln(cout,cart(uu,vv))" << endl;
-	rpln(cout,sorted(cart(uu,vv))); cout << endl;
+	rpln(cout,sorted(*cart(*uu,vv))); cout << endl;
 	cout << "cart(uu,vv).size()" << endl
-	    << cart(uu, vv).size() << endl << endl;
+	    << cart(*uu, vv)->size() << endl << endl;
 	cout << "vol(uu,vv)" << endl
-	    << vol(uu,vv) << endl << endl;
+	    << vol(*uu,vv) << endl << endl;
     }
 }

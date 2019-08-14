@@ -169,13 +169,13 @@ namespace Alignment
     };
 
     // listsSystem_u ::[(Variable, Set.Set Value)]->System
-    System listsSystem_u(const std::vector<VarValUSetPair>& ll);
+    std::unique_ptr<System> listsSystem_u(const std::vector<VarValUSetPair>& ll);
 
     // systemsList::System ->[(Variable, Set.Set Value)]
-    std::vector<VarValUSetPair> systemsList(const System& uu);
+    std::unique_ptr<std::vector<VarValUSetPair>> systemsList(const System& uu);
 
     // pairSystemsUnion::System -> System -> System
-    System pairSystemsUnion(const System&, const System&);
+    std::unique_ptr<System> pairSystemsUnion(const System&, const System&);
 
     // systemsSetVar :: System -> Set.Set Variable
     VarUSet systemsSetVar(const System&);
@@ -187,7 +187,7 @@ namespace Alignment
     unsigned long long systemsSetVarsVolume_u(const System&, const VarUSet&);
 
     // systemRegular::Integer->Integer->Maybe System
-    System systemRegular(int, int);
+    std::unique_ptr<System> systemRegular(int, int);
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::System& uu);
@@ -267,7 +267,7 @@ namespace Alignment
     typedef std::unordered_set<State> StateUSet;
 
     // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
-    StateUSet systemsSetVarsSetStateCartesian_u(const System&, const VarUSet&);
+    std::unique_ptr<StateUSet> systemsSetVarsSetStateCartesian_u(const System&, const VarUSet&);
 
 
 }
