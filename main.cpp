@@ -273,5 +273,13 @@ void main()
 
 	cout << "svars(stateEmpty())" << endl
 	    << sorted(svars(stateEmpty())) << endl << endl;
+
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	cout << "rpln(cout,cart(uu,vv))" << endl;
+	rpln(cout,sorted(cart(uu,vv))); cout << endl;
+	cout << "cart(uu,vv).size()" << endl
+	    << cart(uu, vv).size() << endl << endl;
+	cout << "vol(uu,vv)" << endl
+	    << vol(uu,vv) << endl << endl;
     }
 }

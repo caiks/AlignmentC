@@ -1,4 +1,5 @@
 ﻿#include "Alignment.h"
+#include <iostream>
 
 using namespace Alignment;
 
@@ -381,4 +382,31 @@ Value Alignment::statesVarsValue(const State& ss, const Variable& u)
 State Alignment::stateEmpty()
 {
     return State();
+}
+
+
+// systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
+StateUSet Alignment::systemsSetVarsSetStateCartesian_u(const System& uu, const VarUSet& vv)
+{
+    if (vv.size() == 0)	
+	return StateUSet{State()};
+    std::vector<std::vector<VarValPair>> qq{std::vector<VarValPair>{}};
+    for (auto& u : vv)
+    {
+	auto& ww = uu.map_u().at(u);
+	std::vector<std::vector<VarValPair>> qq1;
+	qq1.reserve(qq.size()*ww.size());
+	for (auto& ss : qq)
+	    for (auto& w : ww)
+	    {
+		auto ss1(ss);
+		ss1.push_back(VarValPair(u,w));
+		qq1.push_back(ss1);
+	    }
+	qq = qq1;
+    }
+    StateUSet xx(qq.size());
+    for (auto& ss : qq)
+	xx.insert(State(ss));
+    return xx;
 }

@@ -148,9 +148,18 @@ template<class T> void rpln(std::ostream& out, const std::vector<T>& qq)
 {
     for (auto it = qq.begin(); it != qq.end(); ++it)
     {
-	out << *it << endl;
+	out << *it << std::endl;
     }
 }
+
+template<class T> void rpln(std::ostream& out, const std::set<T>& qq)
+{
+    for (auto it = qq.begin(); it != qq.end(); ++it)
+    {
+	out << *it << std::endl;
+    }
+}
+
 
 
 #endif

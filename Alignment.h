@@ -262,5 +262,15 @@ template<> struct std::hash<Alignment::State>
     }
 };
 
+namespace Alignment
+{
+    typedef std::unordered_set<State> StateUSet;
+
+    // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
+    StateUSet systemsSetVarsSetStateCartesian_u(const System&, const VarUSet&);
+
+
+}
+
 
 #endif
