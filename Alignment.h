@@ -249,6 +249,9 @@ namespace Alignment
     // stateEmpty :: State
     State stateEmpty();
 
+    // setVarsStatesStateFiltered :: Set.Set Variable -> State -> State
+    std::unique_ptr<State> setVarsStatesStateFiltered(const VarUSet&,const State&);
+
 }
 
 std::ostream& operator<<(std::ostream&, const Alignment::State&);

@@ -384,6 +384,21 @@ State Alignment::stateEmpty()
     return State();
 }
 
+// setVarsStatesStateFiltered :: Set.Set Variable -> State -> State
+std::unique_ptr<State> Alignment::setVarsStatesStateFiltered(const VarUSet& vv, const State& ss)
+{
+    auto rr = std::make_unique<State>();
+    auto& mm = rr->map_u();
+    for (auto it = ss.map_u().begin(); it != ss.map_u().end(); ++it)
+    {
+	auto it2 = vv.find(it->first);
+	if (it2 != vv.end())
+	    mm.insert_or_assign(it->first, it->second);
+    }
+    return rr;
+}
+
+
 
 // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
 std::unique_ptr<StateUSet> Alignment::systemsSetVarsSetStateCartesian_u(const System& uu, const VarUSet& vv)

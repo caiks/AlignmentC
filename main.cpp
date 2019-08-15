@@ -281,5 +281,18 @@ void main()
 	    << cart(*uu, vv)->size() << endl << endl;
 	cout << "vol(uu,vv)" << endl
 	    << vol(*uu,vv) << endl << endl;
+
+	auto sred = [](const State& ss, const VarUSet& vv) 
+	{
+	    return setVarsStatesStateFiltered(vv,ss);
+	};
+	cout << "sred(ss,svars(ss))" << endl
+	    << *sred(*ss,*svars(*ss)) << endl << endl;
+	cout << "sred(ss,set())" << endl
+	    << *sred(*ss,VarUSet()) << endl << endl;
+	cout << "sred(ss,set([suit]))" << endl
+	    << *sred(*ss,VarUSet{suit}) << endl << endl;
+	cout << "sred(ss,set([rank]))" << endl
+	    << *sred(*ss,VarUSet{rank}) << endl << endl;
     }
 }
