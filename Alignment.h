@@ -288,6 +288,8 @@ namespace Alignment
 
     class History
     {
+    public: History();
+
     public: History(const IdStateUMap&);
 
     public: History(const std::vector<IdStatePair>&);
@@ -311,6 +313,20 @@ namespace Alignment
 
     // historiesList :: History -> [(Id, State)]
     std::unique_ptr<std::vector<IdStatePair>> historiesList(const History&);
+
+    // historiesSetVar :: History -> Set.Set Variable
+    std::unique_ptr<VarUSet> historiesSetVar(const History&);
+
+    // setVarsHistoriesReduce :: Set.Set Variable -> History -> History 
+    std::unique_ptr<History> setVarsHistoriesReduce(const VarUSet&, const History&);
+
+    // historiesSize :: History -> Integer
+    inline int historiesSize(const History& hh) 
+    {
+	return hh.map_u().size();
+    }
+
+
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::History&);

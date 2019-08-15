@@ -438,6 +438,9 @@ std::unique_ptr<StateUSet> Alignment::systemsSetVarsSetStateCartesian_u(const Sy
     return xx;
 }
 
+History::History() : _map()
+{
+}
 
 History::History(const IdStateUMap& m) : _map(m)
 {
@@ -467,3 +470,25 @@ std::unique_ptr<std::vector<IdStatePair>> Alignment::historiesList(const History
 {
     return std::make_unique<std::vector<IdStatePair>>(hh.map_u().begin(), hh.map_u().end());
 }
+
+// historiesSetVar :: History -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::historiesSetVar(const History& hh)
+{
+    auto it = hh.map_u().begin();
+    if (it == hh.map_u().end())
+	return std::make_unique<VarUSet>();
+    return statesSetVar(it->second);
+}
+
+// setVarsHistoriesReduce :: Set.Set Variable -> History -> History
+std::unique_ptr<History> Alignment::setVarsHistoriesReduce(const VarUSet& vv, const History& hh)
+{
+    auto filt = setVarsStatesStateFiltered;
+    auto ii = std::make_unique<History>();
+    ii->map_u().reserve(hh.map_u().size());
+    for (auto it = hh.map_u().begin(); it != hh.map_u().end(); ++it)
+	    ii->map_u().insert_or_assign(it->first, *filt(vv,it->second));
+    return ii;
+}
+
+

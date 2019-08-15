@@ -181,7 +181,7 @@ void main()
 	cout << vv << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -337,6 +337,23 @@ void main()
 	    << *hh << endl << endl;
 	cout << "rpln(hhll(hh))" << endl;
 	rpln(cout,*hhll(*hh)); cout << endl;
+
+	auto hvars = historiesSetVar;
+	cout << "hvars(hh)" << endl
+	    << sorted(*hvars(*hh)) << endl << endl;
+
+	auto hred = [](const History& hh, const VarUSet& vv)
+	{
+	    return setVarsHistoriesReduce(vv, hh);
+	};
+	cout << "rpln(hhll(hred(hh,set([suit])))" << endl;
+	rpln(cout, *hhll(*hred(*hh, VarUSet{ suit }))); cout << endl;
+	cout << "rpln(hhll(hred(hh,set([rank])))" << endl;
+	rpln(cout, *hhll(*hred(*hh, VarUSet{ rank }))); cout << endl;
+
+	auto hsize = historiesSize;
+	cout << "hsize(hh)" << endl
+	    << hsize(*hh) << endl << endl;
     }
 
 }
