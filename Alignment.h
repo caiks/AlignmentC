@@ -178,7 +178,7 @@ namespace Alignment
     std::unique_ptr<System> pairSystemsUnion(const System&, const System&);
 
     // systemsSetVar :: System -> Set.Set Variable
-    VarUSet systemsSetVar(const System&);
+    std::unique_ptr<VarUSet> systemsSetVar(const System&);
 
     // systemsVarsSetValue :: System -> Variable -> Maybe (Set.Set Value)
     ValUSet systemsVarsSetValue(const System&, const Variable&);
@@ -235,13 +235,13 @@ namespace Alignment
     };
 
     // listsState :: [(Variable, Value)] -> State
-    State listsState(const std::vector<VarValPair>&);
+    std::unique_ptr<State> listsState(const std::vector<VarValPair>&);
 
     // statesList :: State -> [(Variable, Value)]
-    std::vector<VarValPair> statesList(const State&);
+    std::unique_ptr<std::vector<VarValPair>> statesList(const State&);
 
     // statesSetVar :: State -> Set.Set Variable
-    VarUSet statesSetVar(const State&);
+    std::unique_ptr<VarUSet> statesSetVar(const State&);
 
     // statesVarsValue::State -> Variable -> Maybe Value
     Value statesVarsValue(const State&, const Variable&);

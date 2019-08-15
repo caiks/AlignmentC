@@ -274,11 +274,11 @@ std::unique_ptr<System> Alignment::pairSystemsUnion(const System& uu, const Syst
 
 
 // systemsSetVar :: System -> Set.Set Variable
-VarUSet Alignment::systemsSetVar(const System& uu)
+std::unique_ptr<VarUSet> Alignment::systemsSetVar(const System& uu)
 {
-    VarUSet qq(uu.map_u().size());
+    auto qq = std::make_unique<VarUSet>(uu.map_u().size());
     for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
-	qq.insert(it->first);
+	qq->insert(it->first);
     return qq;
 }
 
@@ -349,23 +349,23 @@ std::ostream& operator<<(std::ostream& out, const State& ss)
 }
 
 // listsState :: [(Variable, Value)] -> State
-State Alignment::listsState(const std::vector<VarValPair>& ll)
+std::unique_ptr<State> Alignment::listsState(const std::vector<VarValPair>& ll)
 {
-    return State(ll);
+    return std::make_unique<State>(ll);
 }
 
 // statesList :: State -> [(Variable, Value)]
-std::vector<VarValPair> Alignment::statesList(const State& ss)
+std::unique_ptr<std::vector<VarValPair>> Alignment::statesList(const State& ss)
 {
-    return std::vector<VarValPair>(ss.map_u().begin(), ss.map_u().end());
+    return std::make_unique<std::vector<VarValPair>>(ss.map_u().begin(), ss.map_u().end());
 }
 
 // statesSetVar :: State -> Set.Set Variable
-VarUSet Alignment::statesSetVar(const State& ss)
+std::unique_ptr<VarUSet> Alignment::statesSetVar(const State& ss)
 {
-    VarUSet qq(ss.map_u().size());
+    auto qq = std::make_unique<VarUSet>(ss.map_u().size());
     for (auto it = ss.map_u().begin(); it != ss.map_u().end(); ++it)
-	qq.insert(it->first);
+	qq->insert(it->first);
     return qq;
 }
 

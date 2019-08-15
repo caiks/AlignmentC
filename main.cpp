@@ -228,7 +228,7 @@ void main()
 
 	auto uvars = systemsSetVar;
 	cout << "uvars(uu)" << endl 
-	    << sorted(uvars(*uu)) << endl << endl;
+	    << sorted(*uvars(*uu)) << endl << endl;
 
 	auto uat = systemsVarsSetValue;
 	cout << "uat(uu,suit)" << endl
@@ -239,7 +239,7 @@ void main()
 	    << uat(*uu,rank).size() << endl << endl;
 
 	auto vol = systemsSetVarsVolume_u;
-	cout << "vol(*uu,vv)" << endl
+	cout << "vol(uu,vv)" << endl
 	    << vol(*uu,vv) << endl << endl;
 	cout << "vol(uu,VarUSet{suit})" << endl
 	    << vol(*uu,VarUSet{suit}) << endl << endl;
@@ -252,27 +252,27 @@ void main()
 	cout << "uu1" << endl
 	    << *uu1 << endl << endl;
 	cout << "vol(uu1,uvars(uu1))" << endl
-	    << vol(*uu1,uvars(*uu1)) << endl << endl;
+	    << vol(*uu1,*uvars(*uu1)) << endl << endl;
 
 	auto llss = listsState;
 	auto ssll = statesList;
 
 	auto ss = llss(std::vector<VarValPair>{VarValPair(suit, spades), VarValPair(rank, ace)});
 	cout << "ss" << endl
-	    << ss << endl << endl;
+	    << *ss << endl << endl;
 	cout << "rpln(cout,ssll(ss))" << endl;
-	rpln(cout,ssll(ss)); cout << endl;
+	rpln(cout,*ssll(*ss)); cout << endl;
 
 	auto svars = statesSetVar;
 	cout << "svars(ss)" << endl
-	    << sorted(svars(ss)) << endl << endl;
+	    << sorted(*svars(*ss)) << endl << endl;
 
 	auto sat = statesVarsValue;
 	cout << "sat(ss,suit)" << endl
-	    << sat(ss,suit) << endl << endl;
+	    << sat(*ss,suit) << endl << endl;
 
 	cout << "svars(stateEmpty())" << endl
-	    << sorted(svars(stateEmpty())) << endl << endl;
+	    << sorted(*svars(stateEmpty())) << endl << endl;
 
 	auto cart = systemsSetVarsSetStateCartesian_u;
 	cout << "rpln(cout,cart(uu,vv))" << endl;
