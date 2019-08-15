@@ -294,5 +294,10 @@ void main()
 	    << *sred(*ss,VarUSet{suit}) << endl << endl;
 	cout << "sred(ss,set([rank]))" << endl
 	    << *sred(*ss,VarUSet{rank}) << endl << endl;
+
+	auto ssplit = setVarsSetStatesSplit;
+	cout << "rpln(ssplit(sset([suit]),cart(uu,vv)))" << endl;
+	rpln(cout,*ssplit(VarUSet{suit},*cart(*uu,vv))); cout << endl;
     }
+
 }

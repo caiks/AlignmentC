@@ -398,6 +398,22 @@ std::unique_ptr<State> Alignment::setVarsStatesStateFiltered(const VarUSet& vv, 
     return rr;
 }
 
+// setVarsSetStatesSplit :: Set.Set Variable -> Set.Set State -> Set.Set (State,State) 
+std::unique_ptr<std::set<std::pair<State,State>>> Alignment::setVarsSetStatesSplit(const VarUSet& vv, const StateUSet& qq)
+{
+    auto sred = setVarsStatesStateFiltered;
+    auto svars = statesSetVar;
+    auto xx = std::make_unique<std::set<std::pair<State,State>>>();
+    for (auto& rr : qq)
+    {
+	auto ww = svars(rr);
+	for (auto& v : vv)
+	    ww->erase(v);
+	xx->insert(std::pair<State,State>(*sred(vv,rr),*sred(*ww,rr)));
+    }
+    return xx;
+}
+
 
 
 // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)

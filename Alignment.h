@@ -250,7 +250,7 @@ namespace Alignment
     State stateEmpty();
 
     // setVarsStatesStateFiltered :: Set.Set Variable -> State -> State
-    std::unique_ptr<State> setVarsStatesStateFiltered(const VarUSet&,const State&);
+    std::unique_ptr<State> setVarsStatesStateFiltered(const VarUSet&, const State&);
 
 }
 
@@ -272,6 +272,8 @@ namespace Alignment
     // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
     std::unique_ptr<StateUSet> systemsSetVarsSetStateCartesian_u(const System&, const VarUSet&);
 
+    // setVarsSetStatesSplit :: Set.Set Variable -> Set.Set State -> Set.Set (State,State) 
+    std::unique_ptr<std::set<std::pair<State, State>>> setVarsSetStatesSplit(const VarUSet&, const StateUSet&);
 
 }
 
