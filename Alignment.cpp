@@ -492,3 +492,120 @@ std::unique_ptr<History> Alignment::setVarsHistoriesReduce(const VarUSet& vv, co
 }
 
 
+Histogram::Histogram() : _map()
+{
+}
+
+Histogram::Histogram(const StateRationalUMap& m) : _map(m)
+{
+}
+
+Histogram::Histogram(const std::vector<StateRationalPair>& ll)
+{
+    _map.reserve(ll.size());
+    for (auto it = ll.begin(); it != ll.end(); ++it)
+	_map[it->first] += it->second;
+}
+
+std::ostream& operator<<(std::ostream& out, const Histogram& aa)
+{
+    out << sorted(aa.map_u());
+    return out;
+}
+
+// listsHistogram_u :: [(State, Rational)] -> Histogram
+std::unique_ptr<Histogram> Alignment::listsHistogram_u(const std::vector<StateRationalPair>& ll)
+{
+    return std::make_unique<Histogram>(ll);
+}
+
+// histogramsList :: Histogram -> [(State, Rational)]
+std::unique_ptr<std::vector<StateRationalPair>> Alignment::histogramsList(const Histogram& aa)
+{
+    return std::make_unique<std::vector<StateRationalPair>>(aa.map_u().begin(), aa.map_u().end());
+}
+
+// histogramsSetVar :: Histogram -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::histogramsSetVar(const Histogram& aa)
+{
+    auto it = aa.map_u().begin();
+    if (it == aa.map_u().end())
+	return std::make_unique<VarUSet>();
+    return statesSetVar(it->first);
+}
+
+// histogramsMapVarsFrame_u :: Histogram -> Map.Map Variable Variable -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramsMapVarsFrame_u(const Histogram& aa, const VarVarUMap& nn)
+{
+    auto bb = std::make_unique<Histogram>();
+    bb->map_u().reserve(aa.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+    {
+	auto& ss = it->first;
+	auto rr = ss;
+	for (auto it2 = ss.map_u().begin(); it2 != ss.map_u().end(); ++it2)
+	{
+	    auto it3 = nn.find(it2->first);
+	    if (it3 != nn.end())
+	    {
+		rr.map_u().erase(it3->first);
+		rr.map_u().insert_or_assign(it3->second, it2->second);
+	    }
+	}
+	bb->map_u()[rr] += it->second;
+    }
+    return bb;
+}
+
+// histogramsStates :: Histogram -> Set.Set State
+std::unique_ptr<StateUSet> Alignment::histogramsStates(const Histogram& aa)
+{
+    auto qq = std::make_unique<StateUSet>();
+    qq->reserve(aa.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	qq->insert(it->first);
+    return qq;
+}
+
+// histogramsStatesCount :: Histogram -> State -> Maybe Rational
+Rational Alignment::histogramsStatesCount(const Histogram& aa, const State& ss)
+{
+    auto it = aa.map_u().find(ss);
+    if (it != aa.map_u().end())
+	return it->second;
+    return Rational();
+}
+
+// histogramsSize :: Histogram -> Rational
+Rational Alignment::histogramsSize(const Histogram& aa)
+{
+    Rational a;
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	a += it->second;
+    return a;
+}
+
+// histogramsResize :: Rational -> Histogram -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramsResize(const Rational& z, const Histogram& aa)
+{
+    auto y = histogramsSize(aa);
+    auto bb = std::make_unique<Histogram>();
+    if (z >= 0 && y > 0)
+    {
+	bb->map_u().reserve(aa.map_u().size());
+	for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	    bb->map_u().insert_or_assign(it->first,it->second*z/y);
+    }
+    return bb;
+}
+
+// setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
+std::unique_ptr<Histogram> Alignment::setVarsHistogramsReduce(const VarUSet& vv, const Histogram& aa)
+{
+    auto filt = setVarsStatesStateFiltered;
+    auto bb = std::make_unique<Histogram>();
+    bb->map_u().reserve(aa.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	bb->map_u()[*filt(vv, it->first)] += it->second;
+    return bb;
+}

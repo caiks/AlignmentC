@@ -331,6 +331,67 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream& out, const Alignment::History&);
 
+namespace Alignment
+{
+    // newtype Histogram = Histogram (Map.Map State Rational)
+
+    typedef std::pair<State,Rational> StateRationalPair;
+    typedef std::unordered_map<State, Rational> StateRationalUMap;
+    typedef std::unordered_map<Variable, Variable> VarVarUMap;
+
+    class Histogram
+    {
+    public: Histogram();
+
+    public: Histogram(const StateRationalUMap&);
+
+    public: Histogram(const std::vector<StateRationalPair>&);
+
+    public: inline StateRationalUMap& map_u() const
+    {
+	return (StateRationalUMap&)_map;
+    }
+
+    friend inline bool operator==(const Histogram& l, const Histogram& r)
+    {
+	return l._map == r._map;
+    }
+    friend inline bool operator!=(const Histogram& l, const Histogram& r) { return !(l == r); }
+
+    private: StateRationalUMap _map;
+    };
+
+    // listsHistogram_u :: [(State, Rational)] -> Histogram
+    std::unique_ptr<Histogram> listsHistogram_u(const std::vector<StateRationalPair>&);
+
+    // histogramsList :: Histogram -> [(State, Rational)]
+    std::unique_ptr<std::vector<StateRationalPair>> histogramsList(const Histogram&);
+
+    // histogramsSetVar :: Histogram -> Set.Set Variable
+    std::unique_ptr<VarUSet> histogramsSetVar(const Histogram&);
+
+    // histogramsMapVarsFrame :: Histogram -> Map.Map Variable Variable -> Maybe Histogram
+    std::unique_ptr<Histogram> histogramsMapVarsFrame_u(const Histogram&, const VarVarUMap&);
+
+    // histogramsStates :: Histogram -> Set.Set State
+    std::unique_ptr<StateUSet> histogramsStates(const Histogram&);
+
+    // histogramsStatesCount :: Histogram -> State -> Maybe Rational
+    Rational histogramsStatesCount(const Histogram&, const State&);
+
+    // histogramsSize :: Histogram -> Rational
+    Rational histogramsSize(const Histogram&);
+
+    // histogramsResize :: Rational -> Histogram -> Maybe Histogram
+    std::unique_ptr<Histogram> histogramsResize(const Rational&, const Histogram&);
+
+    // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
+    std::unique_ptr<Histogram> setVarsHistogramsReduce(const VarUSet&, const Histogram&);
+
+}
+
+std::ostream& operator<<(std::ostream& out, const Alignment::Histogram&);
+
 
 
 

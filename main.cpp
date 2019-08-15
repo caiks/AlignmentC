@@ -300,7 +300,7 @@ void main()
 	rpln(cout,*ssplit(VarUSet{suit},*cart(*uu,vv))); cout << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto cart = systemsSetVarsSetStateCartesian_u;
 
@@ -354,6 +354,94 @@ void main()
 	auto hsize = historiesSize;
 	cout << "hsize(hh)" << endl
 	    << hsize(*hh) << endl << endl;
+    }
+
+    if (true)
+    {
+	auto cart = systemsSetVarsSetStateCartesian_u;
+
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
+	auto vv = VarUSet{ suit,rank };
+	auto hearts = Value("hearts");
+	auto clubs = Value("clubs");
+	auto diamonds = Value("diamonds");
+	auto spades = Value("spades");
+	auto wws = ValSet{ hearts,clubs,diamonds,spades };
+	auto jack = Value("J");
+	auto queen = Value("Q");
+	auto king = Value("K");
+	auto ace = Value("A");
+	auto wwr = ValSet{ jack,queen,king,ace };
+	for (int i = 2; i <= 10; i++)
+	    wwr.insert(Value(i));
+	auto uu = listsSystem_u(std::vector<VarValSetPair>{VarValSetPair(suit, wws), VarValSetPair(rank, wwr)});
+
+	auto llaa = listsHistogram_u;
+	auto aall = histogramsList;
+
+	std::vector<StateRationalPair> ll;
+	{
+	    auto qq = cart(*uu, vv);
+	    for (auto ss : *qq)
+		ll.push_back(StateRationalPair(ss,1.0));
+	}
+	auto aa = llaa(ll);
+
+	cout << "aa" << endl
+	    << *aa << endl << endl;
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	auto vars = histogramsSetVar;
+	cout << "vars(aa)" << endl
+	    << sorted(*vars(*aa)) << endl << endl;
+
+	auto reframe = histogramsMapVarsFrame_u;
+
+	auto mm = VarVarUMap{{suit,Variable("S")},{rank,Variable("R")}};
+	cout << "rpln(aall(reframe(aa,mm)))" << endl;
+	rpln(cout, sorted(*aall(*reframe(*aa,mm)))); cout << endl;
+	cout << "vars(reframe(aa,mm))" << endl
+	    << sorted(*vars(*reframe(*aa, mm))) << endl << endl;
+
+	auto states = histogramsStates;
+	cout << "rpln(states(aa))" << endl;
+	rpln(cout, sorted(*states(*aa))); cout << endl;
+
+	auto aat = histogramsStatesCount;
+	auto ss = State(std::vector<VarValPair>{VarValPair(suit,spades),VarValPair(rank,ace)});
+
+	cout << "ss" << endl
+	    << ss << endl << endl;
+	cout << "aat(aa,ss)" << endl
+	    << aat(*aa,ss) << endl << endl;
+
+	auto size = histogramsSize;
+	cout << "size(aa)" << endl
+	    << size(*aa) << endl << endl;
+
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	cout << "rpln(aall(norm(aa)))" << endl;
+	rpln(cout, sorted(*aall(*norm(*aa)))); cout << endl;
+	cout << "size(norm(aa))" << endl
+	    << size(*norm(*aa)) << endl << endl;
+
+	/*
+	auto hred = [](const History& hh, const VarUSet& vv)
+	{
+	    return setVarsHistoriesReduce(vv, hh);
+	};
+	cout << "rpln(hhll(hred(hh,set([suit])))" << endl;
+	rpln(cout, *hhll(*hred(*hh, VarUSet{ suit }))); cout << endl;
+	cout << "rpln(hhll(hred(hh,set([rank])))" << endl;
+	rpln(cout, *hhll(*hred(*hh, VarUSet{ rank }))); cout << endl;
+	*/
+
+
     }
 
 }
