@@ -181,7 +181,7 @@ void main()
 	cout << vv << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -196,24 +196,24 @@ void main()
 	auto diamonds = Value("diamonds");
 	auto spades = Value("spades");
 
-	auto wws = ValUSet{hearts,clubs,diamonds,spades};
+	auto wws = ValSet{hearts,clubs,diamonds,spades};
 
 	cout << "wws" << endl 
-	    << sorted(wws) << endl << endl;
+	    << wws << endl << endl;
 
 	auto jack = Value("J");
 	auto queen = Value("Q");
 	auto king = Value("K");
 	auto ace = Value("A");
 
-	auto wwr = ValUSet{jack,queen,king,ace };
+	auto wwr = ValSet{jack,queen,king,ace };
 	for (int i = 2; i <= 10; i++)
 	    wwr.insert(Value(i));
 
 	cout << "wwr" << endl 
-	    << sorted(wwr) << endl << endl;
+	    << wwr << endl << endl;
 
-	auto uu = listsSystem_u(std::vector<VarValUSetPair> {VarValUSetPair(suit,wws), VarValUSetPair(rank,wwr)});
+	auto uu = listsSystem_u(std::vector<VarValSetPair> {VarValSetPair(suit,wws), VarValSetPair(rank,wwr)});
 
 	cout << "uu" << endl 
 	    << *uu << endl << endl;
@@ -232,7 +232,7 @@ void main()
 
 	auto uat = systemsVarsSetValue;
 	cout << "uat(uu,suit)" << endl
-	    << sorted(uat(*uu,suit)) << endl << endl;
+	    << uat(*uu,suit) << endl << endl;
 	cout << "uat(uu,suit).size()" << endl
 	    << uat(*uu,suit).size() << endl << endl;
 	cout << "uat(uu,rank).size()" << endl
@@ -311,15 +311,15 @@ void main()
 	auto clubs = Value("clubs");
 	auto diamonds = Value("diamonds");
 	auto spades = Value("spades");
-	auto wws = ValUSet{hearts,clubs,diamonds,spades};
+	auto wws = ValSet{hearts,clubs,diamonds,spades};
 	auto jack = Value("J");
 	auto queen = Value("Q");
 	auto king = Value("K");
 	auto ace = Value("A");
-	auto wwr = ValUSet{jack,queen,king,ace};
+	auto wwr = ValSet{jack,queen,king,ace};
 	for (int i = 2; i <= 10; i++)
 	    wwr.insert(Value(i));
-	auto uu = listsSystem_u(std::vector<VarValUSetPair>{VarValUSetPair(suit,wws),VarValUSetPair(rank,wwr)});
+	auto uu = listsSystem_u(std::vector<VarValSetPair>{VarValSetPair(suit,wws),VarValSetPair(rank,wwr)});
 
 	auto llhh = listsHistory_u;
 	auto hhll = historiesList;

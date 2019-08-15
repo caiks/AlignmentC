@@ -220,11 +220,11 @@ std::ostream& operator<<(std::ostream& out, const Id& v)
     return out;
 }
 
-System::System(const VarValUSetUMap& m) : _map(m) 
+System::System(const VarValSetUMap& m) : _map(m) 
 {
 }
 
-System::System(const std::vector<VarValUSetPair>& ll)
+System::System(const std::vector<VarValSetPair>& ll)
 {
     _map.reserve(ll.size());
     for (auto it = ll.begin(); it != ll.end(); ++it)
@@ -243,24 +243,20 @@ void Alignment::System::update(const System& xx)
 
 std::ostream& operator<<(std::ostream& out, const System& uu)
 {
-    std::map<Variable, std::set<Value>> mm;
-    for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
-	mm[it->first] = std::set<Value>(it->second.begin(), it->second.end());
-    out << mm;
+    out << sorted(uu.map_u());
     return out;
 }
 
-
 // listsSystem_u ::[(Variable, Set.Set Value)]->System
-std::unique_ptr<System> Alignment::listsSystem_u(const std::vector<VarValUSetPair>& ll)
+std::unique_ptr<System> Alignment::listsSystem_u(const std::vector<VarValSetPair>& ll)
 {
     return std::make_unique<System>(ll);
 }
 
 // systemsList::System ->[(Variable, Set.Set Value)]
-std::unique_ptr<std::vector<VarValUSetPair>> Alignment::systemsList(const System& uu)
+std::unique_ptr<std::vector<VarValSetPair>> Alignment::systemsList(const System& uu)
 {
-    return std::make_unique<std::vector<VarValUSetPair>>(uu.map_u().begin(), uu.map_u().end());
+    return std::make_unique<std::vector<VarValSetPair>>(uu.map_u().begin(), uu.map_u().end());
 }
 
 
@@ -283,12 +279,12 @@ std::unique_ptr<VarUSet> Alignment::systemsSetVar(const System& uu)
 }
 
 // systemsVarsSetValue :: System -> Variable -> Maybe (Set.Set Value)
-ValUSet Alignment::systemsVarsSetValue(const System& uu, const Variable& u)
+ValSet Alignment::systemsVarsSetValue(const System& uu, const Variable& u)
 {
     auto it = uu.map_u().find(u);
     if (it != uu.map_u().end())
 	return it->second;
-    return ValUSet();
+    return ValSet();
 }
 
 // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
@@ -307,10 +303,10 @@ unsigned long long Alignment::systemsSetVarsVolume_u(const System& uu, const Var
 // pairSystemsUnion::System -> System -> System
 std::unique_ptr<System> Alignment::systemRegular(int d, int n)
 {
-    ValUSet ww(d);
+    ValSet ww;
     for (int j = 1; j <= d; j++)
 	ww.insert(Value(j));
-    VarValUSetUMap mm(n);
+    VarValSetUMap mm(n);
     for (int i = 1; i <=n; i++)
 	mm[Variable(i)] = ww;
     return std::make_unique<System>(mm);

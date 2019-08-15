@@ -142,19 +142,21 @@ namespace Alignment
     typedef std::set<Variable> VarSet;
     typedef std::unordered_set<Variable> VarUSet;
     typedef std::unordered_set<Value> ValUSet;
+    typedef std::set<Value> ValSet;
     typedef std::pair<Variable, ValUSet> VarValUSetPair;
-    typedef std::unordered_map<Variable, ValUSet> VarValUSetUMap;
+    typedef std::pair<Variable, ValSet> VarValSetPair;
+    typedef std::unordered_map<Variable, ValSet> VarValSetUMap;
 
 
     class System
     {
-    public: System(const VarValUSetUMap&);
+    public: System(const VarValSetUMap&);
 
-    public: System(const std::vector<VarValUSetPair>&);
+    public: System(const std::vector<VarValSetPair>&);
 
-    public: inline VarValUSetUMap& map_u() const
+    public: inline VarValSetUMap& map_u() const
     {
-	return (VarValUSetUMap&)_map;
+	return (VarValSetUMap&)_map;
     }
 
     public: void update(const System&);
@@ -165,14 +167,14 @@ namespace Alignment
     }
     friend inline bool operator!=(const System& l, const System& r) { return !(l == r); }
 
-    private: VarValUSetUMap _map;
+    private: VarValSetUMap _map;
     };
 
     // listsSystem_u ::[(Variable, Set.Set Value)]->System
-    std::unique_ptr<System> listsSystem_u(const std::vector<VarValUSetPair>& ll);
+    std::unique_ptr<System> listsSystem_u(const std::vector<VarValSetPair>& ll);
 
     // systemsList::System ->[(Variable, Set.Set Value)]
-    std::unique_ptr<std::vector<VarValUSetPair>> systemsList(const System& uu);
+    std::unique_ptr<std::vector<VarValSetPair>> systemsList(const System& uu);
 
     // pairSystemsUnion::System -> System -> System
     std::unique_ptr<System> pairSystemsUnion(const System&, const System&);
@@ -181,7 +183,7 @@ namespace Alignment
     std::unique_ptr<VarUSet> systemsSetVar(const System&);
 
     // systemsVarsSetValue :: System -> Variable -> Maybe (Set.Set Value)
-    ValUSet systemsVarsSetValue(const System&, const Variable&);
+    ValSet systemsVarsSetValue(const System&, const Variable&);
 
     // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
     unsigned long long systemsSetVarsVolume_u(const System&, const VarUSet&);
