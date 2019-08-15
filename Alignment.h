@@ -277,5 +277,43 @@ namespace Alignment
 
 }
 
+namespace Alignment
+{
+    // newtype History = History (Map.Map Id State)
+
+    typedef std::pair<Id, State> IdStatePair;
+    typedef std::unordered_map<Id, State> IdStateUMap;
+
+    class History
+    {
+    public: History(const IdStateUMap&);
+
+    public: History(const std::vector<IdStatePair>&);
+
+    public: inline IdStateUMap& map_u() const
+    {
+	return (IdStateUMap&)_map;
+    }
+
+    friend inline bool operator==(const History& l, const History& r)
+    {
+	return l._map == r._map;
+    }
+    friend inline bool operator!=(const History& l, const History& r) { return !(l == r); }
+
+    private: IdStateUMap _map;
+    };
+
+    // listsHistory_u :: [(Id, State)] -> History
+    std::unique_ptr<History> listsHistory_u(const std::vector<IdStatePair>&);
+
+    // historiesList :: History -> [(Id, State)]
+    std::unique_ptr<std::vector<IdStatePair>> historiesList(const History&);
+}
+
+std::ostream& operator<<(std::ostream& out, const Alignment::History&);
+
+
+
 
 #endif

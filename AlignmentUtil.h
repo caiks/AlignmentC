@@ -60,6 +60,18 @@ template<class T> std::set<T> sorted(const std::unordered_set<T>& qq)
     return std::set<T>(qq.begin(),qq.end());
 }
 
+template<class T> std::vector<T> sorted(const std::vector<T>& qq)
+{
+    auto rr = qq;
+    std::sort(rr.begin(), rr.end());
+    return rr;
+}
+
+template<class Key, class T> std::map<Key,T> sorted(const std::unordered_map<Key, T>& qq)
+{
+    return std::map<Key,T>(qq.begin(), qq.end());
+}
+
 template<class T1,class T2> std::ostream& operator<<(std::ostream& out, const std::pair<T1,T2>& qq)
 {
     out << "(" << qq.first << "," << qq.second << ")";

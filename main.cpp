@@ -181,7 +181,7 @@ void main()
 	cout << vv << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -298,6 +298,45 @@ void main()
 	auto ssplit = setVarsSetStatesSplit;
 	cout << "rpln(ssplit(sset([suit]),cart(uu,vv)))" << endl;
 	rpln(cout,*ssplit(VarUSet{suit},*cart(*uu,vv))); cout << endl;
+    }
+
+    if (true)
+    {
+	auto cart = systemsSetVarsSetStateCartesian_u;
+
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
+	auto vv = VarUSet{suit,rank};
+	auto hearts = Value("hearts");
+	auto clubs = Value("clubs");
+	auto diamonds = Value("diamonds");
+	auto spades = Value("spades");
+	auto wws = ValUSet{hearts,clubs,diamonds,spades};
+	auto jack = Value("J");
+	auto queen = Value("Q");
+	auto king = Value("K");
+	auto ace = Value("A");
+	auto wwr = ValUSet{jack,queen,king,ace};
+	for (int i = 2; i <= 10; i++)
+	    wwr.insert(Value(i));
+	auto uu = listsSystem_u(std::vector<VarValUSetPair>{VarValUSetPair(suit,wws),VarValUSetPair(rank,wwr)});
+
+	auto llhh = listsHistory_u;
+	auto hhll = historiesList;
+
+	std::vector<IdStatePair> ll;
+	{
+	    auto qq = cart(*uu,vv);
+	    int i = 1;
+	    for (auto ss : *qq)
+		ll.push_back(IdStatePair(Id(i++),ss));
+	}
+	auto hh = llhh(ll);
+
+	cout << "hh" << endl
+	    << *hh << endl << endl;
+	cout << "rpln(hhll(hh))" << endl;
+	rpln(cout,*hhll(*hh)); cout << endl;
     }
 
 }
