@@ -301,7 +301,7 @@ unsigned long long Alignment::systemsSetVarsVolume_u(const System& uu, const Var
 }
 
 // pairSystemsUnion::System -> System -> System
-std::unique_ptr<System> Alignment::systemRegular(int d, int n)
+std::unique_ptr<System> Alignment::systemRegular_u(int d, int n)
 {
     ValSet ww;
     for (int j = 1; j <= d; j++)
@@ -325,6 +325,12 @@ State::State(const std::vector<VarValPair>& ll)
     _hash = 0;
     for (auto it = ll.begin(); it != ll.end(); ++it)
 	_map.insert_or_assign(it->first, it->second);
+}
+
+State::State(const Variable& v, const Value& u)
+{
+    _hash = 0;
+    _map.insert_or_assign(v, u);
 }
 
 std::size_t Alignment::State::hash() const
@@ -613,13 +619,13 @@ std::unique_ptr<Histogram> Alignment::histogramsResize(const Rational& z, const 
 }
 
 // histogramSingleton :: State -> Rational -> Maybe Histogram
-std::unique_ptr<Histogram> Alignment::histogramSingleton(const State& ss, const Rational& a)
+std::unique_ptr<Histogram> Alignment::histogramSingleton_u(const State& ss, const Rational& a)
 {
     return std::make_unique<Histogram>(ss,a);
 }
 
 // setStatesHistogramUnit :: Set.Set State -> Maybe Histogram
-std::unique_ptr<Histogram> Alignment::setStatesHistogramUnit(const StateUSet& qq)
+std::unique_ptr<Histogram> Alignment::setStatesHistogramUnit_u(const StateUSet& qq)
 {
     return std::make_unique<Histogram>(qq);
 }
@@ -645,6 +651,54 @@ std::unique_ptr<Histogram> Alignment::histogramsEffective(const Histogram& aa)
 	    bb->map_u().insert_or_assign(it->first, 1);
     return bb;
 }
+
+// histogramRegularCartesian_u :: Integer -> Integer -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramRegularCartesian_u(int d, int n)
+{
+    auto unit = setStatesHistogramUnit_u;
+    auto sysreg = systemRegular_u;
+    auto cart = systemsSetVarsSetStateCartesian_u;
+    auto uvars = systemsSetVar;
+
+    auto uu = sysreg(d, n);
+    auto vv = uvars(*uu);
+    return unit(*cart(*uu, *vv));
+}
+
+// histogramRegularUnitSingleton_u :: Integer -> Integer -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramRegularUnitSingleton_u(int d, int n)
+{
+    auto llss = listsState;
+    auto single = histogramSingleton_u;
+
+    std::vector<VarValPair> ll;
+    ll.reserve(n);
+    for (int j = 1; j <= n; j++)
+	ll.push_back(VarValPair(Variable(j),Value(1)));
+    return single(*llss(ll),1);
+}
+
+// histogramRegularUnitDiagonal_u :: Integer -> Integer -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramRegularUnitDiagonal_u(int d, int n)
+{
+    auto llss = listsState;
+    auto llaa = listsHistogram_u;
+
+    std::vector<StateRationalPair> qq;
+    qq.reserve(d);
+    for (int i = 1; i <= d; i++)
+    {
+	std::vector<VarValPair> ll;
+	ll.reserve(n);
+	for (int j = 1; j <= n; j++)
+	    ll.push_back(VarValPair(Variable(j),Value(i)));
+	qq.push_back(StateRationalPair(*llss(ll),1));
+    }
+    return llaa(qq);
+}
+
+
+
 
 // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
 std::unique_ptr<Histogram> Alignment::setVarsHistogramsReduce(const VarUSet& vv, const Histogram& aa)

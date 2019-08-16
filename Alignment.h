@@ -188,8 +188,8 @@ namespace Alignment
     // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
     unsigned long long systemsSetVarsVolume_u(const System&, const VarUSet&);
 
-    // systemRegular::Integer->Integer->Maybe System
-    std::unique_ptr<System> systemRegular(int, int);
+    // systemRegular_u::Integer->Integer-> System
+    std::unique_ptr<System> systemRegular_u(int, int);
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::System& uu);
@@ -204,10 +204,9 @@ namespace Alignment
     class State
     {
     public: State();
-
     public: State(const VarValMap&);
-
     public: State(const std::vector<VarValPair>&);
+    public: State(const Variable&, const Value&);
 
     public: inline VarValMap& map_u() const
     {
@@ -385,11 +384,11 @@ namespace Alignment
     // histogramsResize :: Rational -> Histogram -> Maybe Histogram
     std::unique_ptr<Histogram> histogramsResize(const Rational&, const Histogram&);
 
-    // histogramSingleton :: State -> Rational -> Maybe Histogram
-    std::unique_ptr<Histogram> histogramSingleton(const State&, const Rational&);
+    // histogramSingleton_u :: State -> Rational -> Histogram
+    std::unique_ptr<Histogram> histogramSingleton_u(const State&, const Rational&);
 
-    // setStatesHistogramUnit :: Set.Set State -> Maybe Histogram
-    std::unique_ptr<Histogram> setStatesHistogramUnit(const StateUSet&);
+    // setStatesHistogramUnit_u :: Set.Set State -> Histogram
+    std::unique_ptr<Histogram> setStatesHistogramUnit_u(const StateUSet&);
 
     // histogramsTrim :: Histogram -> Histogram
     std::unique_ptr<Histogram> histogramsTrim(const Histogram&);
@@ -397,6 +396,14 @@ namespace Alignment
     // histogramsEffective :: Histogram -> Histogram
     std::unique_ptr<Histogram> histogramsEffective(const Histogram&);
 
+    // histogramRegularCartesian_u :: Integer -> Integer -> Histogram
+    std::unique_ptr<Histogram> histogramRegularCartesian_u(int, int);
+
+    // histogramRegularUnitSingleton_u :: Integer -> Integer -> Histogram
+    std::unique_ptr<Histogram> histogramRegularUnitSingleton_u(int, int);
+
+    // histogramRegularUnitDiagonal_u :: Integer -> Integer -> Histogram
+    std::unique_ptr<Histogram> histogramRegularUnitDiagonal_u(int, int);
 
     // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
     std::unique_ptr<Histogram> setVarsHistogramsReduce(const VarUSet&, const Histogram&);

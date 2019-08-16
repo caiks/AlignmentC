@@ -246,7 +246,7 @@ void main()
 	cout << "vol(uu,VarUSet{rank})" << endl
 	    << vol(*uu,VarUSet{rank}) << endl << endl;
 
-	auto sysreg = systemRegular;
+	auto sysreg = systemRegular_u;
 
 	auto uu1 = sysreg(3, 2);
 	cout << "uu1" << endl
@@ -430,7 +430,7 @@ void main()
 	cout << "size(norm(aa))" << endl
 	    << size(*norm(*aa)) << endl << endl;
 
-	auto single = histogramSingleton;
+	auto single = histogramSingleton_u;
 	auto rr = State(std::vector<VarValPair>{VarValPair(suit, hearts), VarValPair(rank, queen)});
 
 	cout << "single(ss,1)" << endl
@@ -438,7 +438,7 @@ void main()
 	cout << "single(rr,1)" << endl
 	    << *single(rr, 1) << endl << endl;
 
-	auto unit = setStatesHistogramUnit;
+	auto unit = setStatesHistogramUnit_u;
 	cout << "rpln(aall(unit(cart(uu,vv))))" << endl;
 	rpln(cout, sorted(*aall(*unit(*cart(*uu, vv))))); cout << endl;
 	cout << "rpln(aall(unit(StateUSet{rr,ss})))" << endl;
@@ -456,6 +456,17 @@ void main()
 	cout << "rpln(aall(eff(llaa([(ss, 3), (rr, 5)]))))" << endl;
 	rpln(cout, sorted(*aall(*eff(*llaa(std::vector<StateRationalPair>{StateRationalPair(ss, 3), StateRationalPair(rr, 5)}))))); cout << endl;
 
+	auto regcart = histogramRegularCartesian_u;
+	cout << "rpln(aall(regcart(3,2)))" << endl;
+	rpln(cout, sorted(*aall(*regcart(3, 2)))); cout << endl;
+
+	auto regsing = histogramRegularUnitSingleton_u;
+	cout << "rpln(aall(regsing(3,2)))" << endl;
+	rpln(cout, sorted(*aall(*regsing(3, 2)))); cout << endl;
+
+	auto regdiag = histogramRegularUnitDiagonal_u;
+	cout << "rpln(aall(regdiag(3,2)))" << endl;
+	rpln(cout, sorted(*aall(*regdiag(3, 2)))); cout << endl;
 
 	/*
 	auto hred = [](const History& hh, const VarUSet& vv)
