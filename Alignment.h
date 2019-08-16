@@ -405,6 +405,12 @@ namespace Alignment
     // histogramRegularUnitDiagonal_u :: Integer -> Integer -> Histogram
     std::unique_ptr<Histogram> histogramRegularUnitDiagonal_u(int, int);
 
+    // historiesHistogram :: History -> Histogram
+    std::unique_ptr<Histogram> historiesHistogram(const History&);
+
+    // histogramsHistory_u :: Histogram -> History
+    std::unique_ptr<History> histogramsHistory_u(const Histogram&);
+
     // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
     std::unique_ptr<Histogram> setVarsHistogramsReduce(const VarUSet&, const Histogram&);
 

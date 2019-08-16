@@ -659,7 +659,6 @@ std::unique_ptr<Histogram> Alignment::histogramRegularCartesian_u(int d, int n)
     auto sysreg = systemRegular_u;
     auto cart = systemsSetVarsSetStateCartesian_u;
     auto uvars = systemsSetVar;
-
     auto uu = sysreg(d, n);
     auto vv = uvars(*uu);
     return unit(*cart(*uu, *vv));
@@ -670,7 +669,6 @@ std::unique_ptr<Histogram> Alignment::histogramRegularUnitSingleton_u(int d, int
 {
     auto llss = listsState;
     auto single = histogramSingleton_u;
-
     std::vector<VarValPair> ll;
     ll.reserve(n);
     for (int j = 1; j <= n; j++)
@@ -678,12 +676,12 @@ std::unique_ptr<Histogram> Alignment::histogramRegularUnitSingleton_u(int d, int
     return single(*llss(ll),1);
 }
 
+
 // histogramRegularUnitDiagonal_u :: Integer -> Integer -> Maybe Histogram
 std::unique_ptr<Histogram> Alignment::histogramRegularUnitDiagonal_u(int d, int n)
 {
     auto llss = listsState;
     auto llaa = listsHistogram_u;
-
     std::vector<StateRationalPair> qq;
     qq.reserve(d);
     for (int i = 1; i <= d; i++)
@@ -697,7 +695,31 @@ std::unique_ptr<Histogram> Alignment::histogramRegularUnitDiagonal_u(int d, int 
     return llaa(qq);
 }
 
+// historiesHistogram :: History -> Histogram
+std::unique_ptr<Histogram> Alignment::historiesHistogram(const History& hh)
+{
+    auto llaa = listsHistogram_u;
+    std::vector<StateRationalPair> qq;
+    qq.reserve(hh.map_u().size());
+    for (auto it = hh.map_u().begin(); it != hh.map_u().end(); ++it)
+	qq.push_back(StateRationalPair(it->second,1));
+    return llaa(qq);
+}
 
+// histogramsHistory_u :: Histogram -> History
+std::unique_ptr<History> Alignment::histogramsHistory_u(const Histogram& aa)
+{
+    auto llhh = listsHistory_u;
+    auto size = histogramsSize;
+    std::vector<IdStatePair> qq;
+    int s = size(aa).getNumerator();
+    qq.reserve(s);
+    int i = 1;
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	for (int j = 0; j < it->second.getNumerator(); j++)
+	    qq.push_back(IdStatePair(Id(i++),it->first));
+    return llhh(qq);
+}
 
 
 // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 

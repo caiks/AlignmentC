@@ -468,6 +468,15 @@ void main()
 	cout << "rpln(aall(regdiag(3,2)))" << endl;
 	rpln(cout, sorted(*aall(*regdiag(3, 2)))); cout << endl;
 
+	auto hhll = historiesList;
+	auto hhaa = historiesHistogram;
+	auto aahh = histogramsHistory_u;
+
+	cout << "rpln(hhll(aahh(aa)))" << endl;
+	rpln(cout, *hhll(*aahh(*aa))); cout << endl;
+	cout << "rpln(aall(hhaa(aahh(aa))))" << endl;
+	rpln(cout, sorted(*aall(*hhaa(*aahh(*aa))))); cout << endl;
+
 	/*
 	auto hred = [](const History& hh, const VarUSet& vv)
 	{
