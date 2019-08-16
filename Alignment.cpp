@@ -526,6 +526,12 @@ Histogram::Histogram(const StateUSet& qq)
 	_map.insert_or_assign(*it,1);
 }
 
+Histogram::Histogram(const Rational& a)
+{
+    _map.reserve(1);
+    _map.insert_or_assign(State(), a);
+}
+
 std::ostream& operator<<(std::ostream& out, const Histogram& aa)
 {
     out << sorted(aa.map_u());
@@ -616,6 +622,12 @@ std::unique_ptr<Histogram> Alignment::histogramsResize(const Rational& z, const 
 	    bb->map_u().insert_or_assign(it->first,it->second*z/y);
     }
     return bb;
+}
+
+// histogramScalar_u :: Rational -> Histogram
+std::unique_ptr<Histogram> Alignment::histogramScalar_u(const Rational& a)
+{
+    return std::make_unique<Histogram>(a);
 }
 
 // histogramSingleton :: State -> Rational -> Maybe Histogram
@@ -781,4 +793,33 @@ std::unique_ptr<Histogram> Alignment::pairHistogramsMultiply(const Histogram& aa
 	    }
 	}
     return cc;
+}
+
+// histogramsIndependent :: Histogram -> Histogram
+std::unique_ptr<Histogram> Alignment::histogramsIndependent(const Histogram& aa)
+{
+    auto vars = histogramsSetVar;
+    auto ared = [](const Histogram& aa, const Variable& v)
+    {
+	return setVarsHistogramsReduce(VarUSet{v}, aa);
+    };
+    auto mul = pairHistogramsMultiply;
+    auto size = histogramsSize;
+    if (aa.map_u().size() == 0)
+	return std::make_unique<Histogram>();
+    auto vv = vars(aa);
+    auto d = vv->size();
+    if (d == 0)
+	return std::make_unique<Histogram>(aa);
+    auto z = size(aa);
+    if (z == 0)
+	return std::make_unique<Histogram>(0);
+    Rational zd(1);
+    for (int i = 1; i < d; i++)
+	zd *= z;
+    auto bb = std::make_unique<Histogram>(1/zd);
+    bb->map_u().reserve(aa.map_u().size());
+    for (auto& v : *vv)
+	bb = mul(*bb,*ared(aa,v));
+    return bb;
 }

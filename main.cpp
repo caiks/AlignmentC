@@ -430,6 +430,11 @@ void main()
 	cout << "size(norm(aa))" << endl
 	    << size(*norm(*aa)) << endl << endl;
 
+	auto scalar = histogramScalar_u;
+
+	cout << "scalar(52)" << endl
+	    << *scalar(52) << endl << endl;
+
 	auto single = histogramSingleton_u;
 	auto rr = State(std::vector<VarValPair>{VarValPair(suit, hearts), VarValPair(rank, queen)});
 
@@ -541,6 +546,17 @@ void main()
 	cout << "rpln(aall(ared(mul(aa,cc),sset([coin]))))" << endl;
 	rpln(cout, sorted(*aall(*ared(*mul(*aa, *cc), VarUSet{ coin })))); cout << endl;
 
+	auto ind = histogramsIndependent;
+	cout << "rpln(aall(ind(aa)))" << endl;
+	rpln(cout, sorted(*aall(*ind(*aa)))); cout << endl;
+	cout << "size(ind(aa))" << endl
+	    << size(*ind(*aa)) << endl << endl;
+	cout << "rpln(aall(ind(regdiag(2,2))))" << endl;
+	rpln(cout, sorted(*aall(*ind(*regdiag(2, 2))))); cout << endl;
+	cout << "rpln(aall(ind(regsing(2,2))))" << endl;
+	rpln(cout, sorted(*aall(*ind(*regsing(2, 2))))); cout << endl;
+	cout << "rpln(aall(ind(regcart(2,2))))" << endl;
+	rpln(cout, sorted(*aall(*ind(*regcart(2, 2))))); cout << endl;
     }
 
 }

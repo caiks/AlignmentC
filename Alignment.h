@@ -345,6 +345,7 @@ namespace Alignment
     public: Histogram(const std::vector<StateRationalPair>&);
     public: Histogram(const State&, const Rational&);
     public: Histogram(const StateUSet&);
+    public: Histogram(const Rational&);
 
     public: inline StateRationalUMap& map_u() const
     {
@@ -383,6 +384,9 @@ namespace Alignment
 
     // histogramsResize :: Rational -> Histogram -> Maybe Histogram
     std::unique_ptr<Histogram> histogramsResize(const Rational&, const Histogram&);
+
+    // histogramScalar_u :: Rational -> Histogram
+    std::unique_ptr<Histogram> histogramScalar_u(const Rational&);
 
     // histogramSingleton_u :: State -> Rational -> Histogram
     std::unique_ptr<Histogram> histogramSingleton_u(const State&, const Rational&);
@@ -423,6 +427,8 @@ namespace Alignment
     // pairHistogramsMultiply :: Histogram -> Histogram -> Histogram 
     std::unique_ptr<Histogram> pairHistogramsMultiply(const Histogram&, const Histogram&);
 
+    // histogramsIndependent :: Histogram -> Histogram
+    std::unique_ptr<Histogram> histogramsIndependent(const Histogram&);
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::Histogram&);
