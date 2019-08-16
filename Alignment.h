@@ -342,10 +342,10 @@ namespace Alignment
     class Histogram
     {
     public: Histogram();
-
     public: Histogram(const StateRationalUMap&);
-
     public: Histogram(const std::vector<StateRationalPair>&);
+    public: Histogram(const State&, const Rational&);
+    public: Histogram(const StateUSet&);
 
     public: inline StateRationalUMap& map_u() const
     {
@@ -384,6 +384,19 @@ namespace Alignment
 
     // histogramsResize :: Rational -> Histogram -> Maybe Histogram
     std::unique_ptr<Histogram> histogramsResize(const Rational&, const Histogram&);
+
+    // histogramSingleton :: State -> Rational -> Maybe Histogram
+    std::unique_ptr<Histogram> histogramSingleton(const State&, const Rational&);
+
+    // setStatesHistogramUnit :: Set.Set State -> Maybe Histogram
+    std::unique_ptr<Histogram> setStatesHistogramUnit(const StateUSet&);
+
+    // histogramsTrim :: Histogram -> Histogram
+    std::unique_ptr<Histogram> histogramsTrim(const Histogram&);
+
+    // histogramsEffective :: Histogram -> Histogram
+    std::unique_ptr<Histogram> histogramsEffective(const Histogram&);
+
 
     // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
     std::unique_ptr<Histogram> setVarsHistogramsReduce(const VarUSet&, const Histogram&);

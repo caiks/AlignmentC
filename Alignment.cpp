@@ -507,6 +507,19 @@ Histogram::Histogram(const std::vector<StateRationalPair>& ll)
 	_map[it->first] += it->second;
 }
 
+Histogram::Histogram(const State& ss, const Rational& a)
+{
+    _map.reserve(1);
+    _map.insert_or_assign(ss, a);
+}
+
+Histogram::Histogram(const StateUSet& qq)
+{
+    _map.reserve(qq.size());
+    for (auto it = qq.begin(); it != qq.end(); ++it)
+	_map.insert_or_assign(*it,1);
+}
+
 std::ostream& operator<<(std::ostream& out, const Histogram& aa)
 {
     out << sorted(aa.map_u());
@@ -596,6 +609,40 @@ std::unique_ptr<Histogram> Alignment::histogramsResize(const Rational& z, const 
 	for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
 	    bb->map_u().insert_or_assign(it->first,it->second*z/y);
     }
+    return bb;
+}
+
+// histogramSingleton :: State -> Rational -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramSingleton(const State& ss, const Rational& a)
+{
+    return std::make_unique<Histogram>(ss,a);
+}
+
+// setStatesHistogramUnit :: Set.Set State -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::setStatesHistogramUnit(const StateUSet& qq)
+{
+    return std::make_unique<Histogram>(qq);
+}
+
+// histogramsTrim :: Histogram -> Histogram
+std::unique_ptr<Histogram> Alignment::histogramsTrim(const Histogram& aa)
+{
+    auto bb = std::make_unique<Histogram>();
+    bb->map_u().reserve(aa.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	if (it->second > 0)
+	    bb->map_u().insert_or_assign(it->first, it->second);
+    return bb;
+}
+
+// histogramsEffective :: Histogram -> Histogram
+std::unique_ptr<Histogram> Alignment::histogramsEffective(const Histogram& aa)
+{
+    auto bb = std::make_unique<Histogram>();
+    bb->map_u().reserve(aa.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	if (it->second > 0)
+	    bb->map_u().insert_or_assign(it->first, 1);
     return bb;
 }
 
