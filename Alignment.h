@@ -414,6 +414,15 @@ namespace Alignment
     // setVarsHistogramsReduce :: Set.Set Variable -> Histogram -> Histogram 
     std::unique_ptr<Histogram> setVarsHistogramsReduce(const VarUSet&, const Histogram&);
 
+    // pairHistogramsAdd_u :: Histogram -> Histogram -> Histogram 
+    std::unique_ptr<Histogram> pairHistogramsAdd_u(const Histogram&, const Histogram&);
+
+    // pairHistogramsAdd_u_1 :: Histogram -> Histogram -> Histogram 
+    std::unique_ptr<Histogram> pairHistogramsAdd_u_1(const Histogram&, const Histogram&);
+
+    // pairHistogramsMultiply :: Histogram -> Histogram -> Histogram 
+    std::unique_ptr<Histogram> pairHistogramsMultiply(const Histogram&, const Histogram&);
+
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::Histogram&);

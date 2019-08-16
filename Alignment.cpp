@@ -732,3 +732,53 @@ std::unique_ptr<Histogram> Alignment::setVarsHistogramsReduce(const VarUSet& vv,
 	bb->map_u()[*filt(vv, it->first)] += it->second;
     return bb;
 }
+
+// pairHistogramsAdd_u :: Histogram -> Histogram -> Histogram 
+std::unique_ptr<Histogram> Alignment::pairHistogramsAdd_u(const Histogram& aa, const Histogram& bb)
+{
+    auto cc = std::make_unique<Histogram>();
+    cc->map_u().reserve(aa.map_u().size()+ aa.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	cc->map_u().insert_or_assign(it->first, it->second);
+    for (auto it = bb.map_u().begin(); it != bb.map_u().end(); ++it)
+	cc->map_u()[it->first] += it->second;
+    return cc;
+}
+
+// pairHistogramsAdd_u_1 :: Histogram -> Histogram -> Histogram 
+std::unique_ptr<Histogram> Alignment::pairHistogramsAdd_u_1(const Histogram& aa, const Histogram& bb)
+{
+    auto aall = histogramsList;
+    auto llaa = listsHistogram_u;
+    auto pp = aall(aa);
+    auto qq = aall(bb);
+    pp->reserve(pp->size() + qq->size());
+    pp->insert(pp->end(), qq->begin(), qq->end());
+    return llaa(*qq);
+}
+
+// pairHistogramsMultiply :: Histogram -> Histogram -> Histogram 
+std::unique_ptr<Histogram> Alignment::pairHistogramsMultiply(const Histogram& aa, const Histogram& bb)
+{
+    auto cc = std::make_unique<Histogram>();
+    cc->map_u().reserve(aa.map_u().size() * bb.map_u().size());
+    for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+	for (auto it2 = bb.map_u().begin(); it2 != bb.map_u().end(); ++it2)
+	{
+	    auto& ll = it->first;
+	    auto& rr = it2->first;
+	    bool isjoin = true;
+	    for (auto it3 = ll.map_u().begin(); isjoin && it3 != ll.map_u().end(); ++it3)
+	    {
+		auto it4 = rr.map_u().find(it3->first);
+		isjoin = it4 == rr.map_u().end() || it4->second == it3->second;
+	    }
+	    if (isjoin)
+	    {
+		State tt(ll.map_u());
+		tt.map_u().insert(rr.map_u().begin(), rr.map_u().end());
+		cc->map_u().insert_or_assign(tt, it->second * it2->second);
+	    }
+	}
+    return cc;
+}

@@ -477,17 +477,69 @@ void main()
 	cout << "rpln(aall(hhaa(aahh(aa))))" << endl;
 	rpln(cout, sorted(*aall(*hhaa(*aahh(*aa))))); cout << endl;
 
-	/*
-	auto hred = [](const History& hh, const VarUSet& vv)
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
 	{
-	    return setVarsHistoriesReduce(vv, hh);
+	    return setVarsHistogramsReduce(vv, aa);
 	};
-	cout << "rpln(hhll(hred(hh,set([suit])))" << endl;
-	rpln(cout, *hhll(*hred(*hh, VarUSet{ suit }))); cout << endl;
-	cout << "rpln(hhll(hred(hh,set([rank])))" << endl;
-	rpln(cout, *hhll(*hred(*hh, VarUSet{ rank }))); cout << endl;
-	*/
+	cout << "rpln(aall(ared(aa,sset([suit]))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{suit})))); cout << endl;
+	cout << "rpln(aall(ared(aa,sset([rank]))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ rank })))); cout << endl;
+	cout << "rpln(aall(ared(aa,sset([]))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet())))); cout << endl;
+	cout << "rpln(aall(ared(aa,vars(aa))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa,*vars(*aa))))); cout << endl;
 
+	auto bb = single(State(std::vector<VarValPair>{VarValPair(suit, spades), VarValPair(rank, ace)}),1);
+
+	auto cc = llaa(std::vector<StateRationalPair>{StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, spades), VarValPair(rank, ace)}), 1), StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, hearts), VarValPair(rank, queen)}), 1)});
+
+	auto dd = llaa(std::vector<StateRationalPair>{StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, spades), VarValPair(rank, ace)}), 1), StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, hearts), VarValPair(rank, queen)}), 2)});
+
+	auto add = pairHistogramsAdd_u;
+
+	cout << "bb" << endl
+	    << *bb << endl << endl;
+	cout << "cc" << endl
+	    << *cc << endl << endl;
+	cout << "dd" << endl
+	    << *dd << endl << endl;
+	cout << "add(bb,cc)" << endl
+	    << *add(*bb, *cc) << endl << endl;
+	cout << "add(cc,dd)" << endl
+	    << *add(*cc, *dd) << endl << endl;
+	cout << "add(bb,add(cc,dd))" << endl
+	    << *add(*bb, *add(*cc, *dd)) << endl << endl;
+
+	auto mul = pairHistogramsMultiply;
+
+	auto colour = Variable("colour");
+	auto red = Value("red");
+	auto black = Value("black");
+
+	bb = llaa(std::vector<StateRationalPair>{StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, hearts), VarValPair(colour, red)}), 1), StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, clubs), VarValPair(colour, black)}), 1), StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, diamonds), VarValPair(colour, red)}), 1), StateRationalPair(State(std::vector<VarValPair>{VarValPair(suit, spades), VarValPair(colour, black)}), 1)});
+
+	cout << "rpln(aall(bb))" << endl;
+	rpln(cout, sorted(*aall(*bb))); cout << endl;
+	cout << "rpln(aall(mul(aa,bb)))" << endl;
+	rpln(cout, sorted(*aall(*mul(*aa, *bb)))); cout << endl;
+	cout << "rpln(aall(ared(mul(aa,bb),sset([rank,colour]))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*mul(*aa,*bb), VarUSet{ rank, colour })))); cout << endl;
+	cout << "rpln(aall(ared(mul(aa,bb),sset([colour]))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*mul(*aa, *bb), VarUSet{ colour })))); cout << endl;
+
+	auto coin = Variable("coin");
+	auto heads = Value("heads");
+	auto tails = Value("tails");
+
+	cc = llaa(std::vector<StateRationalPair>{StateRationalPair(State(std::vector<VarValPair>{VarValPair(coin, heads)}), 1), StateRationalPair(State(std::vector<VarValPair>{VarValPair(coin, tails)}), 1)});
+
+	cout << "rpln(aall(cc))" << endl;
+	rpln(cout, sorted(*aall(*cc))); cout << endl;
+	cout << "rpln(aall(mul(aa,cc)))" << endl;
+	rpln(cout, sorted(*aall(*mul(*aa, *cc)))); cout << endl;
+	cout << "rpln(aall(ared(mul(aa,cc),sset([coin]))))" << endl;
+	rpln(cout, sorted(*aall(*ared(*mul(*aa, *cc), VarUSet{ coin })))); cout << endl;
 
     }
 
