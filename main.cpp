@@ -1,6 +1,8 @@
 #include "AlignmentUtil.h"
 #include "Alignment.h"
+#include "AlignmentApprox.h"
 #include <iostream>
+#include <iomanip>
 #include <set>
 #include <unordered_set>
 #include <vector>
@@ -559,7 +561,7 @@ void main()
 	rpln(cout, sorted(*aall(*ind(*regcart(2, 2))))); cout << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -714,5 +716,45 @@ void main()
 	rpln(cout, sorted(*aall(*ind(*aa)))); cout << endl;
 
     }
+
+    if (true)
+    {
+	auto lluu = listsSystem_u;
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	auto unit = setStatesHistogramUnit_u;
+	auto aall = histogramsList;
+	auto ent = histogramsEntropy;
+
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
+	auto vv = VarUSet{ suit,rank };
+	auto hearts = Value("hearts");
+	auto clubs = Value("clubs");
+	auto diamonds = Value("diamonds");
+	auto spades = Value("spades");
+	auto wws = ValSet{ hearts,clubs,diamonds,spades };
+	auto jack = Value("J");
+	auto queen = Value("Q");
+	auto king = Value("K");
+	auto ace = Value("A");
+	auto wwr = ValSet{ jack,queen,king,ace };
+	for (int i = 2; i <= 10; i++)
+	    wwr.insert(Value(i));
+	auto uu = lluu(std::vector<VarValSetPair>{VarValSetPair(suit, wws), VarValSetPair(rank, wwr)});
+
+	cout << "uu" << endl
+	    << *uu << endl << endl;
+
+	cout << "vv" << endl
+	    << sorted(vv) << endl << endl;
+
+	auto aa = unit(*cart(*uu, vv));
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "ent(aa)" << endl
+	    << setprecision(17) << ent(*aa) << endl << endl;
+    }
+
 
 }
