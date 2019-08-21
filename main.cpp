@@ -717,13 +717,33 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
 	auto unit = setStatesHistogramUnit_u;
 	auto aall = histogramsList;
+	auto size = histogramsSize;
+	auto resize = histogramsResize;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto add = pairHistogramsAdd_u;
+	auto scalar = histogramScalar_u;
+	auto regsing = histogramRegularUnitSingleton_u;
+	auto regdiag = histogramRegularUnitDiagonal_u;
+	auto regcart = histogramRegularCartesian_u;
 	auto ent = histogramsEntropy;
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto lent = [size, ent, ared](const VarUSet& vv, const Histogram& aa)
+	{
+	    return size(aa).getDouble() * (ent(aa) - ent(*ared(aa, vv)));
+	};
+	auto algn = histogramsAlignment;
 
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -754,7 +774,168 @@ void main()
 
 	cout << "ent(aa)" << endl
 	    << setprecision(17) << ent(*aa) << endl << endl;
+
+	double z = size(*aa).getDouble();
+
+	cout << "z * ent(aa)" << endl
+	    << setprecision(17) << z * ent(*aa) << endl << endl;
+
+	cout << "ent(regsing(2,2))" << endl
+	    << setprecision(17) << ent(*regsing(2, 2)) << endl << endl;
+
+	cout << "lent([suit, rank],aa)" << endl
+	    << setprecision(17) << lent(VarUSet{ suit, rank }, *aa) << endl << endl;
+
+	cout << "lent([],aa)" << endl
+	    << setprecision(17) << lent(VarUSet{}, *aa) << endl << endl;
+
+	cout << "lent([suit],aa)" << endl
+	    << setprecision(17) << lent(VarUSet{ suit }, *aa) << endl << endl;
+
+	cout << "lent([rank],aa)" << endl
+	    << setprecision(17) << lent(VarUSet{ rank }, *aa) << endl << endl;
+
+	aa = norm(*regsing(3, 2));
+	aa = add(*aa, *norm(*regdiag(3, 2)));
+	aa = add(*aa, *norm(*regcart(3, 2)));
+	aa = resize(100, *aa);
+
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "algn(aa)" << endl
+	    << setprecision(17) << algn(*aa) << endl << endl;
+
+	cout << "algn(scalar(100))" << endl
+	    << setprecision(17) << algn(*scalar(100)) << endl << endl;
+	cout << "algn(resize(100,regdiag(3,1)))" << endl
+	    << setprecision(17) << algn(*resize(100, *regdiag(3, 1))) << endl << endl;
+	cout << "algn(resize(100,regcart(3,3)))" << endl
+	    << setprecision(17) << algn(*resize(100, *regcart(3, 3))) << endl << endl;
+	cout << "algn(resize(100,regsing(3,3)))" << endl
+	    << setprecision(17) << algn(*resize(100, *regsing(3, 3))) << endl << endl;
+
+	cout << "algn(resize(100,regdiag(3,2)))" << endl
+	    << setprecision(17) << algn(*resize(100, *regdiag(3, 2))) << endl << endl;
     }
 
+    if (true)
+    {
+	auto uvars = systemsSetVar;
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	auto vol = systemsSetVarsVolume_u;
+	auto ssplit = [](const VarUSet& vv, const Histogram& aa)
+	{
+	    return setVarsSetStatesSplit(vv, *histogramsStates(aa));
+	};
+	typedef std::pair<int, ValList> IntValListPair;
+	typedef std::vector<IntValListPair> IntValListPairList;
+	auto llhh = [](const VarList& vv, const IntValListPairList& ee)
+	{
+	    std::vector<IdStatePair> ii;
+	    for (auto& pp : ee)
+	    {
+		auto i = pp.first;
+		auto& ll = pp.second;
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(IdStatePair(Id(i), *listsState(jj)));
+	    }
+	    return listsHistory_u(ii);
+	};
+	auto hhll = historiesList;
+	auto hvars = historiesSetVar;
+	auto hsize = historiesSize;
+	auto hred = [](const History& hh, const VarUSet& vv)
+	{
+	    return setVarsHistoriesReduce(vv, hh);
+	};
+	auto hhaa = historiesHistogram;
+	auto aahh = histogramsHistory_u;
+	auto aall = histogramsList;
+	auto vars = histogramsSetVar;
+	auto size = histogramsSize;
+	auto unit = setStatesHistogramUnit_u;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto ind = histogramsIndependent;
+	auto ent = histogramsEntropy;
+	auto lent = [size, ent, ared](const VarUSet& vv, const Histogram& aa)
+	{
+	    return size(aa).getDouble() * (ent(aa) - ent(*ared(aa, vv)));
+	};
+	auto algn = histogramsAlignment;
+
+	auto pressure = Variable("pressure");
+	auto cloud = Variable("cloud");
+	auto wind = Variable("wind");
+	auto rain = Variable("rain");
+	auto low = Value("low");
+	auto medium = Value("medium");
+	auto high = Value("high");
+	auto none = Value("none");
+	auto light = Value("light");
+	auto heavy = Value("heavy");
+	auto strong = Value("strong");
+	auto uu = listsSystem_u(std::vector<VarValSetPair>{
+	    VarValSetPair(pressure, ValSet{ low,medium,high }),
+		VarValSetPair(cloud, ValSet{ none,light,heavy }),
+		VarValSetPair(wind, ValSet{ none,light,strong }),
+		VarValSetPair(rain, ValSet{ none,light,heavy })});
+	auto vv = uvars(*uu);
+	auto hh = llhh(VarList{ pressure, cloud, wind, rain }, IntValListPairList{
+	    IntValListPair(1, ValList{ high, none, none, none }),
+	    IntValListPair(2, ValList{ medium, light, none, light }),
+	    IntValListPair(3, ValList{ high, none, light, none }),
+	    IntValListPair(4, ValList{ low, heavy, strong, heavy }),
+	    IntValListPair(5, ValList{ low, none, light, light }),
+	    IntValListPair(6, ValList{ medium, none, light, light }),
+	    IntValListPair(7, ValList{ low, heavy, light, heavy }),
+	    IntValListPair(8, ValList{ high, none, light, none }),
+	    IntValListPair(9, ValList{ medium, light, strong, heavy }),
+	    IntValListPair(10, ValList{ medium, light, light, light }),
+	    IntValListPair(11, ValList{ high, light, light, heavy }),
+	    IntValListPair(12, ValList{ medium, none, none, none }),
+	    IntValListPair(13, ValList{ medium, light, none, none }),
+	    IntValListPair(14, ValList{ high, light, strong, light }),
+	    IntValListPair(15, ValList{ medium, none, light, light }),
+	    IntValListPair(16, ValList{ low, heavy, strong, heavy }),
+	    IntValListPair(17, ValList{ low, heavy, light, heavy }),
+	    IntValListPair(18, ValList{ high, none, none, none }),
+	    IntValListPair(19, ValList{ low, light, none, light }),
+	    IntValListPair(20, ValList{ high, none, none, none }) });
+	auto aa = hhaa(*hh);
+
+	cout << "size(aa)" << endl
+	    << size(*aa) << endl << endl;
+
+	double z = size(*aa).getDouble();
+
+	cout << "z * ent(aa)" << endl
+	    << setprecision(17) << z * ent(*aa) << endl << endl;
+
+	cout << "z * ent(ind(aa))" << endl
+	    << setprecision(17) << z * ent(*ind(*aa)) << endl << endl;
+
+	cout << "algn(aa)" << endl
+	    << setprecision(17) << algn(*aa) << endl << endl;
+
+	cout << "algn(red(aa,[pressure,rain]))" << endl
+	    << setprecision(17) << algn(*ared(*aa, VarUSet{ pressure, rain })) << endl << endl;
+
+	cout << "algn(red(aa,[pressure,cloud]))" << endl
+	    << setprecision(17) << algn(*ared(*aa, VarUSet{ pressure,cloud })) << endl << endl;
+
+	cout << "lent([pressure],red(aa,[pressure,rain]))" << endl
+	    << setprecision(17) << lent(VarUSet{ pressure }, *ared(*aa, VarUSet{ pressure, rain })) << endl << endl;
+
+    }
 
 }

@@ -48,6 +48,7 @@ public:
     long long getNumerator() const;
     void setDenominator(long long denominator_);
     long long getDenominator() const;
+    double getDouble() const;
 
 private:
     long long numerator;

@@ -358,6 +358,9 @@ long long Rational::getDenominator() const {
     return denominator;
 }
 
+double Rational::getDouble() const {
+    return (double)getNumerator()  / (double)getDenominator();
+}
 
 void Rational::simplify() {
     long long tempN = numerator;
