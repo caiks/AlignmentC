@@ -562,7 +562,12 @@ void main()
     if (true)
     {
 	auto uvars = systemsSetVar;
+	auto cart = systemsSetVarsSetStateCartesian_u;
 	auto vol = systemsSetVarsVolume_u;
+	auto ssplit = [](const VarUSet& vv, const Histogram& aa)
+	{
+	    return setVarsSetStatesSplit(vv, *histogramsStates(aa));
+	};
 	typedef std::pair<int, ValList> IntValListPair;
 	typedef std::vector<IntValListPair> IntValListPairList;
 	auto llhh = [](const VarList& vv, const IntValListPairList& ee)
@@ -582,6 +587,25 @@ void main()
 	auto hhll = historiesList;
 	auto hvars = historiesSetVar;
 	auto hsize = historiesSize;
+	auto hred = [](const History& hh, const VarUSet& vv)
+	{
+	    return setVarsHistoriesReduce(vv, hh);
+	};
+	auto hhaa = historiesHistogram;
+	auto aahh = histogramsHistory_u;
+	auto aall = histogramsList;
+	auto vars = histogramsSetVar;
+	auto size = histogramsSize;
+	auto unit = setStatesHistogramUnit_u;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto ind = histogramsIndependent;
 
 	auto pressure = Variable("pressure");
 	auto cloud = Variable("cloud");
@@ -642,6 +666,52 @@ void main()
 
 	cout << "hsize(hh)" << endl
 	    << hsize(*hh) << endl << endl;
+
+	cout << "rpln(hhll(hred(hh,[pressure,rain])))" << endl;
+	rpln(cout, *hhll(*hred(*hh, VarUSet{ pressure,rain }))); cout << endl;
+
+	auto aa = hhaa(*hh);
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "vars(aa)" << endl
+	    << sorted(*vars(*aa)) << endl << endl;
+
+	cout << "size(aa)" << endl
+	    << size(*aa) << endl << endl;
+
+	cout << "size(unit(cart(uu,vv)))" << endl
+	    << size(*unit(*cart(*uu, *vv))) << endl << endl;
+
+	cout << "rpln(aall(norm(aa)))" << endl;
+	rpln(cout, sorted(*aall(*norm(*aa)))); cout << endl;
+
+	cout << "rpln(aall(red(aa,[pressure,rain])))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ pressure,rain })))); cout << endl;
+
+	cout << "rpln(ssplit([pressure],red(aa,[pressure,rain]))))" << endl;
+	rpln(cout, *ssplit(VarUSet{ pressure }, *ared(*aa, VarUSet{ pressure,rain }))); cout << endl;
+
+	cout << "rpln(aall(red(aa,[cloud,wind,rain])))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ cloud,wind,rain })))); cout << endl;
+
+	cout << "rpln(ssplit([cloud,wind],red(aa,[cloud,wind,rain])))" << endl;
+	rpln(cout, *ssplit(VarUSet{ cloud,wind }, *ared(*aa, VarUSet{ cloud,wind,rain }))); cout << endl;
+
+	cout << "rpln(aall(red(aa,[pressure])))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ pressure })))); cout << endl;
+
+	cout << "rpln(aall(red(aa,[cloud])))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ cloud })))); cout << endl;
+
+	cout << "rpln(aall(red(aa,[wind])))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ wind })))); cout << endl;
+
+	cout << "rpln(aall(red(aa,[rain])))" << endl;
+	rpln(cout, sorted(*aall(*ared(*aa, VarUSet{ rain })))); cout << endl;
+
+	cout << "rpln(aall(ind(aa)))" << endl;
+	rpln(cout, sorted(*aall(*ind(*aa)))); cout << endl;
 
     }
 
