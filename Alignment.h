@@ -38,6 +38,11 @@ namespace Alignment
     private: std::shared_ptr<Variable> _var1;
     private: std::size_t _hash;
     };
+
+    typedef std::set<Variable> VarSet;
+    typedef std::unordered_set<Variable> VarUSet;
+    typedef std::vector<Variable> VarList;
+    typedef std::unordered_map<Variable, Variable> VarVarUMap;
 }
 
 std::ostream& operator<<(std::ostream&, const Alignment::Variable&);
@@ -81,6 +86,17 @@ namespace Alignment
     private: double _double;
     private: std::size_t _hash;
     };
+
+    typedef std::set<Value> ValSet;
+    typedef std::unordered_set<Value> ValUSet;
+    typedef std::vector<Value> ValList;
+
+    typedef std::pair<Variable, Value> VarValPair;
+    typedef std::pair<Variable, ValSet> VarValSetPair;
+    typedef std::pair<Variable, ValUSet> VarValUSetPair;
+    typedef std::map<Variable, Value> VarValMap;
+    typedef std::unordered_map<Variable, ValSet> VarValSetUMap;
+
 }
 
 std::ostream& operator<<(std::ostream&, const Alignment::Value&);
@@ -139,15 +155,6 @@ namespace Alignment
 {
     // newtype System = System (Map.Map Variable (Set.Set Value)) 
 
-    typedef std::set<Variable> VarSet;
-    typedef std::unordered_set<Variable> VarUSet;
-    typedef std::unordered_set<Value> ValUSet;
-    typedef std::set<Value> ValSet;
-    typedef std::pair<Variable, ValUSet> VarValUSetPair;
-    typedef std::pair<Variable, ValSet> VarValSetPair;
-    typedef std::unordered_map<Variable, ValSet> VarValSetUMap;
-
-
     class System
     {
     public: System(const VarValSetUMap&);
@@ -198,9 +205,6 @@ namespace Alignment
 {
     // newtype State = State (Map.Map Variable Value)
 
-    typedef std::map<Variable, Value> VarValMap;
-    typedef std::pair<Variable, Value> VarValPair;
-
     class State
     {
     public: State();
@@ -235,6 +239,14 @@ namespace Alignment
     private: std::size_t _hash;
     };
 
+    typedef std::unordered_set<State> StateUSet;
+
+    typedef std::pair<State,Rational> StateRationalPair;
+    typedef std::unordered_map<State, Rational> StateRationalUMap;
+
+    typedef std::pair<Id, State> IdStatePair;
+    typedef std::unordered_map<Id, State> IdStateUMap;
+
     // listsState :: [(Variable, Value)] -> State
     std::unique_ptr<State> listsState(const std::vector<VarValPair>&);
 
@@ -268,22 +280,16 @@ template<> struct std::hash<Alignment::State>
 
 namespace Alignment
 {
-    typedef std::unordered_set<State> StateUSet;
-
     // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
     std::unique_ptr<StateUSet> systemsSetVarsSetStateCartesian_u(const System&, const VarUSet&);
 
     // setVarsSetStatesSplit :: Set.Set Variable -> Set.Set State -> Set.Set (State,State) 
     std::unique_ptr<std::set<std::pair<State, State>>> setVarsSetStatesSplit(const VarUSet&, const StateUSet&);
-
 }
 
 namespace Alignment
 {
     // newtype History = History (Map.Map Id State)
-
-    typedef std::pair<Id, State> IdStatePair;
-    typedef std::unordered_map<Id, State> IdStateUMap;
 
     class History
     {
@@ -333,10 +339,6 @@ std::ostream& operator<<(std::ostream& out, const Alignment::History&);
 namespace Alignment
 {
     // newtype Histogram = Histogram (Map.Map State Rational)
-
-    typedef std::pair<State,Rational> StateRationalPair;
-    typedef std::unordered_map<State, Rational> StateRationalUMap;
-    typedef std::unordered_map<Variable, Variable> VarVarUMap;
 
     class Histogram
     {
