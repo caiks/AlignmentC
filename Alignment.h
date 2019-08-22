@@ -367,6 +367,8 @@ namespace Alignment
     private: StateRationalUMap _map;
     };
 
+    typedef std::pair<std::unique_ptr<Histogram>, VarUSet> HistogramPtrVarUSetPair;
+
     // listsHistogram_u :: [(State, Rational)] -> Histogram
     std::unique_ptr<Histogram> listsHistogram_u(const std::vector<StateRationalPair>&);
 
@@ -441,8 +443,6 @@ std::ostream& operator<<(std::ostream& out, const Alignment::Histogram&);
 
 namespace Alignment
 {
-    typedef std::pair<std::unique_ptr<Histogram>, VarUSet> HistogramPtrVarUSetPair;
-
     // newtype Transform = Transform (Histogram, (Set.Set Variable))
 
     class Transform
@@ -468,12 +468,14 @@ namespace Alignment
 
     friend inline bool operator==(const Transform& l, const Transform& r)
     {
-	return l._pair == r._pair;
+	return l.histogram() == r.histogram() && sorted(l.derived()) == sorted(r.derived());
     }
     friend inline bool operator!=(const Transform& l, const Transform& r) { return !(l == r); }
 
     private: HistogramPtrVarUSetPair _pair;
     };
+
+    typedef std::vector<std::shared_ptr<Transform>> TransformPtrList;
 
     // histogramsSetVarsTransform_u :: Histogram -> Set.Set Variable -> Transform
     std::unique_ptr<Transform> histogramsSetVarsTransform(const Histogram&, const VarUSet&);
@@ -494,6 +496,42 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream& out, const Alignment::Transform&);
 
+
+namespace Alignment
+{
+    // newtype Fud = Fud (Set.Set Transform)
+
+    class Fud
+    {
+    public: Fud();
+    public: Fud(const TransformPtrList&);
+
+    public: inline TransformPtrList& list_u() const
+    {
+	return (TransformPtrList&)_list;
+    }
+
+    private: TransformPtrList _list;
+    };
+
+    // setTransformsFud_u :: Set.Set Transform -> Fud
+    std::unique_ptr<Fud> setTransformsFud_u(const TransformPtrList&);
+
+    // fudsSetHistogram :: Fud -> Set.Set Histogram
+    std::unique_ptr<std::vector<Histogram>> fudsSetHistogram(const Fud&);
+
+    // fudsSetVar :: Fud -> Set.Set Variable
+    std::unique_ptr<VarUSet> fudsSetVar(const Fud&);
+
+    // fudsDerived :: Fud -> Set.Set Variable
+    std::unique_ptr<VarUSet> fudsDerived(const Fud&);
+
+    // fudsUnderlying :: Fud -> Set.Set Variable
+    std::unique_ptr<VarUSet> fudsUnderlying(const Fud&);
+
+}
+
+std::ostream& operator<<(std::ostream& out, const Alignment::Fud&);
 
 
 

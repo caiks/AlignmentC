@@ -1050,7 +1050,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1129,6 +1129,7 @@ void main()
 	    }
 	    return trans(Histogram(ii), VarUSet(ww.begin(), ww.end()));
 	};
+
 	auto pressure = Variable("pressure");
 	auto cloud = Variable("cloud");
 	auto wind = Variable("wind");
@@ -1198,6 +1199,162 @@ void main()
 
 	cout << "rpln(aall(tmul(aa, tt)))" << endl;
 	rpln(cout, sorted(*aall(*tmul(*aa, *tt)))); cout << endl;
+    }
+
+    if (true)
+    {
+	auto lluu = listsSystem_u;
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	auto llss = listsState;
+	auto unit = setStatesHistogramUnit_u;
+	auto aall = histogramsList;
+	auto size = histogramsSize;
+	auto resize = histogramsResize;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto add = pairHistogramsAdd_u;
+	auto scalar = histogramScalar_u;
+	auto regsing = histogramRegularUnitSingleton_u;
+	auto regdiag = histogramRegularUnitDiagonal_u;
+	auto regcart = histogramRegularCartesian_u;
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto llhh = [llss](const VarList& vv, const IntValListPairList& ee)
+	{
+	    std::vector<IdStatePair> ii;
+	    for (auto& pp : ee)
+	    {
+		auto i = pp.first;
+		auto& ll = pp.second;
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(IdStatePair(Id(i), *llss(jj)));
+	    }
+	    return listsHistory_u(ii);
+	};
+	auto hhaa = historiesHistogram;
+	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
+	{
+	    return std::make_shared<Transform>(std::move(xx), ww);
+	};
+	auto ttaa = transformsHistogram;
+	auto und = transformsUnderlying;
+	auto der = transformsDerived;
+	auto tmul = [](const Histogram& aa, const Transform& tt)
+	{
+	    return transformsHistogramsApply(tt, aa);
+	};
+	auto lltt = [llss, trans](const VarList& kk, const VarList& ww, const ValListList& qq)
+	{
+	    VarList vv(kk.begin(), kk.end());
+	    vv.insert(vv.end(), ww.begin(), ww.end());
+	    std::vector<StateRationalPair> ii;
+	    for (auto& ll : qq)
+	    {
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(StateRationalPair(*llss(jj), 1));
+	    }
+	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+	};
+	auto llff = setTransformsFud_u;
+	auto fhis = fudsSetHistogram;
+	auto fvars = fudsSetVar;
+	auto fder = fudsDerived;
+	auto fund = fudsUnderlying;
+
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
+	auto vv = VarUSet{ suit,rank };
+	auto hearts = Value("hearts");
+	auto clubs = Value("clubs");
+	auto diamonds = Value("diamonds");
+	auto spades = Value("spades");
+	auto wws = ValSet{ hearts,clubs,diamonds,spades };
+	auto jack = Value("J");
+	auto queen = Value("Q");
+	auto king = Value("K");
+	auto ace = Value("A");
+	auto wwr = ValSet{ jack,queen,king,ace };
+	for (int i = 2; i <= 10; i++)
+	    wwr.insert(Value(i));
+	auto uu = lluu(std::vector<VarValSetPair>{VarValSetPair(suit, wws), VarValSetPair(rank, wwr)});
+
+	cout << "uu" << endl
+	    << *uu << endl << endl;
+
+	cout << "vv" << endl
+	    << sorted(vv) << endl << endl;
+
+	auto aa = unit(*cart(*uu, vv));
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	auto colour = Variable("colour");
+	auto red = Value("red");
+	auto black = Value("black");
+
+	auto ttc = lltt(VarList{ suit }, VarList{ colour }, ValListList{
+	    ValList{ hearts, red },
+	    ValList{ clubs, black },
+	    ValList{ diamonds, red },
+	    ValList{ spades, black } });
+
+	cout << "rpln(aall(ttaa(ttc)))" << endl;
+	rpln(cout, sorted(*aall(ttaa(*ttc)))); cout << endl;
+
+	cout << "und(ttc)" << endl
+	    << sorted(*und(*ttc)) << endl << endl;
+
+	cout << "der(ttc)" << endl
+	    << sorted(der(*ttc)) << endl << endl;
+
+	auto pip_or_face = Variable("pip_or_face");
+	auto pip = Value("pip");
+	auto face = Value("face");
+
+	auto xxt = ValListList{
+	    ValList{ ace, pip },
+	    ValList{ king, face },
+	    ValList{ queen, face },
+	    ValList{ jack, face } };
+	for (int i = 2; i <= 10; i++)
+	    xxt.push_back(ValList{Value(i),pip});
+
+	auto ttt = lltt(VarList{ rank }, VarList{ pip_or_face }, xxt);
+
+	cout << "rpln(aall(ttaa(ttt)))" << endl;
+	rpln(cout, sorted(*aall(ttaa(*ttt)))); cout << endl;
+
+	cout << "und(ttt)" << endl
+	    << sorted(*und(*ttt)) << endl << endl;
+
+	cout << "der(ttt)" << endl
+	    << sorted(der(*ttt)) << endl << endl;
+
+	auto ff = llff(TransformPtrList{ ttc, ttt });
+
+	cout << "ff" << endl
+	    << *ff << endl << endl;
+
+	cout << "rpln(fhis(ff))" << endl;
+	rpln(cout, *fhis(*ff)); cout << endl;
+
+	cout << "fvars(ff)" << endl
+	    << sorted(*fvars(*ff)) << endl << endl;
+
+	cout << "fund(ff)" << endl
+	    << sorted(*fund(*ff)) << endl << endl;
+
+	cout << "fder(ff)" << endl
+	    << sorted(*fder(*ff)) << endl << endl;
+
     }
 
 }

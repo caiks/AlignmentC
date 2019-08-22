@@ -881,3 +881,83 @@ std::unique_ptr<Histogram> Alignment::transformsHistogramsApply(const Transform&
 }
 
 
+Fud::Fud() : _list()
+{
+}
+
+Fud::Fud(const TransformPtrList& ll) : _list(ll)
+{
+}
+
+std::ostream& operator<<(std::ostream& out, const Fud& ff)
+{
+    out << "{";
+    for (auto it = ff.list_u().begin(); it != ff.list_u().end(); ++it)
+    {
+	if (it != ff.list_u().begin())
+	    out << ",";
+	out << **it;
+    }
+    out << "}";
+    return out;
+}
+
+// setTransformsFud_u :: Set.Set Transform -> Fud
+std::unique_ptr<Fud> Alignment::setTransformsFud_u(const TransformPtrList& ll)
+{
+    return std::make_unique<Fud>(ll);
+}
+
+// fudsSetHistogram :: Fud -> Set.Set Histogram
+std::unique_ptr<std::vector<Histogram>> Alignment::fudsSetHistogram(const Fud& ff)
+{
+    auto ll = std::make_unique<std::vector<Histogram>>();
+    for (auto& tt : ff.list_u())
+	ll->push_back(tt->histogram());
+    return ll;
+}
+
+// fudsSetVar :: Fud -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::fudsSetVar(const Fud& ff)
+{
+    auto vars = histogramsSetVar;
+    auto vv = std::make_unique<VarUSet>();
+    for (auto& tt : ff.list_u())
+    {
+	auto uu = vars(tt->histogram());
+	vv->insert(uu->begin(),uu->end());
+    }
+    return vv;
+}
+
+// fudsDerived :: Fud -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::fudsDerived(const Fud& ff)
+{
+    auto und = transformsUnderlying;
+    auto fvars = fudsSetVar;
+    auto vv = fvars(ff);
+    for (auto& tt : ff.list_u())
+    {
+	auto uu = und(*tt);
+	for (auto& v : *uu)
+	    vv->erase(v);
+    }
+    return vv;
+}
+
+// fudsUnderlying :: Fud -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::fudsUnderlying(const Fud& ff)
+{
+    auto der = transformsDerived;
+    auto fvars = fudsSetVar;
+    auto vv = fvars(ff);
+    for (auto& tt : ff.list_u())
+    {
+	auto& uu = der(*tt);
+	for (auto& v : uu)
+	    vv->erase(v);
+    }
+    return vv;
+}
+
+
