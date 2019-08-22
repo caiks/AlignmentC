@@ -831,13 +831,11 @@ Transform::Transform() : _pair(std::make_unique<Histogram>(), VarUSet())
 Transform::Transform(const Histogram& xx, const VarUSet& ww) : _pair(std::make_unique<Histogram>(xx), ww)
 {
 }
-/*
-Transform::Transform(std::unique_ptr<Histogram> xx, const VarUSet& ww)
+
+Transform::Transform(std::unique_ptr<Histogram>& xx, const VarUSet& ww) : _pair(std::move(xx), ww)
 {
-    _pair.first = xx;
-    _pair.second = ww;
 }
-*/
+
 std::ostream& operator<<(std::ostream& out, const Transform& tt)
 {
     out << "(" << *tt.pair_u().first << "," << tt.pair_u().second << ")";

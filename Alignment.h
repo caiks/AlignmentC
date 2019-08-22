@@ -448,7 +448,7 @@ namespace Alignment
     {
     public: Transform();
     public: Transform(const Histogram&, const VarUSet&);
-//    public: Transform(std::unique_ptr<Histogram>, const VarUSet&);
+    public: Transform(std::unique_ptr<Histogram>&, const VarUSet&);
 
     public: inline HistogramPtrVarUSetPair& pair_u() const
     {

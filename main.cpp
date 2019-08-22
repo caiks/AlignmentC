@@ -1021,6 +1021,12 @@ void main()
 	cout << "trans(xx,ww)" << endl
 	    << *trans(*xx, ww) << endl << endl;
 
+	cout << "Transform(xx,ww)" << endl
+	    << Transform(xx, ww) << endl << endl;
+
+	cout << "xx" << endl
+	    << (xx ? "set" : "reset") << endl << endl;
+
     }
 
 
