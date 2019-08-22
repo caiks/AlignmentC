@@ -823,3 +823,32 @@ std::unique_ptr<Histogram> Alignment::histogramsIndependent(const Histogram& aa)
 	bb = mul(*bb,*ared(aa,v));
     return bb;
 }
+
+Transform::Transform() : _pair(std::make_unique<Histogram>(), VarUSet())
+{
+}
+
+Transform::Transform(const Histogram& xx, const VarUSet& ww) : _pair(std::make_unique<Histogram>(xx), ww)
+{
+}
+/*
+Transform::Transform(std::unique_ptr<Histogram> xx, const VarUSet& ww)
+{
+    _pair.first = xx;
+    _pair.second = ww;
+}
+*/
+std::ostream& operator<<(std::ostream& out, const Transform& tt)
+{
+    out << "(" << *tt.pair_u().first << "," << tt.pair_u().second << ")";
+    return out;
+}
+
+// histogramsSetVarsTransform :: Histogram -> Set.Set Variable -> Maybe Transform
+std::unique_ptr<Transform> Alignment::histogramsSetVarsTransform(const Histogram& xx, const VarUSet& ww)
+{
+    return std::make_unique<Transform>(xx,ww);
+}
+
+
+

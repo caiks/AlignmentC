@@ -819,7 +819,7 @@ void main()
 	    << setprecision(17) << algn(*resize(100, *regdiag(3, 2))) << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -828,8 +828,7 @@ void main()
 	{
 	    return setVarsSetStatesSplit(vv, *histogramsStates(aa));
 	};
-	typedef std::pair<int, ValList> IntValListPair;
-	typedef std::vector<IntValListPair> IntValListPairList;
+
 	auto llhh = [](const VarList& vv, const IntValListPairList& ee)
 	{
 	    std::vector<IdStatePair> ii;
@@ -937,5 +936,92 @@ void main()
 	    << setprecision(17) << lent(VarUSet{ pressure }, *ared(*aa, VarUSet{ pressure, rain })) << endl << endl;
 
     }
+    
+    if (true)
+    {
+	auto lluu = listsSystem_u;
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	auto llss = listsState;
+	auto unit = setStatesHistogramUnit_u;
+	auto aall = histogramsList;
+	auto size = histogramsSize;
+	auto resize = histogramsResize;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto add = pairHistogramsAdd_u;
+	auto scalar = histogramScalar_u;
+	auto regsing = histogramRegularUnitSingleton_u;
+	auto regdiag = histogramRegularUnitDiagonal_u;
+	auto regcart = histogramRegularCartesian_u;
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto llhh = [llss](const VarList& vv, const IntValListPairList& ee)
+	{
+	    std::vector<IdStatePair> ii;
+	    for (auto& pp : ee)
+	    {
+		auto i = pp.first;
+		auto& ll = pp.second;
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(IdStatePair(Id(i), *llss(jj)));
+	    }
+	    return listsHistory_u(ii);
+	};
+	auto hhaa = historiesHistogram;
+	auto trans = histogramsSetVarsTransform;
+
+	auto suit = Variable("suit");
+	auto rank = Variable("rank");
+	auto vv = VarUSet{ suit,rank };
+	auto hearts = Value("hearts");
+	auto clubs = Value("clubs");
+	auto diamonds = Value("diamonds");
+	auto spades = Value("spades");
+	auto wws = ValSet{ hearts,clubs,diamonds,spades };
+	auto jack = Value("J");
+	auto queen = Value("Q");
+	auto king = Value("K");
+	auto ace = Value("A");
+	auto wwr = ValSet{ jack,queen,king,ace };
+	for (int i = 2; i <= 10; i++)
+	    wwr.insert(Value(i));
+	auto uu = lluu(std::vector<VarValSetPair>{VarValSetPair(suit, wws), VarValSetPair(rank, wwr)});
+
+	cout << "uu" << endl
+	    << *uu << endl << endl;
+
+	cout << "vv" << endl
+	    << sorted(vv) << endl << endl;
+
+	auto aa = unit(*cart(*uu, vv));
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	auto colour = Variable("colour");
+	auto red = Value("red");
+	auto black = Value("black");
+
+	auto xx = hhaa(*llhh(VarList{ suit, colour }, IntValListPairList{
+	    IntValListPair(1, ValList{ hearts, red }),
+	    IntValListPair(2, ValList{ clubs, black }),
+	    IntValListPair(3, ValList{ diamonds, red }),
+	    IntValListPair(4, ValList{ spades, black }) }));
+
+	cout << "rpln(aall(xx))" << endl;
+	rpln(cout, sorted(*aall(*xx))); cout << endl;
+
+	auto ww = VarUSet{ colour };
+
+	cout << "trans(xx,ww)" << endl
+	    << *trans(*xx, ww) << endl << endl;
+
+    }
+
 
 }

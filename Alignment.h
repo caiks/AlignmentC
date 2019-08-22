@@ -97,6 +97,9 @@ namespace Alignment
     typedef std::map<Variable, Value> VarValMap;
     typedef std::unordered_map<Variable, ValSet> VarValSetUMap;
 
+    typedef std::pair<int, ValList> IntValListPair;
+    typedef std::vector<IntValListPair> IntValListPairList;
+
 }
 
 std::ostream& operator<<(std::ostream&, const Alignment::Value&);
@@ -434,6 +437,40 @@ namespace Alignment
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::Histogram&);
+
+namespace Alignment
+{
+    typedef std::pair<std::unique_ptr<Histogram>, VarUSet> HistogramPtrVarUSetPair;
+
+    // newtype Transform = Transform (Histogram, (Set.Set Variable))
+
+    class Transform
+    {
+    public: Transform();
+    public: Transform(const Histogram&, const VarUSet&);
+//    public: Transform(std::unique_ptr<Histogram>, const VarUSet&);
+
+    public: inline HistogramPtrVarUSetPair& pair_u() const
+    {
+	return (HistogramPtrVarUSetPair&)_pair;
+    }
+
+    friend inline bool operator==(const Transform& l, const Transform& r)
+    {
+	return l._pair == r._pair;
+    }
+    friend inline bool operator!=(const Transform& l, const Transform& r) { return !(l == r); }
+
+    private: HistogramPtrVarUSetPair _pair;
+    };
+
+    // histogramsSetVarsTransform :: Histogram -> Set.Set Variable -> Maybe Transform
+    std::unique_ptr<Transform> histogramsSetVarsTransform(const Histogram&, const VarUSet&);
+
+}
+
+std::ostream& operator<<(std::ostream& out, const Alignment::Transform&);
+
 
 
 
