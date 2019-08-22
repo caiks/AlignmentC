@@ -90,6 +90,7 @@ namespace Alignment
     typedef std::set<Value> ValSet;
     typedef std::unordered_set<Value> ValUSet;
     typedef std::vector<Value> ValList;
+    typedef std::vector<std::vector<Value>> ValListList;
 
     typedef std::pair<Variable, Value> VarValPair;
     typedef std::pair<Variable, ValSet> VarValSetPair;
@@ -455,6 +456,16 @@ namespace Alignment
 	return (HistogramPtrVarUSetPair&)_pair;
     }
 
+    public: inline Histogram& histogram() const
+    {
+	return (Histogram&)*_pair.first;
+    }
+
+    public: inline VarUSet& derived() const
+    {
+	return (VarUSet&)_pair.second;
+    }
+
     friend inline bool operator==(const Transform& l, const Transform& r)
     {
 	return l._pair == r._pair;
@@ -464,8 +475,20 @@ namespace Alignment
     private: HistogramPtrVarUSetPair _pair;
     };
 
-    // histogramsSetVarsTransform :: Histogram -> Set.Set Variable -> Maybe Transform
+    // histogramsSetVarsTransform_u :: Histogram -> Set.Set Variable -> Transform
     std::unique_ptr<Transform> histogramsSetVarsTransform(const Histogram&, const VarUSet&);
+
+    // transformsHistogram :: Transform -> Histogram
+    const Histogram& transformsHistogram(const Transform&);
+
+    // transformsDerived :: Transform -> Set.Set Variable
+    const VarUSet& transformsDerived(const Transform&);
+
+    // transformsUnderlying :: Transform -> Set.Set Variable
+    std::unique_ptr<VarUSet> transformsUnderlying(const Transform&);
+
+    // transformsHistogramsApply :: Transform -> Histogram -> Histogram
+    std::unique_ptr<Histogram> transformsHistogramsApply(const Transform&, const Histogram&);
 
 }
 

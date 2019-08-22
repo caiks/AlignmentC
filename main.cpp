@@ -937,7 +937,7 @@ void main()
 
     }
     
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -975,6 +975,13 @@ void main()
 	};
 	auto hhaa = historiesHistogram;
 	auto trans = histogramsSetVarsTransform;
+	auto ttaa = transformsHistogram;
+	auto und = transformsUnderlying;
+	auto der = transformsDerived;
+	auto tmul = [](const Histogram& aa, const Transform& tt)
+	{
+	    return transformsHistogramsApply(tt, aa);
+	};
 
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -1018,8 +1025,10 @@ void main()
 
 	auto ww = VarUSet{ colour };
 
+	auto tt = trans(*xx, ww);
+
 	cout << "trans(xx,ww)" << endl
-	    << *trans(*xx, ww) << endl << endl;
+	    << *tt << endl << endl;
 
 	cout << "Transform(xx,ww)" << endl
 	    << Transform(xx, ww) << endl << endl;
@@ -1027,7 +1036,168 @@ void main()
 	cout << "xx" << endl
 	    << (xx ? "set" : "reset") << endl << endl;
 
+	cout << "rpln(aall(ttaa(tt)))" << endl;
+	rpln(cout, sorted(*aall(ttaa(*tt)))); cout << endl;
+
+	cout << "und(tt)" << endl
+	    << sorted(*und(*tt)) << endl << endl;
+
+	cout << "der(tt)" << endl
+	    << sorted(der(*tt)) << endl << endl;
+
+	cout << "rpln(aall(tmul(aa, tt)))" << endl;
+	rpln(cout, sorted(*aall(*tmul(*aa,*tt)))); cout << endl;
+
     }
 
+    if (true)
+    {
+	auto uvars = systemsSetVar;
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	auto llss = listsState;
+	auto vol = systemsSetVarsVolume_u;
+	auto ssplit = [](const VarUSet& vv, const Histogram& aa)
+	{
+	    return setVarsSetStatesSplit(vv, *histogramsStates(aa));
+	};
+	auto unit = setStatesHistogramUnit_u;
+	auto aall = histogramsList;
+	auto size = histogramsSize;
+	auto resize = histogramsResize;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto add = pairHistogramsAdd_u;
+	auto scalar = histogramScalar_u;
+	auto regsing = histogramRegularUnitSingleton_u;
+	auto regdiag = histogramRegularUnitDiagonal_u;
+	auto regcart = histogramRegularCartesian_u;
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto llhh = [llss](const VarList& vv, const IntValListPairList& ee)
+	{
+	    std::vector<IdStatePair> ii;
+	    for (auto& pp : ee)
+	    {
+		auto i = pp.first;
+		auto& ll = pp.second;
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(IdStatePair(Id(i), *llss(jj)));
+	    }
+	    return listsHistory_u(ii);
+	};
+	auto hhll = historiesList;
+	auto hvars = historiesSetVar;
+	auto hsize = historiesSize;
+	auto hred = [](const History& hh, const VarUSet& vv)
+	{
+	    return setVarsHistoriesReduce(vv, hh);
+	};
+	auto hhaa = historiesHistogram;
+	auto aahh = histogramsHistory_u;
+	auto ind = histogramsIndependent;
+	auto ent = histogramsEntropy;
+	auto lent = [size, ent, ared](const VarUSet& vv, const Histogram& aa)
+	{
+	    return size(aa).getDouble() * (ent(aa) - ent(*ared(aa, vv)));
+	};
+	auto algn = histogramsAlignment;
+	auto trans = histogramsSetVarsTransform;
+	auto ttaa = transformsHistogram;
+	auto und = transformsUnderlying;
+	auto der = transformsDerived;
+	auto tmul = [](const Histogram& aa, const Transform& tt)
+	{
+	    return transformsHistogramsApply(tt, aa);
+	};
+	auto lltt = [llss, trans](const VarList& kk, const VarList& ww, const ValListList& qq)
+	{
+	    VarList vv(kk.begin(),kk.end());
+	    vv.insert(vv.end(), ww.begin(), ww.end());
+	    std::vector<StateRationalPair> ii;
+	    for (auto& ll : qq)
+	    {
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(StateRationalPair(*llss(jj),1));
+	    }
+	    return trans(Histogram(ii), VarUSet(ww.begin(), ww.end()));
+	};
+	auto pressure = Variable("pressure");
+	auto cloud = Variable("cloud");
+	auto wind = Variable("wind");
+	auto rain = Variable("rain");
+	auto cloud_and_wind = Variable("cloud_and_wind");
+	auto low = Value("low");
+	auto medium = Value("medium");
+	auto high = Value("high");
+	auto none = Value("none");
+	auto light = Value("light");
+	auto heavy = Value("heavy");
+	auto strong = Value("strong");
+	auto uu = listsSystem_u(std::vector<VarValSetPair>{
+	    VarValSetPair(pressure, ValSet{ low,medium,high }),
+		VarValSetPair(cloud, ValSet{ none,light,heavy }),
+		VarValSetPair(wind, ValSet{ none,light,strong }),
+		VarValSetPair(rain, ValSet{ none,light,heavy })});
+	auto vv = uvars(*uu);
+	auto hh = llhh(VarList{ pressure, cloud, wind, rain }, IntValListPairList{
+	    IntValListPair(1, ValList{ high, none, none, none }),
+	    IntValListPair(2, ValList{ medium, light, none, light }),
+	    IntValListPair(3, ValList{ high, none, light, none }),
+	    IntValListPair(4, ValList{ low, heavy, strong, heavy }),
+	    IntValListPair(5, ValList{ low, none, light, light }),
+	    IntValListPair(6, ValList{ medium, none, light, light }),
+	    IntValListPair(7, ValList{ low, heavy, light, heavy }),
+	    IntValListPair(8, ValList{ high, none, light, none }),
+	    IntValListPair(9, ValList{ medium, light, strong, heavy }),
+	    IntValListPair(10, ValList{ medium, light, light, light }),
+	    IntValListPair(11, ValList{ high, light, light, heavy }),
+	    IntValListPair(12, ValList{ medium, none, none, none }),
+	    IntValListPair(13, ValList{ medium, light, none, none }),
+	    IntValListPair(14, ValList{ high, light, strong, light }),
+	    IntValListPair(15, ValList{ medium, none, light, light }),
+	    IntValListPair(16, ValList{ low, heavy, strong, heavy }),
+	    IntValListPair(17, ValList{ low, heavy, light, heavy }),
+	    IntValListPair(18, ValList{ high, none, none, none }),
+	    IntValListPair(19, ValList{ low, light, none, light }),
+	    IntValListPair(20, ValList{ high, none, none, none }) });
+	auto aa = hhaa(*hh);
+
+	cout << "size(aa)" << endl
+	    << size(*aa) << endl << endl;
+
+	auto tt = lltt(VarList{ cloud, wind }, VarList{ cloud_and_wind }, ValListList{
+	    ValList{none, none, none},
+	    ValList{none, light, light},
+	    ValList{none, strong, light},
+	    ValList{light, none, light},
+	    ValList{light, light, light},
+	    ValList{light, strong, light},
+	    ValList{heavy, none, strong},
+	    ValList{heavy, light, strong},
+	    ValList{heavy, strong, strong}});
+
+	cout << "rpln(aall(ttaa(tt)))" << endl;
+	rpln(cout, sorted(*aall(ttaa(*tt)))); cout << endl;
+
+	cout << "rpln(ssplit([cloud, wind], ttaa(tt)))" << endl;
+	rpln(cout, *ssplit(VarUSet{ cloud, wind }, ttaa(*tt))); cout << endl;
+
+	cout << "und(tt)" << endl
+	    << sorted(*und(*tt)) << endl << endl;
+
+	cout << "der(tt)" << endl
+	    << sorted(der(*tt)) << endl << endl;
+
+	cout << "rpln(aall(tmul(aa, tt)))" << endl;
+	rpln(cout, sorted(*aall(*tmul(*aa, *tt)))); cout << endl;
+    }
 
 }

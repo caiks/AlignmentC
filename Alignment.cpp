@@ -842,11 +842,42 @@ std::ostream& operator<<(std::ostream& out, const Transform& tt)
     return out;
 }
 
-// histogramsSetVarsTransform :: Histogram -> Set.Set Variable -> Maybe Transform
+// histogramsSetVarsTransform_u :: Histogram -> Set.Set Variable -> Transform
 std::unique_ptr<Transform> Alignment::histogramsSetVarsTransform(const Histogram& xx, const VarUSet& ww)
 {
     return std::make_unique<Transform>(xx,ww);
 }
 
+// transformsHistogram :: Transform -> Histogram
+const Histogram& Alignment::transformsHistogram(const Transform& tt)
+{
+    return tt.histogram();
+}
+
+// transformsDerived :: Transform -> Set.Set Variable
+const VarUSet& Alignment::transformsDerived(const Transform& tt)
+{
+    return tt.derived();
+}
+
+// transformsUnderlying :: Transform -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::transformsUnderlying(const Transform& tt)
+{
+    auto vars = histogramsSetVar;
+    auto vv = vars(tt.histogram());
+    for (auto& v : tt.derived())
+	vv->erase(v);
+    return vv;
+}
+
+// transformsHistogramsApply :: Transform -> Histogram -> Histogram
+std::unique_ptr<Histogram> Alignment::transformsHistogramsApply(const Transform& tt, const Histogram& aa)
+{
+    auto mul = pairHistogramsMultiply;
+    auto red = setVarsHistogramsReduce;
+    auto xx = tt.histogram();
+    auto ww = tt.derived();
+    return red(ww, *mul(aa, xx));
+}
 
 
