@@ -1395,7 +1395,7 @@ void main()
 	    << *dep(*gg, VarUSet{ red_face }) << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1600,6 +1600,23 @@ void main()
 
 	cout << "len(dep(gg,[cloud_and_pressure]))" << endl
 	    << dep(*gg, VarUSet{ cloud_and_pressure })->list_u().size() << endl << endl;
+
+    }
+
+    if (true)
+    {
+	Tree<int> x;
+	x._list.push_back(std::pair<int, Tree<int>>(3, Tree<int>()));
+
+	cout << "x" << endl
+	    << x << endl << endl;
+
+	Tree<int> y;
+	y._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
+	y._list.push_back(std::pair<int, Tree<int>>(2, x));
+
+	cout << "y" << endl
+	    << y << endl << endl;
 
     }
 

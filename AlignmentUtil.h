@@ -173,6 +173,22 @@ template<class T> void rpln(std::ostream& out, const std::set<T>& qq)
     }
 }
 
+template<typename T> struct Tree
+{
+    std::vector<std::pair<T,Tree<T>>> _list;
+};
 
+template<typename T> std::ostream& operator<<(std::ostream& out, const Tree<T>& tt)
+{
+    out << "{";
+    for (auto it = tt._list.begin(); it != tt._list.end(); ++it)
+    {
+	if (it != tt._list.begin())
+	    out << ",";
+	out << "(" << it->first << "," << it->second << ")";
+    }
+    out << "}";
+    return out;
+}
 
 #endif
