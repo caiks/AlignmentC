@@ -476,6 +476,7 @@ namespace Alignment
     };
 
     typedef std::vector<std::shared_ptr<Transform>> TransformPtrList;
+    typedef std::unordered_map<Variable,std::shared_ptr<Transform>> VarTransformPtrUMap;
 
     // histogramsSetVarsTransform_u :: Histogram -> Set.Set Variable -> Transform
     std::unique_ptr<Transform> histogramsSetVarsTransform(const Histogram&, const VarUSet&);
@@ -528,6 +529,15 @@ namespace Alignment
 
     // fudsUnderlying :: Fud -> Set.Set Variable
     std::unique_ptr<VarUSet> fudsUnderlying(const Fud&);
+
+    // fudsTransform :: Fud -> Transform
+    std::unique_ptr<Transform> fudsTransform(const Fud&);
+
+    // fudsDefinitions :: Fud -> Map.Map Variable Transform
+    std::unique_ptr<VarTransformPtrUMap> fudsDefinitions(const Fud&);
+
+    // fudsSetVarsDepends_u :: Fud -> Set.Set Variable -> Fud
+    std::unique_ptr<Fud> fudsSetVarsDepends_u(const Fud&, const VarUSet&);
 
 }
 

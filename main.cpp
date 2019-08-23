@@ -1268,6 +1268,8 @@ void main()
 	auto fvars = fudsSetVar;
 	auto fder = fudsDerived;
 	auto fund = fudsUnderlying;
+	auto fftt = fudsTransform;
+	auto dep = fudsSetVarsDepends_u;
 
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -1355,6 +1357,42 @@ void main()
 	cout << "fder(ff)" << endl
 	    << sorted(*fder(*ff)) << endl << endl;
 
+	cout << "rpln(aall(ttaa(fftt(ff))))" << endl;
+	rpln(cout, sorted(*aall(ttaa(*fftt(*ff))))); cout << endl;
+
+	auto red_face = Variable("red_face");
+	auto yes = Value("yes");
+	auto no = Value("no");
+
+	auto ttrf = lltt(VarList{ colour,pip_or_face }, VarList{ red_face }, ValListList{
+	    ValList{ red, face, yes },
+	    ValList{ red, pip, no },
+	    ValList{ black, face, no },
+	    ValList{ black, pip, no } });
+
+	auto gg = llff(TransformPtrList{ ttc, ttt, ttrf });
+
+	cout << "gg" << endl
+	    << *gg << endl << endl;
+
+	cout << "rpln(fhis(gg))" << endl;
+	rpln(cout, *fhis(*gg)); cout << endl;
+
+	cout << "fvars(gg)" << endl
+	    << sorted(*fvars(*gg)) << endl << endl;
+
+	cout << "fund(gg)" << endl
+	    << sorted(*fund(*gg)) << endl << endl;
+
+	cout << "fder(gg)" << endl
+	    << sorted(*fder(*gg)) << endl << endl;
+
+	cout << "dep(gg,colour)" << endl
+	    << *dep(*gg, VarUSet{ colour }) << endl << endl;
+	cout << "dep(gg,pip_or_face)" << endl
+	    << *dep(*gg, VarUSet{ pip_or_face }) << endl << endl;
+	cout << "dep(gg,red_face)" << endl
+	    << *dep(*gg, VarUSet{ red_face }) << endl << endl;
     }
 
 }

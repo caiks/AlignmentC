@@ -912,6 +912,7 @@ std::unique_ptr<Fud> Alignment::setTransformsFud_u(const TransformPtrList& ll)
 std::unique_ptr<std::vector<Histogram>> Alignment::fudsSetHistogram(const Fud& ff)
 {
     auto ll = std::make_unique<std::vector<Histogram>>();
+    ll->reserve(ff.list_u().size());
     for (auto& tt : ff.list_u())
 	ll->push_back(tt->histogram());
     return ll;
@@ -921,7 +922,7 @@ std::unique_ptr<std::vector<Histogram>> Alignment::fudsSetHistogram(const Fud& f
 std::unique_ptr<VarUSet> Alignment::fudsSetVar(const Fud& ff)
 {
     auto vars = histogramsSetVar;
-    auto vv = std::make_unique<VarUSet>();
+    auto vv = std::make_unique<VarUSet>(ff.list_u().size() * 2);
     for (auto& tt : ff.list_u())
     {
 	auto uu = vars(tt->histogram());
@@ -959,5 +960,85 @@ std::unique_ptr<VarUSet> Alignment::fudsUnderlying(const Fud& ff)
     }
     return vv;
 }
+
+// fudsTransform :: Fud -> Transform
+std::unique_ptr<Transform> Alignment::fudsTransform(const Fud& ff)
+{
+    auto fder = fudsDerived;
+    auto fund = fudsUnderlying;
+    auto mul = pairHistogramsMultiply;
+    auto ared = [](const Histogram& aa, const VarUSet& vv)
+    {
+	return setVarsHistogramsReduce(vv, aa);
+    };
+    auto scalar = histogramScalar_u;
+    if (ff.list_u().size() == 0)
+	return std::make_unique<Transform>();
+    auto aa = scalar(1);
+    for (auto& tt : ff.list_u())
+	aa = mul(*aa, tt->histogram());
+    auto ww = fder(ff);
+    auto vv = fund(ff);
+    for (auto& v : *ww)
+	vv->insert(v);
+    aa = ared(*aa, *vv);
+    return std::make_unique<Transform>(std::move(aa),*ww);
+}
+
+// fudsDefinitions :: Fud -> Map.Map Variable Transform
+std::unique_ptr<VarTransformPtrUMap> Alignment::fudsDefinitions(const Fud& ff)
+{
+    auto der = transformsDerived;
+    auto mm = std::make_unique<VarTransformPtrUMap>();
+    mm->reserve(ff.list_u().size());
+    for (auto& tt : ff.list_u())
+	for (auto& w : der(*tt))
+	    mm->insert_or_assign(w, tt);
+    return mm;
+}
+
+
+// fudsSetVarsDepends_u :: Fud -> Set.Set Variable -> Fud
+std::unique_ptr<Fud> Alignment::fudsSetVarsDepends_u(const Fud& ff, const VarUSet& ww)
+{
+    auto und = transformsUnderlying;
+    auto der = transformsDerived;
+    auto s = ff.list_u().size();
+    VarUSet yy(s);
+    VarTransformPtrUMap mm;
+    mm.reserve(s);
+    for (auto& tt : ff.list_u())
+	for (auto& w : der(*tt))
+	{
+	    mm.insert_or_assign(w, tt);
+	    yy.insert(w);
+	}
+    auto uu = std::make_unique<VarUSet>(ww.size());
+    for (auto& w : ww)
+	if (yy.find(w) != yy.end())
+	    uu->insert(w);
+    VarUSet xx(s);
+    auto gg = std::make_unique<Fud>();
+    gg->list_u().reserve(s);
+    while (uu->size())
+    {
+	auto uu1 = std::make_unique<VarUSet>(s);
+	for (auto& w : *uu)
+	{
+	    auto& tt = mm[w];
+	    gg->list_u().push_back(tt);
+	    xx.insert(w);
+	    auto vv = und(*tt);
+	    for (auto& u : *vv)
+		if (yy.find(u) != yy.end() && xx.find(u) == xx.end())
+		    uu1->insert(u);
+	}
+	uu = std::move(uu1);
+    }
+    return gg;
+}
+
+
+
 
 
