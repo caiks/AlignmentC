@@ -237,6 +237,25 @@ template<typename T> Tree<T> pairTreesUnion(const Tree<T>& ss,const Tree<T>& tt)
     return rr;
 }
 
+// pathsTree :: (Ord a, Ord (Tree a)) => [[a]] -> Tree a
+template<typename T> Tree<T> pathsTree(const std::vector<std::vector<T>>& qq)
+{
+    Tree<T> tt;
+    for (auto& ll : qq)
+    {
+	if (ll.size() > 0)
+	{
+	    Tree<T> ss;
+	    auto jj = ll;
+	    jj.erase(jj.begin());
+	    std::vector<std::vector<T>> rr{ jj };
+	    ss._list.push_back(std::pair<T, Tree<T>>(ll[0], pathsTree(rr)));
+	    tt = pairTreesUnion(tt, ss);
+	}
+    }
+    return tt;
+}
+
 
 template<typename T> std::ostream& operator<<(std::ostream& out, const Tree<T>& tt)
 {

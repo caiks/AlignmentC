@@ -1669,6 +1669,28 @@ void main()
 	cout << "pairTreesUnion(z,z)" << endl
 	    << pairTreesUnion(z, z) << endl << endl;
 
+	auto tt = pathsTree(std::vector<std::vector<int>>{
+	    std::vector<int>{9},
+	    std::vector<int>{1, 3, 4, 5, 6, 7},
+	    std::vector<int>{1, 2},
+	    std::vector<int>{1, 3},
+	    std::vector<int>{1},
+	    std::vector<int>{1, 8},
+	    std::vector<int>{1, 3, 4}});
+
+	cout << "rpln(treesPaths(tt))" << endl;
+	rpln(cout, treesPaths(tt)); cout << endl;
+
+	cout << "tt.sort()" << endl;
+	tt.sort();
+
+	cout << "rpln(treesPaths(tt))" << endl;
+	rpln(cout, treesPaths(tt)); cout << endl;
+
+	cout << "tt" << endl
+	    << tt << endl << endl;
+
+
 
     }
 
