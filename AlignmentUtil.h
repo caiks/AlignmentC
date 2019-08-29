@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <array>
 #include <vector>
+#include <algorithm>
 
 // Rational from https://gist.github.com/sklaw/10473569
 class Rational {
@@ -176,6 +177,19 @@ template<class T> void rpln(std::ostream& out, const std::set<T>& qq)
 template<typename T> struct Tree
 {
     std::vector<std::pair<T,Tree<T>>> _list;
+
+    void sort()
+    {
+	struct {
+	    bool operator()(std::pair<T, Tree<T>> a, std::pair<T, Tree<T>> b) const
+	    {
+		return a.first < b.first;
+	    }
+	} greater;
+	std::sort(_list.begin(), _list.end(), greater);
+	for (auto it = _list.begin(); it != _list.end(); ++it)
+	    it->second.sort();
+    }
 };
 
 template<typename T> std::ostream& operator<<(std::ostream& out, const Tree<T>& tt)

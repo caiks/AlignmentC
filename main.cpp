@@ -1612,11 +1612,34 @@ void main()
 	    << x << endl << endl;
 
 	Tree<int> y;
-	y._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
 	y._list.push_back(std::pair<int, Tree<int>>(2, x));
+	y._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
 
 	cout << "y" << endl
 	    << y << endl << endl;
+
+	Tree<int> z;
+	z._list.push_back(std::pair<int, Tree<int>>(3, y));
+	z._list.push_back(std::pair<int, Tree<int>>(2, x));
+	z._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
+
+	cout << "z" << endl
+	    << z << endl << endl;
+
+	cout << "y.sort()" << endl;
+	y.sort();
+
+	cout << "y" << endl
+	    << y << endl << endl;
+
+
+	cout << "z.sort()" << endl;
+	z.sort();
+
+	cout << "z" << endl
+	    << z << endl << endl;
+
+
 
     }
 
