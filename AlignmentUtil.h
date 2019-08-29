@@ -190,7 +190,53 @@ template<typename T> struct Tree
 	for (auto it = _list.begin(); it != _list.end(); ++it)
 	    it->second.sort();
     }
+
 };
+
+template<typename T> std::vector<std::vector<T>> treesPaths(const std::vector<T>& ll, const Tree<T>& xx)
+{
+    if (xx._list.size() == 0)
+	return std::vector<std::vector<T>>{ll};
+    std::vector<std::vector<T>> qq;
+    for (auto it = xx._list.begin(); it != xx._list.end(); ++it)
+    {
+	auto jj = ll;
+	jj.push_back(it->first);
+	auto yy = treesPaths(jj, it->second);
+	qq.insert(qq.end(), yy.begin(), yy.end());
+    }
+    return qq;
+}
+
+// treesPaths :: (Ord a, Ord (Tree a)) => Tree a -> [[a]]
+template<typename T> std::vector<std::vector<T>> treesPaths(const Tree<T>& tt)
+{
+    return treesPaths(std::vector<T>(),tt);
+}
+
+// pairTreesUnion :: (Ord a, Ord (Tree a)) => Tree a -> Tree a -> Tree a
+template<typename T> Tree<T> pairTreesUnion(const Tree<T>& ss,const Tree<T>& tt)
+{
+    if (tt._list.size() == 0)
+	return ss;
+    if (ss._list.size() == 0)
+	return tt;
+    auto rr = ss;
+    for (int i = 0; i < tt._list.size(); i++)
+    {
+	bool found = false;
+	for (int j = 0; !found && j < ss._list.size(); j++)
+	    if (tt._list[i].first == ss._list[j].first)
+	    {
+		found = true;
+		rr._list[j].second = pairTreesUnion(ss._list[j].second, tt._list[i].second);
+	    }
+	if (!found)
+	    rr._list.push_back(tt._list[i]);
+    }
+    return rr;
+}
+
 
 template<typename T> std::ostream& operator<<(std::ostream& out, const Tree<T>& tt)
 {

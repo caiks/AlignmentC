@@ -1611,12 +1611,18 @@ void main()
 	cout << "x" << endl
 	    << x << endl << endl;
 
+	cout << "treesPaths(x)" << endl
+	    << treesPaths(x) << endl << endl;
+
 	Tree<int> y;
 	y._list.push_back(std::pair<int, Tree<int>>(2, x));
 	y._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
 
 	cout << "y" << endl
 	    << y << endl << endl;
+
+	cout << "treesPaths(y)" << endl
+	    << treesPaths(y) << endl << endl;
 
 	Tree<int> z;
 	z._list.push_back(std::pair<int, Tree<int>>(3, y));
@@ -1625,6 +1631,9 @@ void main()
 
 	cout << "z" << endl
 	    << z << endl << endl;
+
+	cout << "treesPaths(z)" << endl
+	    << treesPaths(z) << endl << endl;
 
 	cout << "y.sort()" << endl;
 	y.sort();
@@ -1639,6 +1648,26 @@ void main()
 	cout << "z" << endl
 	    << z << endl << endl;
 
+	cout << "treesPaths(z)" << endl
+	    << treesPaths(z) << endl << endl;
+
+	cout << "pairTreesUnion(x,x)" << endl
+	    << pairTreesUnion(x, x) << endl << endl;
+
+	cout << "pairTreesUnion(x,y)" << endl
+	    << pairTreesUnion(x, y) << endl << endl;
+
+	cout << "pairTreesUnion(x,z)" << endl
+	    << pairTreesUnion(x, z) << endl << endl;
+
+	cout << "pairTreesUnion(y,y)" << endl
+	    << pairTreesUnion(y, y) << endl << endl;
+
+	cout << "pairTreesUnion(y,z)" << endl
+	    << pairTreesUnion(y, z) << endl << endl;
+
+	cout << "pairTreesUnion(z,z)" << endl
+	    << pairTreesUnion(z, z) << endl << endl;
 
 
     }
