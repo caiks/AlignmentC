@@ -1785,7 +1785,12 @@ void main()
 	    tt->tree_u() = pathsTree(jj);
 	    return tt;
 	};
+	auto dfll = [](const DecompFud& df)
+	{
+	    return treesPaths(df.tree_u());
+	};
 	auto dfund = decompFudsUnderlying;
+
 
 	auto suit = Variable("suit");
 	auto rank = Variable("rank");
@@ -1809,10 +1814,6 @@ void main()
 
 	cout << "vv" << endl
 	    << sorted(vv) << endl << endl;
-
-	auto aa = unit(*cart(*uu, vv));
-	cout << "rpln(aall(aa))" << endl;
-	rpln(cout, sorted(*aall(*aa))); cout << endl;
 
 	auto colour = Variable("colour");
 	auto red = Value("red");
@@ -1854,9 +1855,6 @@ void main()
 
 	auto ttop = lltt(VarList{ rank }, VarList{ odd_pip }, xxop);
 
-	cout << "rpln(aall(ttaa(ttop)))" << endl;
-	rpln(cout, sorted(*aall(ttaa(*ttop)))); cout << endl;
-
 	auto df = lldf(VarValPairListTransformPtrListPairListList{
 	    VarValPairListTransformPtrListPairList{
 		VarValPairListTransformPtrListPair(VarValPairList{},TransformPtrList{ttop}),
@@ -1873,6 +1871,11 @@ void main()
 
 	cout << "dfund(df)" << endl
 	    << sorted(*dfund(*df)) << endl << endl;
+
+	cout << "rpln(dfll(df))" << endl;
+	rpln(cout, dfll(*df)); cout << endl;
+
+
     }
 
 }
