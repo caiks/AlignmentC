@@ -1612,7 +1612,7 @@ void main()
 	    << x << endl << endl;
 
 	cout << "treesPaths(x)" << endl
-	    << treesPaths(x) << endl << endl;
+	    << *treesPaths(x) << endl << endl;
 
 	Tree<int> y;
 	y._list.push_back(std::pair<int, Tree<int>>(2, x));
@@ -1622,7 +1622,7 @@ void main()
 	    << y << endl << endl;
 
 	cout << "treesPaths(y)" << endl
-	    << treesPaths(y) << endl << endl;
+	    << *treesPaths(y) << endl << endl;
 
 	Tree<int> z;
 	z._list.push_back(std::pair<int, Tree<int>>(3, y));
@@ -1633,7 +1633,7 @@ void main()
 	    << z << endl << endl;
 
 	cout << "treesPaths(z)" << endl
-	    << treesPaths(z) << endl << endl;
+	    << *treesPaths(z) << endl << endl;
 
 	cout << "y.sort()" << endl;
 	y.sort();
@@ -1649,25 +1649,25 @@ void main()
 	    << z << endl << endl;
 
 	cout << "treesPaths(z)" << endl
-	    << treesPaths(z) << endl << endl;
+	    << *treesPaths(z) << endl << endl;
 
 	cout << "pairTreesUnion(x,x)" << endl
-	    << pairTreesUnion(x, x) << endl << endl;
+	    << *pairTreesUnion(x, x) << endl << endl;
 
 	cout << "pairTreesUnion(x,y)" << endl
-	    << pairTreesUnion(x, y) << endl << endl;
+	    << *pairTreesUnion(x, y) << endl << endl;
 
 	cout << "pairTreesUnion(x,z)" << endl
-	    << pairTreesUnion(x, z) << endl << endl;
+	    << *pairTreesUnion(x, z) << endl << endl;
 
 	cout << "pairTreesUnion(y,y)" << endl
-	    << pairTreesUnion(y, y) << endl << endl;
+	    << *pairTreesUnion(y, y) << endl << endl;
 
 	cout << "pairTreesUnion(y,z)" << endl
-	    << pairTreesUnion(y, z) << endl << endl;
+	    << *pairTreesUnion(y, z) << endl << endl;
 
 	cout << "pairTreesUnion(z,z)" << endl
-	    << pairTreesUnion(z, z) << endl << endl;
+	    << *pairTreesUnion(z, z) << endl << endl;
 
 	auto tt = pathsTree(std::vector<std::vector<int>>{
 	    std::vector<int>{9},
@@ -1679,16 +1679,16 @@ void main()
 	    std::vector<int>{1, 3, 4}});
 
 	cout << "rpln(treesPaths(tt))" << endl;
-	rpln(cout, treesPaths(tt)); cout << endl;
+	rpln(cout, *treesPaths(*tt)); cout << endl;
 
 	cout << "tt.sort()" << endl;
-	tt.sort();
+	tt->sort();
 
 	cout << "rpln(treesPaths(tt))" << endl;
-	rpln(cout, treesPaths(tt)); cout << endl;
+	rpln(cout, *treesPaths(*tt)); cout << endl;
 
 	cout << "tt" << endl
-	    << tt << endl << endl;
+	    << *tt << endl << endl;
 
 
 
@@ -1782,7 +1782,7 @@ void main()
 		jj.push_back(kk);
 	    }
 	    auto tt = std::make_unique<DecompFud>();
-	    tt->tree_u() = pathsTree(jj);
+	    tt->tree_u() = *pathsTree(jj);
 	    return tt;
 	};
 	auto dfll = [](const DecompFud& df)
@@ -1873,7 +1873,7 @@ void main()
 	    << sorted(*dfund(*df)) << endl << endl;
 
 	cout << "rpln(dfll(df))" << endl;
-	rpln(cout, dfll(*df)); cout << endl;
+	rpln(cout, *dfll(*df)); cout << endl;
 
 
     }

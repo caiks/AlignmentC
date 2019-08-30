@@ -215,35 +215,35 @@ template<typename T> std::unique_ptr<std::vector<T>> treesElements(const Tree<T>
     return qq;
 }
 
-template<typename T> std::vector<std::vector<T>> treesPaths(const std::vector<T>& ll, const Tree<T>& xx)
+template<typename T> std::unique_ptr<std::vector<std::vector<T>>> treesPaths(const std::vector<T>& ll, const Tree<T>& xx)
 {
     if (xx._list.size() == 0)
-	return std::vector<std::vector<T>>{ll};
-    std::vector<std::vector<T>> qq;
+	return std::unique_ptr<std::vector<std::vector<T>>>(new std::vector<std::vector<T>>{ ll });
+    auto qq = std::make_unique<std::vector<std::vector<T>>>();
     for (auto it = xx._list.begin(); it != xx._list.end(); ++it)
     {
 	auto jj = ll;
 	jj.push_back(it->first);
 	auto yy = treesPaths(jj, it->second);
-	qq.insert(qq.end(), yy.begin(), yy.end());
+	qq->insert(qq->end(), yy->begin(), yy->end());
     }
     return qq;
 }
 
 // treesPaths :: (Ord a, Ord (Tree a)) => Tree a -> [[a]]
-template<typename T> std::vector<std::vector<T>> treesPaths(const Tree<T>& tt)
+template<typename T> std::unique_ptr<std::vector<std::vector<T>>> treesPaths(const Tree<T>& tt)
 {
     return treesPaths(std::vector<T>(),tt);
 }
 
 // pairTreesUnion :: (Ord a, Ord (Tree a)) => Tree a -> Tree a -> Tree a
-template<typename T> Tree<T> pairTreesUnion(const Tree<T>& ss,const Tree<T>& tt)
+template<typename T> std::unique_ptr<Tree<T>> pairTreesUnion(const Tree<T>& ss,const Tree<T>& tt)
 {
+    auto rr = std::make_unique<Tree<T>>(ss);
     if (tt._list.size() == 0)
-	return ss;
+	return rr;
     if (ss._list.size() == 0)
-	return tt;
-    auto rr = ss;
+	return std::make_unique<Tree<T>>(tt);
     for (int i = 0; i < tt._list.size(); i++)
     {
 	bool found = false;
@@ -251,18 +251,19 @@ template<typename T> Tree<T> pairTreesUnion(const Tree<T>& ss,const Tree<T>& tt)
 	    if (tt._list[i].first == ss._list[j].first)
 	    {
 		found = true;
-		rr._list[j].second = pairTreesUnion(ss._list[j].second, tt._list[i].second);
+		auto uu = pairTreesUnion(ss._list[j].second, tt._list[i].second);
+		rr->_list[j].second = *uu;
 	    }
 	if (!found)
-	    rr._list.push_back(tt._list[i]);
+	    rr->_list.push_back(tt._list[i]);
     }
     return rr;
 }
 
 // pathsTree :: (Ord a, Ord (Tree a)) => [[a]] -> Tree a
-template<typename T> Tree<T> pathsTree(const std::vector<std::vector<T>>& qq)
+template<typename T> std::unique_ptr<Tree<T>> pathsTree(const std::vector<std::vector<T>>& qq)
 {
-    Tree<T> tt;
+    auto tt = std::make_unique<Tree<T>>();
     for (auto& ll : qq)
     {
 	if (ll.size() > 0)
@@ -271,8 +272,9 @@ template<typename T> Tree<T> pathsTree(const std::vector<std::vector<T>>& qq)
 	    auto jj = ll;
 	    jj.erase(jj.begin());
 	    std::vector<std::vector<T>> rr{ jj };
-	    ss._list.push_back(std::pair<T, Tree<T>>(ll[0], pathsTree(rr)));
-	    tt = pairTreesUnion(tt, ss);
+	    auto uu = pathsTree(rr);
+	    ss._list.push_back(std::pair<T, Tree<T>>(ll[0], *uu));
+	    tt = pairTreesUnion(*tt, ss);
 	}
     }
     return tt;
