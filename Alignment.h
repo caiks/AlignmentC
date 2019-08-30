@@ -97,6 +97,8 @@ namespace Alignment
     typedef std::pair<Variable, ValUSet> VarValUSetPair;
     typedef std::map<Variable, Value> VarValMap;
     typedef std::unordered_map<Variable, ValSet> VarValSetUMap;
+    typedef std::vector<std::pair<Variable, Value>> VarValPairList;
+
 
     typedef std::pair<int, ValList> IntValListPair;
     typedef std::vector<IntValListPair> IntValListPairList;
@@ -543,6 +545,48 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream& out, const Alignment::Fud&);
 
+
+namespace Alignment
+{
+    struct StatePtrFudPtrPair
+    {
+	StatePtrFudPtrPair() {}
+	StatePtrFudPtrPair(std::shared_ptr<State> ss, std::shared_ptr<Fud> ff) : _state(ss), _fud(ff) {}
+
+	std::shared_ptr<State> _state;
+	std::shared_ptr<Fud> _fud;
+    };
+
+    inline bool operator==(const StatePtrFudPtrPair& l, const StatePtrFudPtrPair& r) {return *l._state == *r._state;}
+    inline bool operator!=(const StatePtrFudPtrPair& l, const StatePtrFudPtrPair& r) { return !(l == r); }
+    inline bool operator< (const StatePtrFudPtrPair& l, const StatePtrFudPtrPair& r) {return *l._state < *r._state;}
+    inline bool operator> (const StatePtrFudPtrPair& l, const StatePtrFudPtrPair& r) { return r < l; }
+    inline bool operator<=(const StatePtrFudPtrPair& l, const StatePtrFudPtrPair& r) { return !(l > r); }
+    inline bool operator>=(const StatePtrFudPtrPair& l, const StatePtrFudPtrPair& r) { return !(l < r); }
+
+    // newtype DecompFud = DecompFud (Tree (State,Fud))
+
+    class DecompFud
+    {
+    public: inline Tree<StatePtrFudPtrPair>& tree_u() const
+    {
+	return (Tree<StatePtrFudPtrPair>&)_tree;
+    }
+
+    private: Tree<StatePtrFudPtrPair> _tree;
+    };
+
+    // decompFudsFud :: DecompFud -> Fud
+    std::unique_ptr<Fud> decompFudsFud(const DecompFud&);
+
+    // decompFudsUnderlying :: DecompFud -> Set.Set Variable
+    std::unique_ptr<VarUSet> decompFudsUnderlying(const DecompFud&);
+
+}
+
+std::ostream& operator<<(std::ostream& out, const Alignment::StatePtrFudPtrPair&);
+
+std::ostream& operator<<(std::ostream& out, const Alignment::DecompFud&);
 
 
 

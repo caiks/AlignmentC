@@ -185,13 +185,35 @@ template<typename T> struct Tree
 	    {
 		return a.first < b.first;
 	    }
-	} greater;
-	std::sort(_list.begin(), _list.end(), greater);
+	} lesser;
+	std::sort(_list.begin(), _list.end(), lesser);
 	for (auto it = _list.begin(); it != _list.end(); ++it)
 	    it->second.sort();
     }
 
 };
+
+template<typename T> int treesSize(const Tree<T>& tt)
+{
+    int s = 0;
+    for (auto& pp : tt._list)
+	s += 1 + treesSize(pp.second);
+    return s;
+}
+
+// treesElements :: (Ord a, Ord (Tree a)) => Tree a -> Set.Set a
+template<typename T> std::unique_ptr<std::vector<T>> treesElements(const Tree<T>& tt)
+{
+    auto qq = std::make_unique<std::vector<T>>();
+    qq->reserve(treesSize(tt));
+    for (auto& pp : tt._list)
+    {
+	qq->push_back(pp.first);
+	auto ee = treesElements(pp.second);
+	qq->insert(qq->end(), ee->begin(), ee->end());
+    }
+    return qq;
+}
 
 template<typename T> std::vector<std::vector<T>> treesPaths(const std::vector<T>& ll, const Tree<T>& xx)
 {

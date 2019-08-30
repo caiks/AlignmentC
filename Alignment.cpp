@@ -1038,7 +1038,35 @@ std::unique_ptr<Fud> Alignment::fudsSetVarsDepends_u(const Fud& ff, const VarUSe
     return gg;
 }
 
+// decompFudsFud :: DecompFud -> Fud
+std::unique_ptr<Fud> Alignment::decompFudsFud(const DecompFud& df)
+{
+    auto ee = treesElements(df.tree_u());
+    int s = 0;
+    for (auto& pp : *ee)
+	s += pp._fud->list_u().size();
+    auto ff = std::make_unique<Fud>();
+    ff->list_u().reserve(s);
+    for (auto& pp : *ee)
+	ff->list_u().insert(ff->list_u().end(), pp._fud->list_u().begin(), pp._fud->list_u().end());
+    return ff;
+}
 
+// decompFudsUnderlying :: DecompFud -> Set.Set Variable
+std::unique_ptr<VarUSet> Alignment::decompFudsUnderlying(const DecompFud& df)
+{
+    auto ff = decompFudsFud(df);
+    return fudsUnderlying(*ff);
+}
 
+std::ostream& operator<<(std::ostream& out, const StatePtrFudPtrPair& pp)
+{
+    out << "(" << *pp._state << "," << *pp._fud << ")";
+    return out;
+}
 
-
+std::ostream& operator<<(std::ostream& out, const DecompFud& df)
+{
+    out << df.tree_u();
+    return out;
+}
