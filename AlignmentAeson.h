@@ -17,6 +17,11 @@ namespace Alignment
     // rationalsString :: Rational -> String
     std::string rationalsString(const Rational&);
 
+    // systemsPersistent :: System -> SystemPersistent
+    void systemsPersistent(const System&, std::ostream&);
+
+    // systemsPersistentSorted :: System -> SystemPersistent
+    void systemsPersistentSorted(const System&, std::ostream&);
 
 }
 

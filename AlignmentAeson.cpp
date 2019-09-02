@@ -86,6 +86,46 @@ std::string Alignment::rationalsString(const Rational& r)
     return std::to_string(r.getNumerator()) + " % " + std::to_string(r.getDenominator());
 }
 
+// systemsPersistent :: System -> SystemPersistent
+void Alignment::systemsPersistent(const System& uu, std::ostream& out)
+{
+    out << "[";
+    for (auto it = uu.map_u().begin(); it != uu.map_u().end(); ++it)
+    {
+	if (it != uu.map_u().begin())
+	    out << ", ";
+	out << "{\"var\": \"" << it->first << "\", \"values\": [";
+	for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
+	{
+	    if (it2 != it->second.begin())
+		out << ", ";
+	    out << "\"" << *it2 << "\"";
+	}
+	out << "]}";
+    }
+    out << "]";
+}
+
+// systemsPersistentSorted :: System -> SystemPersistent
+void Alignment::systemsPersistentSorted(const System& uu, std::ostream& out)
+{
+    out << "[";
+    auto uu1 = sorted(uu.map_u());
+    for (auto it = uu1.begin(); it != uu1.end(); ++it)
+    {
+	if (it != uu1.begin())
+	    out << ", ";
+	out << "{\"var\": \"" << it->first << "\", \"values\": [";
+	for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
+	{
+	    if (it2 != it->second.begin())
+		out << ", ";
+	    out << "\"" << *it2 << "\"";
+	}
+	out << "]}";
+    }
+    out << "]";
+}
 
 
 
