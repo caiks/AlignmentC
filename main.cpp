@@ -1936,7 +1936,7 @@ void main()
 	cout << v1 << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto v1 = stringsValue("aa");
 	cout << v1 << endl;
@@ -1948,6 +1948,29 @@ void main()
 	cout << v1 << endl;
 	v1 = stringsValue("  4.56   ");
 	cout << v1 << endl;
+
+    }
+
+    if (false)
+    {
+	auto v1 = stringsRational("123 % 456");
+	cout << v1 << endl;
+	v1 = stringsRational("1");
+	cout << v1 << endl;
+	v1 = stringsRational(" % 456");
+	cout << v1 << endl;
+	v1 = stringsRational("123 % ");
+	cout << v1 << endl;
+	v1 = stringsRational("");
+	cout << v1 << endl;
+
+    }
+
+    if (true)
+    {
+	cout << rationalsString(Rational(123, 456)) << endl;
+	cout << rationalsString(Rational(123, 1)) << endl;
+	cout << rationalsString(Rational(123.456)) << endl;
 
     }
 }

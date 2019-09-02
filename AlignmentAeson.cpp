@@ -61,6 +61,30 @@ Value Alignment::stringsValue(const std::string& s)
     return Value(s);
 }
 
+// stringsRational :: String -> Rational
+Rational Alignment::stringsRational(const std::string& s)
+{
+    try
+    {
+	long long n = std::stoll(s);
+	long long d = 1;
+	std::size_t p = s.find("%");
+	if (p != std::string::npos)
+	    d = std::stoll(s.substr(p + 1, std::string::npos));
+	if (d > 0)
+	    return Rational(n, d);
+    }
+    catch (std::invalid_argument& e)
+    {
+    }
+    return Rational();
+}
+
+// rationalsString :: Rational -> String
+std::string Alignment::rationalsString(const Rational& r)
+{
+    return std::to_string(r.getNumerator()) + " % " + std::to_string(r.getDenominator());
+}
 
 
 

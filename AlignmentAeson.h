@@ -11,6 +11,12 @@ namespace Alignment
     // stringsValue :: String -> Value
     Value stringsValue(const std::string&);
 
+    // stringsRational :: String -> Rational
+    Rational stringsRational(const std::string&);
+
+    // rationalsString :: Rational -> String
+    std::string rationalsString(const Rational&);
+
 
 }
 
