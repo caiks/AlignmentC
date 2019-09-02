@@ -1,13 +1,20 @@
 #include "AlignmentUtil.h"
 #include "Alignment.h"
 #include "AlignmentApprox.h"
-#include <iostream>
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/reader.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filereadstream.h"
 #include <iomanip>
 #include <set>
 #include <unordered_set>
 #include <vector>
+#include <iostream>
+#include <cstdio>
 
 using namespace Alignment;
+namespace js = rapidjson;
 using namespace std;
 
 void main()
@@ -1694,7 +1701,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1878,4 +1885,39 @@ void main()
 
     }
 
+    if (false)
+    {
+	const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
+	js::Document d;
+	d.Parse(json);
+
+	js::Value& s = d["stars"];
+	s.SetInt(s.GetInt() + 1);
+
+	js::StringBuffer buffer;
+	js::Writer<js::StringBuffer> writer(buffer);
+	d.Accept(writer);
+
+	std::cout << buffer.GetString() << std::endl;
+    }
+
+    if (true)
+    {
+	FILE* fp = std::fopen("../NISTPy-master/NIST_model1.json", "rb");
+	assert(fp);
+	char readBuffer[65536];
+	js::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+	js::Document d;
+	d.ParseStream(is);
+
+	cout << "d.IsObject()" << endl
+	    << d.IsObject() << endl << endl;
+
+	cout << "d.HasMember(\"paths\")" << endl
+	    << d.HasMember("paths") << endl << endl;
+
+	cout << "d.HasMember(\"nodes\")" << endl
+	    << d.HasMember("nodes") << endl << endl;
+    }
 }
