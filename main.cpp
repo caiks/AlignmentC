@@ -1,6 +1,7 @@
 #include "AlignmentUtil.h"
 #include "Alignment.h"
 #include "AlignmentApprox.h"
+#include "AlignmentAeson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/reader.h"
@@ -1901,7 +1902,7 @@ void main()
 	std::cout << buffer.GetString() << std::endl;
     }
 
-    if (true)
+    if (false)
     {
 	FILE* fp = std::fopen("../NISTPy-master/NIST_model1.json", "rb");
 	assert(fp);
@@ -1919,5 +1920,19 @@ void main()
 
 	cout << "d.HasMember(\"nodes\")" << endl
 	    << d.HasMember("nodes") << endl << endl;
+    }
+
+    if (true)
+    {
+	auto v1 = stringsVariable("aa");
+	cout << v1 << endl;
+	v1 = stringsVariable("1");
+	cout << v1 << endl;
+	v1 = stringsVariable("123");
+	cout << v1 << endl;
+	v1 = stringsVariable("<5,2>");
+	cout << v1 << endl;
+	v1 = stringsVariable("<<7,1>,2>");
+	cout << v1 << endl;
     }
 }
