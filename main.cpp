@@ -1922,7 +1922,7 @@ void main()
 	    << d.HasMember("nodes") << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto v1 = stringsVariable("aa");
 	cout << v1 << endl;
@@ -1934,5 +1934,20 @@ void main()
 	cout << v1 << endl;
 	v1 = stringsVariable("<<7,1>,2>");
 	cout << v1 << endl;
+    }
+
+    if (true)
+    {
+	auto v1 = stringsValue("aa");
+	cout << v1 << endl;
+	v1 = stringsValue("1");
+	cout << v1 << endl;
+	v1 = stringsValue("1.23");
+	cout << v1 << endl;
+	v1 = stringsValue("9    ");
+	cout << v1 << endl;
+	v1 = stringsValue("  4.56   ");
+	cout << v1 << endl;
+
     }
 }
