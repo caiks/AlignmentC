@@ -163,6 +163,8 @@ namespace Alignment
 
     class System
     {
+    public: System() {}
+
     public: System(const VarValSetUMap&);
 
     public: System(const std::vector<VarValSetPair>&);

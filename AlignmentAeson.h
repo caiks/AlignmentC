@@ -23,6 +23,10 @@ namespace Alignment
     // systemsPersistentSorted :: System -> SystemPersistent
     void systemsPersistentSorted(const System&, std::ostream&);
 
+    // persistentsSystem :: SystemPersistent -> Maybe System
+    std::unique_ptr<System> persistentsSystem(std::istream&);
+
+
 }
 
 

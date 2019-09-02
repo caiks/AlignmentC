@@ -1,8 +1,10 @@
 ﻿#include "AlignmentAeson.h"
 #include <cctype>
-#include "rapidjson/document.h"
+#include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>
 
 using namespace Alignment;
+namespace js = rapidjson;
 
 bool isdigit(const std::string& s)
 {
@@ -128,4 +130,30 @@ void Alignment::systemsPersistentSorted(const System& uu, std::ostream& out)
 }
 
 
-
+// persistentsSystem :: SystemPersistent -> Maybe System
+std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    d.ParseStream(isw);
+    auto uu = std::make_unique<System>();
+    if (d.IsArray())
+    {
+	uu->map_u().reserve(d.Size());
+	for (js::SizeType i = 0; i < d.Size(); i++)
+	{
+	    const js::Value& a = d[i];
+	    if (a.IsObject() && a.HasMember("var") && a["var"].IsString() && a.HasMember("values") && a["values"].IsArray())
+	    {
+		const js::Value& b = a["values"];
+		ValSet ww;
+		for (js::SizeType j = 0; j < b.Size(); j++)
+		    if (b[j].IsString())
+			ww.insert(stringsValue(b[j].GetString()));
+		if (ww.size())
+		    uu->map_u().insert_or_assign(stringsVariable(a["var"].GetString()), ww);
+	    }
+	}
+    }
+    return uu;
+}

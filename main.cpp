@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <cstdio>
 
 using namespace Alignment;
@@ -2143,10 +2144,22 @@ void main()
 	    << *uu << endl << endl;
 
 	cout << "systemsPersistent(uu,cout)" << endl;
-	systemsPersistent(*uu, cout); cout << endl;
+	systemsPersistent(*uu, cout); cout << endl << endl;
 
 	cout << "systemsPersistentSorted(uu,cout)" << endl;
-	systemsPersistentSorted(*uu, cout); cout << endl;
+	systemsPersistentSorted(*uu, cout); cout << endl << endl;
+
+	std::stringstream str;
+	systemsPersistent(*uu, str);
+	auto uu1 = persistentsSystem(str);
+	cout << "uu1 = persistentsSystem(str)" << endl
+	    << *uu1 << endl << endl;
+
+	std::stringstream str2;
+	systemsPersistentSorted(*uu, str2);
+	auto uu2 = persistentsSystem(str2);
+	cout << "uu2 = persistentsSystem(str2)" << endl
+	    << *uu2 << endl << endl;
     }
 
 }
