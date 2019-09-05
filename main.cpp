@@ -14,6 +14,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdio>
+#include <thread>
 
 using namespace Alignment;
 namespace js = rapidjson;
@@ -2191,6 +2192,27 @@ void main()
 
 	cout << "rpln(aall(hhaa(hh2)))" << endl;
 	rpln(cout, sorted(*aall(*hhaa(*hh2)))); cout << endl;
+
+	cout << "historiesPersistentPretty(1,hh,cout)" << endl;
+	historiesPersistentPretty(1,*hh, cout); cout << endl << endl;
+
+	std::stringstream str4;
+	historiesPersistentPretty(1,*hh, str4);
+	auto hh3 = persistentsHistory(str4);
+	cout << "hh3 = persistentsHistory(str4)" << endl
+	    << *hh3 << endl << endl;
+
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "rpln(aall(hhaa(hh3)))" << endl;
+	rpln(cout, sorted(*aall(*hhaa(*hh3)))); cout << endl;
+
     }
 
+    if (false)
+    {
+	unsigned int n = std::thread::hardware_concurrency();
+	std::cout << n << " concurrent threads are supported.\n";
+    }
 }

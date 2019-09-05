@@ -211,6 +211,54 @@ void Alignment::historiesPersistent(const History& hh, std::ostream& out)
     out << "]}";
 }
 
+// historiesPersistentPretty :: History -> SystemPersistent
+void Alignment::historiesPersistentPretty(int r, const History& hh, std::ostream& out)
+{
+    auto uu = historiesSystemImplied(hh);
+    std::string p(r,'\t');
+    out << "{\n" << p << "\t\"hsystem\":[\n";
+    auto uu1 = sorted(uu->map_u());
+    for (auto it = uu1.begin(); it != uu1.end(); ++it)
+    {
+	if (it != uu1.begin())
+	    out << ",\n";
+	out << p << "\t\t{\"var\": \"" << it->first << "\", \"values\": [";
+	for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2)
+	{
+	    if (it2 != it->second.begin())
+		out << ", ";
+	    out << "\"" << *it2 << "\"";
+	}
+	out << "]}";
+    }
+    std::unordered_map<Variable, std::unordered_map<Value, int>> mm(uu->map_u().size());
+    for (auto& vww : uu->map_u())
+    {
+	int i = 0;
+	std::unordered_map<Value, int> ww(vww.second.size());
+	for (auto& w : vww.second)
+	    ww.insert_or_assign(w, i++);
+	mm.insert_or_assign(vww.first, ww);
+    }
+    out << "\n" << p << "\t],\n" << p << "\t\"hstates\":[\n";
+    bool first = true;
+    for (auto iss = hh.map_u().begin(); iss != hh.map_u().end(); ++iss)
+    {
+	if (iss != hh.map_u().begin())
+	    out << ",\n";
+	out << p << "\t\t[";
+	for (auto vu = iss->second.map_u().begin(); vu != iss->second.map_u().end(); ++vu)
+	{
+	    if (vu != iss->second.map_u().begin())
+		out << ",";
+	    out << mm[vu->first][vu->second];
+	}
+	out << "]";
+    }
+    out << "\n" << p << "\t]\n" << p << "}";
+}
+
+
 // persistentsHistory :: HistoryPersistent -> Maybe History
 std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
 {

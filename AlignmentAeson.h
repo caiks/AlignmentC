@@ -29,6 +29,9 @@ namespace Alignment
     // historiesPersistent :: History -> HistoryPersistent
     void historiesPersistent(const History&, std::ostream&);
 
+    // historiesPersistentPretty :: History -> HistoryPersistent
+    void historiesPersistentPretty(int r, const History&, std::ostream&);
+
     // persistentsHistory :: HistoryPersistent -> Maybe History
     std::unique_ptr<History> persistentsHistory(std::istream&);
 
