@@ -2180,6 +2180,17 @@ void main()
 	cout << "historiesPersistent(hh,cout)" << endl;
 	historiesPersistent(*hh, cout); cout << endl << endl;
 
+	std::stringstream str3;
+	historiesPersistent(*hh, str3);
+	auto hh2 = persistentsHistory(str3);
+	cout << "hh2 = persistentsHistory(str3)" << endl
+	    << *hh2 << endl << endl;
+
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "rpln(aall(hhaa(hh2)))" << endl;
+	rpln(cout, sorted(*aall(*hhaa(*hh2)))); cout << endl;
     }
 
 }

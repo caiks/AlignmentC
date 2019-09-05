@@ -142,24 +142,22 @@ void Alignment::systemsPersistentSorted(const System& uu, std::ostream& out)
 
 std::unique_ptr<System> jssSystem(const js::Value& d)
 {
+    if (!d.IsArray())
+	return std::make_unique<System>();
     auto uu = std::make_unique<System>();
-    if (d.IsArray())
+    uu->map_u().reserve(d.Size());
+    for (js::SizeType i = 0; i < d.Size(); i++)
     {
-	uu->map_u().reserve(d.Size());
-	for (js::SizeType i = 0; i < d.Size(); i++)
-	{
-	    const js::Value& a = d[i];
-	    if (a.IsObject() && a.HasMember("var") && a["var"].IsString() && a.HasMember("values") && a["values"].IsArray())
-	    {
-		const js::Value& b = a["values"];
-		ValSet ww;
-		for (js::SizeType j = 0; j < b.Size(); j++)
-		    if (b[j].IsString())
-			ww.insert(stringsValue(b[j].GetString()));
-		if (ww.size())
-		    uu->map_u().insert_or_assign(stringsVariable(a["var"].GetString()), ww);
-	    }
-	}
+	const js::Value& a = d[i];
+	if (!a.IsObject() || !a.HasMember("var") || !a["var"].IsString() || !a.HasMember("values") || !a["values"].IsArray())
+	    return std::make_unique<System>();
+	const js::Value& b = a["values"];
+	ValSet ww;
+	for (js::SizeType j = 0; j < b.Size(); j++)
+	    if (b[j].IsString())
+		ww.insert(stringsValue(b[j].GetString()));
+	if (ww.size())
+	    uu->map_u().insert_or_assign(stringsVariable(a["var"].GetString()), ww);
     }
     return uu;
 }
@@ -169,7 +167,14 @@ std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
 {
     js::IStreamWrapper isw(is);
     js::Document d;
-    d.ParseStream(isw);
+    try 
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<System>();
+    }
     return std::move(jssSystem(d));
 }
 
@@ -179,13 +184,11 @@ void Alignment::historiesPersistent(const History& hh, std::ostream& out)
     auto uu = historiesSystemImplied(hh);
     out << "{\"hsystem\":";
     systemsPersistentSorted(*uu,out);
-    std::unordered_map<Variable, std::unordered_map<Value, int>> mm;
-    mm.reserve(uu->map_u().size());
+    std::unordered_map<Variable, std::unordered_map<Value, int>> mm(uu->map_u().size());
     for (auto& vww : uu->map_u())
     {
 	int i = 0;
-	std::unordered_map<Value, int> ww;
-	ww.reserve(vww.second.size());
+	std::unordered_map<Value, int> ww(vww.second.size());
 	for (auto& w : vww.second)
 	    ww.insert_or_assign(w, i++);
 	mm.insert_or_assign(vww.first, ww);
@@ -206,4 +209,54 @@ void Alignment::historiesPersistent(const History& hh, std::ostream& out)
 	out << "]";
     }
     out << "]}";
+}
+
+// persistentsHistory :: HistoryPersistent -> Maybe History
+std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try 
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<History>();
+    }
+    if (!d.IsObject() || !d.HasMember("hsystem") || !d.HasMember("hstates"))
+	return std::make_unique<History>();
+    auto uu = jssSystem(d["hsystem"]);
+    VarSet qq;
+    std::unordered_map<Variable, ValList> mm(uu->map_u().size());
+    for (auto& vww : uu->map_u())
+    {
+	qq.insert(vww.first);
+	ValList ww(vww.second.begin(), vww.second.end());
+	mm.insert_or_assign(vww.first, ww);
+    }
+    VarList ll(qq.begin(), qq.end());
+    const js::Value& a = d["hstates"];
+    if (!a.IsArray())
+	return std::make_unique<History>();
+    auto hh = std::make_unique<History>();
+    hh->map_u().reserve(a.Size());
+    for (js::SizeType i = 0; i < a.Size(); i++)
+    {
+	const js::Value& b = a[i];
+	if (!b.IsArray() || b.Size() != ll.size())
+	    return std::make_unique<History>();
+	State ss;
+	for (js::SizeType j = 0; j < b.Size(); j++)
+	{
+	    auto v = ll[j];
+	    auto ww = mm[v];
+	    const js::Value& c = b[j];
+	    if (!c.IsInt() || c.GetInt() >= ww.size())
+		return std::make_unique<History>();
+	    ss.map_u().insert_or_assign(v,ww[c.GetInt()]);
+	}
+	hh->map_u().insert_or_assign(Id(i+1), ss);
+    }
+    return hh;
 }
