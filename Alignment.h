@@ -339,6 +339,8 @@ namespace Alignment
 	return hh.map_u().size();
     }
 
+    // historiesSystemImplied :: History -> System
+    std::unique_ptr<System> historiesSystemImplied(const History&);
 
 }
 

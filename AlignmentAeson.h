@@ -26,6 +26,9 @@ namespace Alignment
     // persistentsSystem :: SystemPersistent -> Maybe System
     std::unique_ptr<System> persistentsSystem(std::istream&);
 
+    // historiesPersistent :: History -> HistoryPersistent
+    void historiesPersistent(const History&, std::ostream&);
+
 
 }
 

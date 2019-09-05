@@ -311,7 +311,7 @@ void main()
 	rpln(cout,*ssplit(VarUSet{suit},*cart(*uu,vv))); cout << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto cart = systemsSetVarsSetStateCartesian_u;
 
@@ -365,9 +365,14 @@ void main()
 	auto hsize = historiesSize;
 	cout << "hsize(hh)" << endl
 	    << hsize(*hh) << endl << endl;
+
+	auto hsys = historiesSystemImplied;
+
+	cout << "hsys(hh)" << endl
+	    << *hsys(*hh) << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto cart = systemsSetVarsSetStateCartesian_u;
 
@@ -1934,7 +1939,7 @@ void main()
 	    << d.HasMember("nodes") << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto v1 = stringsVariable("aa");
 	cout << v1 << endl;
@@ -1986,7 +1991,7 @@ void main()
 
     }
 
-    if (false)
+    if (true)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2171,6 +2176,10 @@ void main()
 	auto uu2 = persistentsSystem(str2);
 	cout << "uu2 = persistentsSystem(str2)" << endl
 	    << *uu2 << endl << endl;
+
+	cout << "historiesPersistent(hh,cout)" << endl;
+	historiesPersistent(*hh, cout); cout << endl << endl;
+
     }
 
 }

@@ -416,8 +416,6 @@ std::unique_ptr<std::set<std::pair<State,State>>> Alignment::setVarsSetStatesSpl
     return xx;
 }
 
-
-
 // systemsSetVarsSetStateCartesian_u :: System -> Set.Set Variable -> Maybe (Set.Set State)
 std::unique_ptr<StateUSet> Alignment::systemsSetVarsSetStateCartesian_u(const System& uu, const VarUSet& vv)
 {
@@ -497,6 +495,23 @@ std::unique_ptr<History> Alignment::setVarsHistoriesReduce(const VarUSet& vv, co
     return ii;
 }
 
+// historiesSystemImplied :: History -> System
+std::unique_ptr<System> Alignment::historiesSystemImplied(const History& hh)
+{
+    auto uu = std::make_unique<System>();
+    bool found = false;
+    for (auto& is : hh.map_u())
+    {
+	if (!found)
+	{
+	    uu->map_u().reserve(is.second.map_u().size());
+	    found = true;
+	}
+	for (auto& vu : is.second.map_u())
+	    uu->map_u()[vu.first].insert(vu.second);
+    }
+    return uu;
+}
 
 Histogram::Histogram() : _map()
 {

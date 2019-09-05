@@ -140,12 +140,8 @@ void Alignment::systemsPersistentSorted(const System& uu, std::ostream& out)
 }
 
 
-// persistentsSystem :: SystemPersistent -> Maybe System
-std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
+std::unique_ptr<System> jssSystem(const js::Value& d)
 {
-    js::IStreamWrapper isw(is);
-    js::Document d;
-    d.ParseStream(isw);
     auto uu = std::make_unique<System>();
     if (d.IsArray())
     {
@@ -166,4 +162,48 @@ std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
 	}
     }
     return uu;
+}
+
+// persistentsSystem :: SystemPersistent -> Maybe System
+std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    d.ParseStream(isw);
+    return std::move(jssSystem(d));
+}
+
+// historiesPersistent :: History -> SystemPersistent
+void Alignment::historiesPersistent(const History& hh, std::ostream& out)
+{
+    auto uu = historiesSystemImplied(hh);
+    out << "{\"hsystem\":";
+    systemsPersistentSorted(*uu,out);
+    std::unordered_map<Variable, std::unordered_map<Value, int>> mm;
+    mm.reserve(uu->map_u().size());
+    for (auto& vww : uu->map_u())
+    {
+	int i = 0;
+	std::unordered_map<Value, int> ww;
+	ww.reserve(vww.second.size());
+	for (auto& w : vww.second)
+	    ww.insert_or_assign(w, i++);
+	mm.insert_or_assign(vww.first, ww);
+    }
+    out << ", \"hstates\":[";
+    bool first = true;
+    for (auto iss = hh.map_u().begin(); iss != hh.map_u().end(); ++iss)
+    {
+	if (iss != hh.map_u().begin())
+	    out << ",";
+	out << "[";
+	for (auto vu = iss->second.map_u().begin(); vu != iss->second.map_u().end(); ++vu)
+	{
+	    if (vu != iss->second.map_u().begin())
+		out << ",";
+	    out << mm[vu->first][vu->second];
+	}
+	out << "]";
+    }
+    out << "]}";
 }
