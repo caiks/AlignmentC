@@ -664,6 +664,24 @@ std::unique_ptr<Histogram> Alignment::histogramsEffective(const Histogram& aa)
     return bb;
 }
 
+// histogramsSystemImplied :: Histogram -> System
+std::unique_ptr<System> Alignment::histogramsSystemImplied(const Histogram& aa)
+{
+    auto uu = std::make_unique<System>();
+    bool found = false;
+    for (auto& sc : aa.map_u())
+    {
+	if (!found)
+	{
+	    uu->map_u().reserve(sc.first.map_u().size());
+	    found = true;
+	}
+	for (auto& vu : sc.first.map_u())
+	    uu->map_u()[vu.first].insert(vu.second);
+    }
+    return uu;
+}
+
 // histogramRegularCartesian_u :: Integer -> Integer -> Maybe Histogram
 std::unique_ptr<Histogram> Alignment::histogramRegularCartesian_u(int d, int n)
 {

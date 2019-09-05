@@ -412,6 +412,9 @@ namespace Alignment
     // histogramsEffective :: Histogram -> Histogram
     std::unique_ptr<Histogram> histogramsEffective(const Histogram&);
 
+    // histogramsSystemImplied :: Histogram -> System
+    std::unique_ptr<System> histogramsSystemImplied(const Histogram&);
+
     // histogramRegularCartesian_u :: Integer -> Integer -> Histogram
     std::unique_ptr<Histogram> histogramRegularCartesian_u(int, int);
 

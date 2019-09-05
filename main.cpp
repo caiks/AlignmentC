@@ -367,7 +367,7 @@ void main()
 	    << hsize(*hh) << endl << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto cart = systemsSetVarsSetStateCartesian_u;
 
@@ -483,6 +483,17 @@ void main()
 	auto regdiag = histogramRegularUnitDiagonal_u;
 	cout << "rpln(aall(regdiag(3,2)))" << endl;
 	rpln(cout, sorted(*aall(*regdiag(3, 2)))); cout << endl;
+
+	auto sys = histogramsSystemImplied;
+
+	cout << "sys(regcart(3,2))" << endl
+	    << *sys(*regcart(3, 2)) << endl << endl;
+
+	cout << "sys(regsing(3,2))" << endl
+	    << *sys(*regsing(3, 2)) << endl << endl;
+
+	cout << "sys(regdiag(3,2))" << endl
+	    << *sys(*regdiag(3, 2)) << endl << endl;
 
 	auto hhll = historiesList;
 	auto hhaa = historiesHistogram;
@@ -1923,7 +1934,7 @@ void main()
 	    << d.HasMember("nodes") << endl << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto v1 = stringsVariable("aa");
 	cout << v1 << endl;
@@ -1975,7 +1986,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;

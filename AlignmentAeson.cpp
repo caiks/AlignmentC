@@ -28,10 +28,20 @@ bool isspace(const std::string& s)
 Variable Alignment::stringsVariable(const std::string& s)
 {
     if (isdigit(s))
-	return Variable(std::stoi(s));
+    {
+	std::size_t p = 0;
+	try
+	{
+	    int i = std::stoi(s, &p);
+	    if (isspace(s.substr(p, std::string::npos)))
+		return Variable(i);
+	}
+	catch (std::invalid_argument& e)
+	{
+	}
+    }	
     if (s.size() >= 2 && s.front() == '<' && s.back() == '>' && s.find(",") != std::string::npos)
     {
-	std::cout << "pair" << std::endl;
 	auto n = s.rfind(",");
 	return Variable(stringsVariable(s.substr(1,n-1)), stringsVariable(s.substr(n+1, s.size()-n-2)));
     }
