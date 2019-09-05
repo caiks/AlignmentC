@@ -178,7 +178,7 @@ std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
     return std::move(jssSystem(d));
 }
 
-// historiesPersistent :: History -> SystemPersistent
+// historiesPersistent :: History -> HistoryPersistent
 void Alignment::historiesPersistent(const History& hh, std::ostream& out)
 {
     auto uu = historiesSystemImplied(hh);
@@ -211,7 +211,7 @@ void Alignment::historiesPersistent(const History& hh, std::ostream& out)
     out << "]}";
 }
 
-// historiesPersistentPretty :: History -> SystemPersistent
+// historiesPersistentPretty :: History -> HistoryPersistent
 void Alignment::historiesPersistentPretty(int r, const History& hh, std::ostream& out)
 {
     auto uu = historiesSystemImplied(hh);
@@ -307,4 +307,47 @@ std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
 	hh->map_u().insert_or_assign(Id(i+1), ss);
     }
     return hh;
+}
+
+// transformsPersistent :: Transform -> TransformPersistent
+void Alignment::transformsPersistent(const Transform& tt, std::ostream& out)
+{
+    out << "{\"derived\":[";
+    auto ww = sorted(tt.derived());
+    for (auto w = ww.begin(); w != ww.end(); ++w)
+    {
+	if (w != ww.begin())
+	    out << ",";
+	out << *w;
+    }
+    out << "],\"history\":";
+    History hh;
+    hh.map_u().reserve(tt.histogram().map_u().size());
+    int i = 1;
+    for (auto& ssc : tt.histogram().map_u())
+	hh.map_u().insert_or_assign(Id(i++), ssc.first);
+    historiesPersistent(hh, out);
+    out << "}";
+}
+
+// transformsPersistentPretty :: Transform -> TransformPersistent
+void Alignment::transformsPersistentPretty(int r, const Transform& tt, std::ostream& out)
+{
+    std::string p(r, '\t');
+    out << "{\n" << p << "\t\"derived\":[";
+    auto ww = sorted(tt.derived());
+    for (auto w = ww.begin(); w != ww.end(); ++w)
+    {
+	if (w != ww.begin())
+	    out << ",";
+	out << *w;
+    }
+    out << "],\n" << p << "\t\"history\":";
+    History hh;
+    hh.map_u().reserve(tt.histogram().map_u().size());
+    int i = 1;
+    for (auto& ssc : tt.histogram().map_u())
+	hh.map_u().insert_or_assign(Id(i++), ssc.first);
+    historiesPersistentPretty(r+1,hh,out);
+    out << "\n" << p << "}";
 }

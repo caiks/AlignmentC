@@ -2208,6 +2208,24 @@ void main()
 	cout << "rpln(aall(hhaa(hh3)))" << endl;
 	rpln(cout, sorted(*aall(*hhaa(*hh3)))); cout << endl;
 
+	cout << "transformsPersistent(ttcw,cout)" << endl;
+	transformsPersistent(*ttcw, cout); cout << endl << endl;
+
+	cout << "transformsPersistent(ttcp,cout)" << endl;
+	transformsPersistent(*ttcp, cout); cout << endl << endl;
+
+	cout << "transformsPersistent(ttcwp,cout)" << endl;
+	transformsPersistent(*ttcwp, cout); cout << endl << endl;
+
+	cout << "transformsPersistent(fftt(ff),cout)" << endl;
+	transformsPersistent(*fftt(*ff), cout); cout << endl << endl;
+
+	cout << "transformsPersistentPretty(1,ttcwp,cout)" << endl;
+	transformsPersistentPretty(1, *ttcwp, cout); cout << endl << endl;
+
+	cout << "transformsPersistentPretty(1,fftt(ff),cout)" << endl;
+	transformsPersistentPretty(1, *fftt(*ff), cout); cout << endl << endl;
+
     }
 
     if (false)

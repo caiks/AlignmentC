@@ -35,6 +35,12 @@ namespace Alignment
     // persistentsHistory :: HistoryPersistent -> Maybe History
     std::unique_ptr<History> persistentsHistory(std::istream&);
 
+    // transformsPersistent :: Transform -> TransformPersistent
+    void transformsPersistent(const Transform&, std::ostream&);
+
+    // transformsPersistentPretty :: Transform -> TransformPersistent
+    void transformsPersistentPretty(int r, const Transform&, std::ostream&);
+
 
 }
 
