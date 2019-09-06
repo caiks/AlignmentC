@@ -525,15 +525,48 @@ void Alignment::decompFudsPersistentPretty(const DecompFud& df, std::ostream& ou
     }
     out << "\n\t]\n}";
 }
-/*
+
 std::unique_ptr<DecompFud> jssDecompFud(const js::Value& d)
 {
-    if (!d.IsArray())
-	return std::make_unique<Fud>();
-    auto ff = std::make_unique<Fud>();
-    for (js::SizeType i = 0; i < d.Size(); i++)
-	ff->list_u().push_back(jssTransform(d[i]));
-    return ff;
+    if (!d.IsObject() || !d.HasMember("paths") || !d["paths"].IsArray() || !d.HasMember("nodes") || !d["nodes"].IsArray())
+	return std::make_unique<DecompFud>();
+    const js::Value& n = d["nodes"];
+    std::vector<StatePtrFudPtrPair> ll;
+    ll.reserve(n.Size());
+    for (js::SizeType i = 0; i < n.Size(); i++)
+    {
+	const js::Value& q = n[i];
+	if (!q.IsArray() || q.Size() != 2)
+	    return std::make_unique<DecompFud>();
+	auto hh = jssHistory(q[0]);
+	if (hh->map_u().size() != 1)
+	    return std::make_unique<DecompFud>();
+	auto ss = std::make_shared<State>(hh->map_u().begin()->second);
+	auto ff = jssFud(q[1]);
+	ll.push_back(StatePtrFudPtrPair(ss,std::move(ff)));
+    }
+    const js::Value& p = d["paths"];
+    std::vector<std::vector<StatePtrFudPtrPair>> pp;
+    pp.reserve(p.Size());
+    for (js::SizeType i = 0; i < p.Size(); i++)
+    {
+	const js::Value& q = p[i];
+	if (!q.IsArray())
+	    return std::make_unique<DecompFud>();
+	std::vector<StatePtrFudPtrPair> qq;
+	qq.reserve(q.Size());
+	for (js::SizeType j = 0; j < q.Size(); j++)
+	{
+	    const js::Value& r = q[j];
+	    if (!r.IsInt())
+		return std::make_unique<DecompFud>();
+	    qq.push_back(ll[r.GetInt()]);
+	}
+	pp.push_back(qq);
+    }
+    auto tt = pathsTree(pp);
+    auto df = std::make_unique<DecompFud>(*tt);
+    return df;
 }
 
 // persistentsDecompFud :: DecompFudPersistent -> Maybe DecompFud
@@ -547,9 +580,7 @@ std::unique_ptr<DecompFud> Alignment::persistentsDecompFud(std::istream& is)
     }
     catch (std::exception& e)
     {
-	return std::make_unique<Fud>();
+	return std::make_unique<DecompFud>();
     }
-    return std::move(jssFud(d));
+    return std::move(jssDecompFud(d));
 }
-
-*/

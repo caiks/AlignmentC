@@ -575,6 +575,9 @@ namespace Alignment
 
     class DecompFud
     {
+    public: DecompFud() : _tree() {};
+    public: DecompFud(const Tree<StatePtrFudPtrPair>& tt) : _tree(tt) {};
+
     public: inline Tree<StatePtrFudPtrPair>& tree_u() const
     {
 	return (Tree<StatePtrFudPtrPair>&)_tree;

@@ -1909,6 +1909,15 @@ void main()
 	cout << "decompFudsPersistentPretty(df,cout)" << endl;
 	decompFudsPersistentPretty(*df, cout); cout << endl << endl;
 
+	std::stringstream str1;
+	decompFudsPersistentPretty(*df, str1);
+	auto df1 = persistentsDecompFud(str1);
+	cout << "df1 = persistentsDecompFud(str1)" << endl;
+	cout << "rpln(dfll(df1))" << endl;
+	rpln(cout, *dfll(*df1)); cout << endl;
+	cout << "decompFudsPersistentPretty(df1,cout)" << endl;
+	decompFudsPersistentPretty(*df1, cout); cout << endl << endl;
+
     }
 
     if (false)
