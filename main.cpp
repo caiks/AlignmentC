@@ -1629,7 +1629,7 @@ void main()
 
     }
 
-    if (false)
+    if (true)
     {
 	Tree<int> x;
 	x._list.push_back(std::pair<int, Tree<int>>(3, Tree<int>()));
@@ -1716,7 +1716,10 @@ void main()
 	cout << "tt" << endl
 	    << *tt << endl << endl;
 
-
+	auto tt1 = treesEnumeratePreOrder(0, *tt);
+	cout << "tt1 = treesEnumeratePreOrder(0,tt)" << endl;
+	cout << "rpln(treesPaths(tt1))" << endl;
+	rpln(cout, *treesPaths(*tt1.first)); cout << endl;
 
     }
 
@@ -1992,7 +1995,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2288,4 +2291,5 @@ void main()
 	unsigned int n = std::thread::hardware_concurrency();
 	std::cout << n << " concurrent threads are supported.\n";
     }
+
 }
