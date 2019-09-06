@@ -1917,6 +1917,10 @@ void main()
 	rpln(cout, *dfll(*df1)); cout << endl;
 	cout << "decompFudsPersistentPretty(df1,cout)" << endl;
 	decompFudsPersistentPretty(*df1, cout); cout << endl << endl;
+	cout << "treesSize(dfzz(df1))" << endl
+	    << treesSize(df1->tree_u()) << endl << endl;
+	cout << "dfund(df1)" << endl
+	    << sorted(*dfund(*df1)) << endl << endl;
 
     }
 
