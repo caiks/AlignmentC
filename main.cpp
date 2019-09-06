@@ -2243,6 +2243,44 @@ void main()
 	auto tt6 = persistentsTransform(str6);
 	cout << "tt6 = persistentsTransform(str6)" << endl
 	    << *tt6 << endl << endl;
+
+	cout << "fudsPersistent(ff,cout)" << endl;
+	fudsPersistent(*ff, cout); cout << endl << endl;
+
+	cout << "fudsPersistentPretty(1,ff,cout)" << endl;
+	fudsPersistentPretty(1, *ff, cout); cout << endl << endl;
+
+	std::stringstream str7;
+	fudsPersistentPretty(1, *ff, str7);
+	auto ff7 = persistentsFud(str7);
+	cout << "ff7 = persistentsFud(str7)" << endl
+	    << *ff7 << endl << endl;
+
+	cout << "rpln(aall(ttaa(fftt(ff))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*ff)->histogram()))); cout << endl;
+
+	cout << "rpln(aall(ttaa(fftt(ff7))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*ff7)->histogram()))); cout << endl;
+
+	cout << "fudsPersistent(gg,cout)" << endl;
+	fudsPersistent(*gg, cout); cout << endl << endl;
+
+	cout << "fudsPersistentPretty(1,gg,cout)" << endl;
+	fudsPersistentPretty(1, *gg, cout); cout << endl << endl;
+
+	std::stringstream str8;
+	fudsPersistentPretty(1, *gg, str8);
+	auto ff8 = persistentsFud(str8);
+	cout << "ff8 = persistentsFud(str8)" << endl
+	    << *ff8 << endl << endl;
+
+	cout << "rpln(aall(ttaa(fftt(gg))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*gg)->histogram()))); cout << endl;
+
+	cout << "rpln(aall(ttaa(fftt(ff8))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*ff8)->histogram()))); cout << endl;
+
+
     }
 
     if (false)

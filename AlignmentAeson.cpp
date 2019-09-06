@@ -393,3 +393,58 @@ std::unique_ptr<Transform> Alignment::persistentsTransform(std::istream& is)
     return std::move(jssTransform(d));
 }
 
+
+// fudsPersistent :: Fud -> FudPersistent
+void Alignment::fudsPersistent(const Fud& ff, std::ostream& out)
+{
+    out << "[";
+    for (auto it = ff.list_u().begin(); it != ff.list_u().end(); ++it)
+    {
+	if (it != ff.list_u().begin())
+	    out << ",";
+	out << "\"" << **it << "\"";
+    }
+    out << "]";
+}
+
+
+// fudsPersistentPretty :: Fud -> FudPersistent
+void Alignment::fudsPersistentPretty(int r, const Fud& ff, std::ostream& out)
+{
+    std::string p(r, '\t');
+    out << "[\n";
+    for (auto it = ff.list_u().begin(); it != ff.list_u().end(); ++it)
+    {
+	if (it != ff.list_u().begin())
+	    out << ",\n";
+	out << p << "\t";
+	transformsPersistentPretty(r + 1, **it, out);
+    }
+    out << "\n" << p << "]";
+}
+
+std::unique_ptr<Fud> jssFud(const js::Value& d)
+{
+    if (!d.IsArray())
+	return std::make_unique<Fud>();
+    auto ff = std::make_unique<Fud>();
+    for (js::SizeType i = 0; i < d.Size(); i++)
+	ff->list_u().push_back(jssTransform(d[i]));
+    return ff;
+}
+
+// persistentsFud :: FudPersistent -> Maybe Fud
+std::unique_ptr<Fud> Alignment::persistentsFud(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<Fud>();
+    }
+    return std::move(jssFud(d));
+}

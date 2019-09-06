@@ -44,6 +44,16 @@ namespace Alignment
     // persistentsTransform :: TransformPersistent -> Maybe Transform
     std::unique_ptr<Transform> persistentsTransform(std::istream&);
 
+    // fudsPersistent :: Fud -> FudPersistent
+    void fudsPersistent(const Fud&, std::ostream&);
+
+    // fudsPersistentPretty :: Fud -> FudPersistent
+    void fudsPersistentPretty(int r, const Fud&, std::ostream&);
+
+    // persistentsFud :: FudPersistent -> Maybe Fud
+    std::unique_ptr<Fud> persistentsFud(std::istream&);
+
+
 
 }
 
