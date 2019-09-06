@@ -41,6 +41,9 @@ namespace Alignment
     // transformsPersistentPretty :: Transform -> TransformPersistent
     void transformsPersistentPretty(int r, const Transform&, std::ostream&);
 
+    // persistentsTransform :: TransformPersistent -> Maybe Transform
+    std::unique_ptr<Transform> persistentsTransform(std::istream&);
+
 
 }
 

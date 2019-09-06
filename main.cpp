@@ -2226,6 +2226,23 @@ void main()
 	cout << "transformsPersistentPretty(1,fftt(ff),cout)" << endl;
 	transformsPersistentPretty(1, *fftt(*ff), cout); cout << endl << endl;
 
+	std::stringstream str5;
+	transformsPersistentPretty(1, *ttcwp, str5);
+	auto tt5 = persistentsTransform(str5);
+	cout << "tt5 = persistentsTransform(str5)" << endl
+	    << *tt5 << endl << endl;
+
+	cout << "rpln(aall(ttaa(ttcwp)))" << endl;
+	rpln(cout, sorted(*aall(ttcwp->histogram()))); cout << endl;
+
+	cout << "rpln(aall(ttaa(tt5)))" << endl;
+	rpln(cout, sorted(*aall(tt5->histogram()))); cout << endl;
+
+	std::stringstream str6;
+	transformsPersistentPretty(1, *fftt(*ff), str6);
+	auto tt6 = persistentsTransform(str6);
+	cout << "tt6 = persistentsTransform(str6)" << endl
+	    << *tt6 << endl << endl;
     }
 
     if (false)

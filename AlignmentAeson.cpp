@@ -259,19 +259,8 @@ void Alignment::historiesPersistentPretty(int r, const History& hh, std::ostream
 }
 
 
-// persistentsHistory :: HistoryPersistent -> Maybe History
-std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
+std::unique_ptr<History> jssHistory(const js::Value& d)
 {
-    js::IStreamWrapper isw(is);
-    js::Document d;
-    try 
-    {
-	d.ParseStream(isw);
-    }
-    catch (std::exception& e)
-    {
-	return std::make_unique<History>();
-    }
     if (!d.IsObject() || !d.HasMember("hsystem") || !d.HasMember("hstates"))
 	return std::make_unique<History>();
     auto uu = jssSystem(d["hsystem"]);
@@ -302,11 +291,27 @@ std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
 	    const js::Value& c = b[j];
 	    if (!c.IsInt() || c.GetInt() >= ww.size())
 		return std::make_unique<History>();
-	    ss.map_u().insert_or_assign(v,ww[c.GetInt()]);
+	    ss.map_u().insert_or_assign(v, ww[c.GetInt()]);
 	}
-	hh->map_u().insert_or_assign(Id(i+1), ss);
+	hh->map_u().insert_or_assign(Id(i + 1), ss);
     }
     return hh;
+}
+
+// persistentsHistory :: HistoryPersistent -> Maybe History
+std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try 
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<History>();
+    }
+    return std::move(jssHistory(d));
 }
 
 // transformsPersistent :: Transform -> TransformPersistent
@@ -318,7 +323,7 @@ void Alignment::transformsPersistent(const Transform& tt, std::ostream& out)
     {
 	if (w != ww.begin())
 	    out << ",";
-	out << *w;
+	out << "\"" << *w << "\"";
     }
     out << "],\"history\":";
     History hh;
@@ -340,7 +345,7 @@ void Alignment::transformsPersistentPretty(int r, const Transform& tt, std::ostr
     {
 	if (w != ww.begin())
 	    out << ",";
-	out << *w;
+	out << "\"" << *w << "\"";
     }
     out << "],\n" << p << "\t\"history\":";
     History hh;
@@ -351,3 +356,40 @@ void Alignment::transformsPersistentPretty(int r, const Transform& tt, std::ostr
     historiesPersistentPretty(r+1,hh,out);
     out << "\n" << p << "}";
 }
+
+std::unique_ptr<Transform> jssTransform(const js::Value& d)
+{
+    if (!d.IsObject() || !d.HasMember("derived") || !d.HasMember("history"))
+	return std::make_unique<Transform>();
+    auto hh = jssHistory(d["history"]);
+    const js::Value& a = d["derived"];
+    if (!a.IsArray())
+	return std::make_unique<Transform>();
+    VarUSet ww;
+    for (js::SizeType i = 0; i < a.Size(); i++)
+    {
+	const js::Value& b = a[i];
+	if (!b.IsString())
+	    return std::make_unique<Transform>();
+	ww.insert(stringsVariable(b.GetString()));
+    }
+    auto aa = historiesHistogram(*hh);
+    return std::make_unique<Transform>(aa,ww);
+}
+
+// persistentsTransform :: TransformPersistent -> Maybe Transform
+std::unique_ptr<Transform> Alignment::persistentsTransform(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<Transform>();
+    }
+    return std::move(jssTransform(d));
+}
+
