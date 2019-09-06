@@ -13,8 +13,11 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <cstdio>
 #include <thread>
+#include <chrono>
+#include <ctime>
 
 using namespace Alignment;
 namespace js = rapidjson;
@@ -312,7 +315,7 @@ void main()
 	rpln(cout,*ssplit(VarUSet{suit},*cart(*uu,vv))); cout << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto cart = systemsSetVarsSetStateCartesian_u;
 
@@ -1722,7 +1725,7 @@ void main()
 	rpln(cout, *treesPaths(*tt1.first)); cout << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2305,6 +2308,180 @@ void main()
     {
 	unsigned int n = std::thread::hardware_concurrency();
 	std::cout << n << " concurrent threads are supported.\n";
+    }
+
+    if (false)
+    {
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model2.json");
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm);
+	auto end = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "df = persistentsDecompFud(istrm) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df))" << endl
+	    << dfund(*df)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df)))" << endl
+	    << fvars(*dfff(*df))->size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	decompFudsPersistentPretty(*df, str1);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "decompFudsPersistentPretty(*df, str1) " << elapsed_seconds.count() << "s" << endl;
+
+	start = chrono::system_clock::now();
+	auto df1 = persistentsDecompFud(str1);
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "df1 = persistentsDecompFud(str1) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df1))" << endl
+	    << dfund(*df1)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df1)))" << endl
+	    << fvars(*dfff(*df1))->size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 0.79561s
+	len(dfund(df))
+	134
+
+	len(fvars(dfff(df)))
+	515
+
+	decompFudsPersistentPretty(*df, str1) 0.592808s
+	df1 = persistentsDecompFud(str1) 0.733209s
+	len(dfund(df1))
+	134
+
+	len(fvars(dfff(df1)))
+	515
+	*/
+    }
+
+    if (false)
+    {
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model35.json");
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm);
+	auto end = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "df = persistentsDecompFud(istrm) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df))" << endl
+	    << dfund(*df)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df)))" << endl
+	    << fvars(*dfff(*df))->size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	decompFudsPersistentPretty(*df, str1);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "decompFudsPersistentPretty(*df, str1) " << elapsed_seconds.count() << "s" << endl;
+
+	start = chrono::system_clock::now();
+	auto df1 = persistentsDecompFud(str1);
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "df1 = persistentsDecompFud(str1) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df1))" << endl
+	    << dfund(*df1)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df1)))" << endl
+	    << fvars(*dfff(*df1))->size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 12.9014s
+	len(dfund(df))
+	488
+
+	len(fvars(dfff(df)))
+	4040
+
+	decompFudsPersistentPretty(*df, str1) 10.0933s
+	df1 = persistentsDecompFud(str1) 12.6518s
+	len(dfund(df1))
+	488
+
+	len(fvars(dfff(df1)))
+	4040
+	*/
+    }
+
+    if (true)
+    {
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model24.json");
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm);
+	auto end = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "df = persistentsDecompFud(istrm) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df))" << endl
+	    << dfund(*df)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df)))" << endl
+	    << fvars(*dfff(*df))->size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	decompFudsPersistentPretty(*df, str1);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "decompFudsPersistentPretty(*df, str1) " << elapsed_seconds.count() << "s" << endl;
+
+	start = chrono::system_clock::now();
+	auto df1 = persistentsDecompFud(str1);
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "df1 = persistentsDecompFud(str1) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df1))" << endl
+	    << dfund(*df1)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df1)))" << endl
+	    << fvars(*dfff(*df1))->size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 43.509s
+	len(dfund(df))
+	639
+
+	len(fvars(dfff(df)))
+	5966
+
+	decompFudsPersistentPretty(*df, str1) 32.8228s
+	df1 = persistentsDecompFud(str1) 41.8397s
+	len(dfund(df1))
+	639
+
+	len(fvars(dfff(df1)))
+	5966
+	*/
     }
 
 }
