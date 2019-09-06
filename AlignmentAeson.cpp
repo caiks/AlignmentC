@@ -448,3 +448,108 @@ std::unique_ptr<Fud> Alignment::persistentsFud(std::istream& is)
     }
     return std::move(jssFud(d));
 }
+
+
+// decompFudsPersistent :: DecompFud -> DecompFudPersistent
+void Alignment::decompFudsPersistent(const DecompFud& df, std::ostream& out)
+{
+    out << "{\"paths\":[";
+    auto tt1 = treesEnumeratePreOrder(0, df.tree_u());
+    auto pp = treesPaths(*tt1.first);
+    for (auto ll = pp->begin(); ll != pp->end(); ++ll)
+    {
+	if (ll != pp->begin())
+	    out << ",";
+	out << "[";
+	for (auto xx = ll->begin(); xx != ll->end(); ++xx)
+	{
+	    if (xx != ll->begin())
+		out << ",";
+	    out << xx->first;
+	}
+	out << "]";
+    }
+    out << "],\"nodes\":[";
+    auto nn1 = treesElements(*tt1.first);
+    auto nn = sorted(*nn1);
+    for (auto xx = nn.begin(); xx != nn.end(); ++xx)
+    {
+	if (xx != nn.begin())
+	    out << ",";
+	out << "[";
+	History hh;
+	hh.map_u().reserve(1);
+	hh.map_u().insert_or_assign(Id(1),*xx->second._state);
+	historiesPersistent(hh, out);
+	out << ",";
+	fudsPersistent(*xx->second._fud, out);
+	out << "]";
+    }
+    out << "]}";
+}
+
+// decompFudsPersistentPretty :: DecompFud -> DecompFudPersistent
+void Alignment::decompFudsPersistentPretty(const DecompFud& df, std::ostream& out)
+{
+    out << "{\n\t\"paths\":[\n";
+    auto tt1 = treesEnumeratePreOrder(0, df.tree_u());
+    auto pp = treesPaths(*tt1.first);
+    for (auto ll = pp->begin(); ll != pp->end(); ++ll)
+    {
+	if (ll != pp->begin())
+	    out << ",\n";
+	out << "\t\t[";
+	for (auto xx = ll->begin(); xx != ll->end(); ++xx)
+	{
+	    if (xx != ll->begin())
+		out << ",";
+	    out << xx->first;
+	}
+	out << "]";
+    }
+    out << "\n\t],\n\t\"nodes\":[\n";
+    auto nn1 = treesElements(*tt1.first);
+    auto nn = sorted(*nn1);
+    for (auto xx = nn.begin(); xx != nn.end(); ++xx)
+    {
+	if (xx != nn.begin())
+	    out << ",\n";
+	out << "\t\t[\n\t\t\t";
+	History hh;
+	hh.map_u().reserve(1);
+	hh.map_u().insert_or_assign(Id(1),*xx->second._state);
+	historiesPersistentPretty(3,hh,out);
+	out << ",\n\t\t\t";
+	fudsPersistentPretty(3,*xx->second._fud,out);
+	out << "\n\t\t]";
+    }
+    out << "\n\t]\n}";
+}
+/*
+std::unique_ptr<DecompFud> jssDecompFud(const js::Value& d)
+{
+    if (!d.IsArray())
+	return std::make_unique<Fud>();
+    auto ff = std::make_unique<Fud>();
+    for (js::SizeType i = 0; i < d.Size(); i++)
+	ff->list_u().push_back(jssTransform(d[i]));
+    return ff;
+}
+
+// persistentsDecompFud :: DecompFudPersistent -> Maybe DecompFud
+std::unique_ptr<DecompFud> Alignment::persistentsDecompFud(std::istream& is)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<Fud>();
+    }
+    return std::move(jssFud(d));
+}
+
+*/

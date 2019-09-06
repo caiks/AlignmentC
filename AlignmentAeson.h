@@ -53,7 +53,15 @@ namespace Alignment
     // persistentsFud :: FudPersistent -> Maybe Fud
     std::unique_ptr<Fud> persistentsFud(std::istream&);
 
+    // decompFudsPersistent :: DecompFud -> DecompFudPersistent
+    void decompFudsPersistent(const DecompFud&, std::ostream&);
 
+    // decompFudsPersistentPretty :: DecompFud -> DecompFudPersistent
+    void decompFudsPersistentPretty(const DecompFud&, std::ostream&);
+    /*
+    // persistentsDecompFud :: DecompFudPersistent -> Maybe DecompFud
+    std::unique_ptr<DecompFud> persistentsDecompFud(std::istream&);
+    */
 
 }
 

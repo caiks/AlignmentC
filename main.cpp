@@ -1629,7 +1629,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	Tree<int> x;
 	x._list.push_back(std::pair<int, Tree<int>>(3, Tree<int>()));
@@ -1720,10 +1720,9 @@ void main()
 	cout << "tt1 = treesEnumeratePreOrder(0,tt)" << endl;
 	cout << "rpln(treesPaths(tt1))" << endl;
 	rpln(cout, *treesPaths(*tt1.first)); cout << endl;
-
     }
 
-    if (false)
+    if (true)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1904,6 +1903,11 @@ void main()
 	cout << "rpln(dfll(df))" << endl;
 	rpln(cout, *dfll(*df)); cout << endl;
 
+	cout << "decompFudsPersistent(df,cout)" << endl;
+	decompFudsPersistent(*df, cout); cout << endl << endl;
+
+	cout << "decompFudsPersistentPretty(df,cout)" << endl;
+	decompFudsPersistentPretty(*df, cout); cout << endl << endl;
 
     }
 
@@ -2282,8 +2286,6 @@ void main()
 
 	cout << "rpln(aall(ttaa(fftt(ff8))))" << endl;
 	rpln(cout, sorted(*aall(fftt(*ff8)->histogram()))); cout << endl;
-
-
     }
 
     if (false)
