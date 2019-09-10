@@ -3,5 +3,9 @@ C++ implementation of aspects of the theory of Aligned Induction
 
 Windows -
 ```sh
-cl /EHsc main.cpp Alignment.cpp 
+cd /d C:\zzz\caiks\AlignmentC-master
+
+cl -IC:\zzz\caiks\rapidjson-master\include /EHsc main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
+
+main
 ```
