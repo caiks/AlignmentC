@@ -857,21 +857,21 @@ std::unique_ptr<Histogram> Alignment::histogramsIndependent(const Histogram& aa)
     return bb;
 }
 
-Transform::Transform() : _pair(std::make_unique<Histogram>(), VarUSet())
+Transform::Transform() : _histogram(std::make_unique<Histogram>()), _derived(VarUSet())
 {
 }
 
-Transform::Transform(const Histogram& xx, const VarUSet& ww) : _pair(std::make_unique<Histogram>(xx), ww)
+Transform::Transform(const Histogram& xx, const VarUSet& ww) : _histogram(std::make_unique<Histogram>(xx)), _derived(ww)
 {
 }
 
-Transform::Transform(std::unique_ptr<Histogram>& xx, const VarUSet& ww) : _pair(std::move(xx), ww)
+Transform::Transform(std::unique_ptr<Histogram>& xx, const VarUSet& ww) : _histogram(std::move(xx)), _derived(ww)
 {
 }
 
 std::ostream& operator<<(std::ostream& out, const Transform& tt)
 {
-    out << "(" << *tt.pair_u().first << "," << tt.pair_u().second << ")";
+    out << "(" << tt.histogram_u() << "," << tt.derived_u() << ")";
     return out;
 }
 
@@ -884,21 +884,21 @@ std::unique_ptr<Transform> Alignment::histogramsSetVarsTransform(const Histogram
 // transformsHistogram :: Transform -> Histogram
 const Histogram& Alignment::transformsHistogram(const Transform& tt)
 {
-    return tt.histogram();
+    return tt.histogram_u();
 }
 
 // transformsDerived :: Transform -> Set.Set Variable
 const VarUSet& Alignment::transformsDerived(const Transform& tt)
 {
-    return tt.derived();
+    return tt.derived_u();
 }
 
 // transformsUnderlying :: Transform -> Set.Set Variable
 std::unique_ptr<VarUSet> Alignment::transformsUnderlying(const Transform& tt)
 {
     auto vars = histogramsSetVar;
-    auto vv = vars(tt.histogram());
-    for (auto& v : tt.derived())
+    auto vv = vars(tt.histogram_u());
+    for (auto& v : tt.derived_u())
 	vv->erase(v);
     return vv;
 }
@@ -908,8 +908,8 @@ std::unique_ptr<Histogram> Alignment::transformsHistogramsApply(const Transform&
 {
     auto mul = pairHistogramsMultiply;
     auto red = setVarsHistogramsReduce;
-    auto xx = tt.histogram();
-    auto ww = tt.derived();
+    auto xx = tt.histogram_u();
+    auto ww = tt.derived_u();
     return red(ww, *mul(aa, xx));
 }
 
@@ -947,7 +947,7 @@ std::unique_ptr<std::vector<Histogram>> Alignment::fudsSetHistogram(const Fud& f
     auto ll = std::make_unique<std::vector<Histogram>>();
     ll->reserve(ff.list_u().size());
     for (auto& tt : ff.list_u())
-	ll->push_back(tt->histogram());
+	ll->push_back(tt->histogram_u());
     return ll;
 }
 
@@ -958,7 +958,7 @@ std::unique_ptr<VarUSet> Alignment::fudsSetVar(const Fud& ff)
     auto vv = std::make_unique<VarUSet>(ff.list_u().size() * 2);
     for (auto& tt : ff.list_u())
     {
-	auto uu = vars(tt->histogram());
+	auto uu = vars(tt->histogram_u());
 	vv->insert(uu->begin(),uu->end());
     }
     return vv;
@@ -1009,7 +1009,7 @@ std::unique_ptr<Transform> Alignment::fudsTransform(const Fud& ff)
 	return std::make_unique<Transform>();
     auto aa = scalar(1);
     for (auto& tt : ff.list_u())
-	aa = mul(*aa, tt->histogram());
+	aa = mul(*aa, tt->histogram_u());
     auto ww = fder(ff);
     auto vv = fund(ff);
     for (auto& v : *ww)

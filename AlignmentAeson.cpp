@@ -318,7 +318,7 @@ std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
 void Alignment::transformsPersistent(const Transform& tt, std::ostream& out)
 {
     out << "{\"derived\":[";
-    auto ww = sorted(tt.derived());
+    auto ww = sorted(tt.derived_u());
     for (auto w = ww.begin(); w != ww.end(); ++w)
     {
 	if (w != ww.begin())
@@ -327,9 +327,9 @@ void Alignment::transformsPersistent(const Transform& tt, std::ostream& out)
     }
     out << "],\"history\":";
     History hh;
-    hh.map_u().reserve(tt.histogram().map_u().size());
+    hh.map_u().reserve(tt.histogram_u().map_u().size());
     int i = 1;
-    for (auto& ssc : tt.histogram().map_u())
+    for (auto& ssc : tt.histogram_u().map_u())
 	hh.map_u().insert_or_assign(Id(i++), ssc.first);
     historiesPersistent(hh, out);
     out << "}";
@@ -340,7 +340,7 @@ void Alignment::transformsPersistentPretty(int r, const Transform& tt, std::ostr
 {
     std::string p(r, '\t');
     out << "{\n" << p << "\t\"derived\":[";
-    auto ww = sorted(tt.derived());
+    auto ww = sorted(tt.derived_u());
     for (auto w = ww.begin(); w != ww.end(); ++w)
     {
 	if (w != ww.begin())
@@ -349,9 +349,9 @@ void Alignment::transformsPersistentPretty(int r, const Transform& tt, std::ostr
     }
     out << "],\n" << p << "\t\"history\":";
     History hh;
-    hh.map_u().reserve(tt.histogram().map_u().size());
+    hh.map_u().reserve(tt.histogram_u().map_u().size());
     int i = 1;
-    for (auto& ssc : tt.histogram().map_u())
+    for (auto& ssc : tt.histogram_u().map_u())
 	hh.map_u().insert_or_assign(Id(i++), ssc.first);
     historiesPersistentPretty(r+1,hh,out);
     out << "\n" << p << "}";

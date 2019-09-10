@@ -373,8 +373,6 @@ namespace Alignment
     private: StateRationalUMap _map;
     };
 
-    typedef std::pair<std::unique_ptr<Histogram>, VarUSet> HistogramPtrVarUSetPair;
-
     // listsHistogram_u :: [(State, Rational)] -> Histogram
     std::unique_ptr<Histogram> listsHistogram_u(const std::vector<StateRationalPair>&);
 
@@ -460,28 +458,24 @@ namespace Alignment
     public: Transform(const Histogram&, const VarUSet&);
     public: Transform(std::unique_ptr<Histogram>&, const VarUSet&);
 
-    public: inline HistogramPtrVarUSetPair& pair_u() const
+    public: inline Histogram& histogram_u() const
     {
-	return (HistogramPtrVarUSetPair&)_pair;
+	return (Histogram&)*_histogram;
     }
 
-    public: inline Histogram& histogram() const
+    public: inline VarUSet& derived_u() const
     {
-	return (Histogram&)*_pair.first;
-    }
-
-    public: inline VarUSet& derived() const
-    {
-	return (VarUSet&)_pair.second;
+	return (VarUSet&)_derived;
     }
 
     friend inline bool operator==(const Transform& l, const Transform& r)
     {
-	return l.histogram() == r.histogram() && sorted(l.derived()) == sorted(r.derived());
+	return l.histogram_u() == r.histogram_u() && sorted(l.derived_u()) == sorted(r.derived_u());
     }
     friend inline bool operator!=(const Transform& l, const Transform& r) { return !(l == r); }
 
-    private: HistogramPtrVarUSetPair _pair;
+    private: std::unique_ptr<Histogram> _histogram;
+    private: VarUSet _derived;
     };
 
     typedef std::vector<std::shared_ptr<Transform>> TransformPtrList;

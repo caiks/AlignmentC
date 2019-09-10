@@ -966,7 +966,7 @@ void main()
 
     }
     
-    if (false)
+    if (true)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1079,7 +1079,7 @@ void main()
 
     }
 
-    if (false)
+    if (true)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1230,7 +1230,7 @@ void main()
 	rpln(cout, sorted(*aall(*tmul(*aa, *tt)))); cout << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2015,7 +2015,7 @@ void main()
 
     }
 
-    if (false)
+    if (true)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2256,10 +2256,10 @@ void main()
 	    << *tt5 << endl << endl;
 
 	cout << "rpln(aall(ttaa(ttcwp)))" << endl;
-	rpln(cout, sorted(*aall(ttcwp->histogram()))); cout << endl;
+	rpln(cout, sorted(*aall(ttcwp->histogram_u()))); cout << endl;
 
 	cout << "rpln(aall(ttaa(tt5)))" << endl;
-	rpln(cout, sorted(*aall(tt5->histogram()))); cout << endl;
+	rpln(cout, sorted(*aall(tt5->histogram_u()))); cout << endl;
 
 	std::stringstream str6;
 	transformsPersistentPretty(1, *fftt(*ff), str6);
@@ -2280,10 +2280,10 @@ void main()
 	    << *ff7 << endl << endl;
 
 	cout << "rpln(aall(ttaa(fftt(ff))))" << endl;
-	rpln(cout, sorted(*aall(fftt(*ff)->histogram()))); cout << endl;
+	rpln(cout, sorted(*aall(fftt(*ff)->histogram_u()))); cout << endl;
 
 	cout << "rpln(aall(ttaa(fftt(ff7))))" << endl;
-	rpln(cout, sorted(*aall(fftt(*ff7)->histogram()))); cout << endl;
+	rpln(cout, sorted(*aall(fftt(*ff7)->histogram_u()))); cout << endl;
 
 	cout << "fudsPersistent(gg,cout)" << endl;
 	fudsPersistent(*gg, cout); cout << endl << endl;
@@ -2298,10 +2298,10 @@ void main()
 	    << *ff8 << endl << endl;
 
 	cout << "rpln(aall(ttaa(fftt(gg))))" << endl;
-	rpln(cout, sorted(*aall(fftt(*gg)->histogram()))); cout << endl;
+	rpln(cout, sorted(*aall(fftt(*gg)->histogram_u()))); cout << endl;
 
 	cout << "rpln(aall(ttaa(fftt(ff8))))" << endl;
-	rpln(cout, sorted(*aall(fftt(*ff8)->histogram()))); cout << endl;
+	rpln(cout, sorted(*aall(fftt(*ff8)->histogram_u()))); cout << endl;
     }
 
     if (false)
@@ -2426,7 +2426,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
