@@ -966,7 +966,7 @@ void main()
 
     }
     
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1079,7 +1079,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1230,7 +1230,7 @@ void main()
 	rpln(cout, sorted(*aall(*tmul(*aa, *tt)))); cout << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2015,7 +2015,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2310,7 +2310,7 @@ void main()
 	std::cout << n << " concurrent threads are supported.\n";
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2351,15 +2351,15 @@ void main()
 
 
 	/*
-	df = persistentsDecompFud(istrm) 0.79561s
+	df = persistentsDecompFud(istrm) 0.171604s
 	len(dfund(df))
 	134
 
 	len(fvars(dfff(df)))
 	515
 
-	decompFudsPersistentPretty(*df, str1) 0.592808s
-	df1 = persistentsDecompFud(str1) 0.733209s
+	decompFudsPersistentPretty(*df, str1) 0.156004s
+	df1 = persistentsDecompFud(str1) 0.156004s
 	len(dfund(df1))
 	134
 
@@ -2368,7 +2368,7 @@ void main()
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2409,15 +2409,15 @@ void main()
 
 
 	/*
-	df = persistentsDecompFud(istrm) 12.9014s
+	df = persistentsDecompFud(istrm) 3.04208s
 	len(dfund(df))
 	488
 
 	len(fvars(dfff(df)))
 	4040
 
-	decompFudsPersistentPretty(*df, str1) 10.0933s
-	df1 = persistentsDecompFud(str1) 12.6518s
+	decompFudsPersistentPretty(*df, str1) 2.43366s
+	df1 = persistentsDecompFud(str1) 2.80807s
 	len(dfund(df1))
 	488
 
@@ -2426,7 +2426,7 @@ void main()
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2467,15 +2467,15 @@ void main()
 
 
 	/*
-	df = persistentsDecompFud(istrm) 43.509s
+	df = persistentsDecompFud(istrm) 10.9359s
 	len(dfund(df))
 	639
 
 	len(fvars(dfff(df)))
 	5966
 
-	decompFudsPersistentPretty(*df, str1) 32.8228s
-	df1 = persistentsDecompFud(str1) 41.8397s
+	decompFudsPersistentPretty(*df, str1) 8.82983s
+	df1 = persistentsDecompFud(str1) 10.5147s
 	len(dfund(df1))
 	639
 
