@@ -334,7 +334,7 @@ namespace Alignment
     std::unique_ptr<History> setVarsHistoriesReduce(const VarUSet&, const History&);
 
     // historiesSize :: History -> Integer
-    inline int historiesSize(const History& hh) 
+    inline std::size_t historiesSize(const History& hh)
     {
 	return hh.map_u().size();
     }

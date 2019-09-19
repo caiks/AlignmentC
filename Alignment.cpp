@@ -1075,7 +1075,7 @@ std::unique_ptr<Fud> Alignment::fudsSetVarsDepends_u(const Fud& ff, const VarUSe
 std::unique_ptr<Fud> Alignment::decompFudsFud(const DecompFud& df)
 {
     auto ee = treesElements(df.tree_u());
-    int s = 0;
+    std::size_t s = 0;
     for (auto& pp : *ee)
 	s += pp._fud->list_u().size();
     auto ff = std::make_unique<Fud>();

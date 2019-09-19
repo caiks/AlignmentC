@@ -10,7 +10,7 @@ bool isdigit(const std::string& s)
 {
     if (!s.size())
 	return false;
-    for (int i = 0; i < s.size(); i++)
+    for (std::size_t i = 0; i < s.size(); i++)
 	if (!std::isdigit(s[i]))
 	    return false;
     return true;
@@ -18,7 +18,7 @@ bool isdigit(const std::string& s)
 
 bool isspace(const std::string& s)
 {
-    for (int i = 0; i < s.size(); i++)
+    for (std::size_t i = 0; i < s.size(); i++)
 	if (!std::isspace(s[i]))
 	    return false;
     return true;
@@ -184,11 +184,11 @@ void Alignment::historiesPersistent(const History& hh, std::ostream& out)
     auto uu = historiesSystemImplied(hh);
     out << "{\"hsystem\":";
     systemsPersistentSorted(*uu,out);
-    std::unordered_map<Variable, std::unordered_map<Value, int>> mm(uu->map_u().size());
+    std::unordered_map<Variable, std::unordered_map<Value, std::size_t>> mm(uu->map_u().size());
     for (auto& vww : uu->map_u())
     {
-	int i = 0;
-	std::unordered_map<Value, int> ww(vww.second.size());
+	std::size_t i = 0;
+	std::unordered_map<Value, std::size_t> ww(vww.second.size());
 	for (auto& w : vww.second)
 	    ww.insert_or_assign(w, i++);
 	mm.insert_or_assign(vww.first, ww);
@@ -231,11 +231,11 @@ void Alignment::historiesPersistentPretty(int r, const History& hh, std::ostream
 	}
 	out << "]}";
     }
-    std::unordered_map<Variable, std::unordered_map<Value, int>> mm(uu->map_u().size());
+    std::unordered_map<Variable, std::unordered_map<Value, std::size_t>> mm(uu->map_u().size());
     for (auto& vww : uu->map_u())
     {
-	int i = 0;
-	std::unordered_map<Value, int> ww(vww.second.size());
+	std::size_t i = 0;
+	std::unordered_map<Value, std::size_t> ww(vww.second.size());
 	for (auto& w : vww.second)
 	    ww.insert_or_assign(w, i++);
 	mm.insert_or_assign(vww.first, ww);
