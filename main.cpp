@@ -1424,7 +1424,7 @@ void main()
 	    << *dep(*gg, VarUSet{ red_face }) << endl << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1512,6 +1512,7 @@ void main()
 	auto fder = fudsDerived;
 	auto fund = fudsUnderlying;
 	auto fftt = fudsTransform;
+	auto fsys = fudsSystemImplied;
 	auto dep = fudsSetVarsDepends_u;
 
 	auto pressure = Variable("pressure");
@@ -1590,6 +1591,9 @@ void main()
 	cout << "fund(ff)" << endl
 	    << sorted(*fund(*ff)) << endl << endl;
 
+	cout << "fsys(ff)" << endl
+	    << *fsys(*ff) << endl << endl;
+
 	cout << "der(fftt(ff))" << endl
 	    << sorted(der(*fftt(*ff))) << endl << endl;
 
@@ -1614,6 +1618,9 @@ void main()
 
 	cout << "fund(gg)" << endl
 	    << sorted(*fund(*gg)) << endl << endl;
+
+	cout << "fsys(gg)" << endl
+	    << *fsys(*gg) << endl << endl;
 
 	cout << "der(fftt(gg))" << endl
 	    << sorted(der(*fftt(*gg))) << endl << endl;
@@ -2310,7 +2317,7 @@ void main()
 	std::cout << n << " concurrent threads are supported.\n";
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2368,7 +2375,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2426,7 +2433,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;

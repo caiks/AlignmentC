@@ -1071,6 +1071,18 @@ std::unique_ptr<Fud> Alignment::fudsSetVarsDepends_u(const Fud& ff, const VarUSe
     return gg;
 }
 
+// fudsSystemImplied :: Fud -> System
+std::unique_ptr<System> Alignment::fudsSystemImplied(const Fud& ff)
+{
+    auto uu = std::make_unique<System>();
+    uu->map_u().reserve(ff.list_u().size());
+    for (auto& tt : ff.list_u())
+	for (auto& sc : tt->histogram_u().map_u())
+	    for (auto& vu : sc.first.map_u())
+		uu->map_u()[vu.first].insert(vu.second);
+    return uu;
+}
+
 // decompFudsFud :: DecompFud -> Fud
 std::unique_ptr<Fud> Alignment::decompFudsFud(const DecompFud& df)
 {

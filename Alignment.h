@@ -542,6 +542,9 @@ namespace Alignment
     // fudsSetVarsDepends_u :: Fud -> Set.Set Variable -> Fud
     std::unique_ptr<Fud> fudsSetVarsDepends_u(const Fud&, const VarUSet&);
 
+    // fudsSystemImplied :: Fud -> System
+    std::unique_ptr<System> fudsSystemImplied(const Fud&);
+
 }
 
 std::ostream& operator<<(std::ostream& out, const Alignment::Fud&);
