@@ -176,19 +176,20 @@ template<class T> void rpln(std::ostream& out, const std::set<T>& qq)
 
 template<typename T> struct Tree
 {
-    std::vector<std::pair<T,Tree<T>>> _list;
+    std::vector<std::pair<T,std::shared_ptr<Tree<T>>>> _list;
 
     void sort()
     {
 	struct {
-	    bool operator()(std::pair<T, Tree<T>> a, std::pair<T, Tree<T>> b) const
+	    bool operator()(std::pair<T, std::shared_ptr<Tree<T>>> a, std::pair<T, std::shared_ptr<Tree<T>>> b) const
 	    {
 		return a.first < b.first;
 	    }
 	} lesser;
 	std::sort(_list.begin(), _list.end(), lesser);
 	for (auto it = _list.begin(); it != _list.end(); ++it)
-	    it->second.sort();
+	    if (it->second)
+		it->second->sort();
     }
 
 };
@@ -197,7 +198,7 @@ template<typename T> int treesSize(const Tree<T>& tt)
 {
     int s = 0;
     for (auto& pp : tt._list)
-	s += 1 + treesSize(pp.second);
+	s += 1 + (pp.second ? treesSize(*pp.second) : 0);
     return s;
 }
 
@@ -209,8 +210,11 @@ template<typename T> std::unique_ptr<std::vector<T>> treesElements(const Tree<T>
     for (auto& pp : tt._list)
     {
 	qq->push_back(pp.first);
-	auto ee = treesElements(pp.second);
-	qq->insert(qq->end(), ee->begin(), ee->end());
+	if (pp.second)
+	{
+	    auto ee = treesElements(*pp.second);
+	    qq->insert(qq->end(), ee->begin(), ee->end());
+	}
     }
     return qq;
 }
@@ -222,8 +226,13 @@ template<typename S,typename T> std::unique_ptr<Tree<T>> funcsTreesMap(T (*pf)(c
     tt->_list.reserve(ss._list.size());
     for (auto& pp : ss._list)
     {
-	auto qq = funcsTreesMap(pf, pp.second);
-	tt->_list.push_back(std::pair<T,Tree<T>>(pf(pp.first),*qq));
+	if (pp.second)
+	{
+	    auto qq = funcsTreesMap(pf, *pp.second);
+	    tt->_list.push_back(std::pair<T, std::shared_ptr<Tree<T>>>(pf(pp.first), std::move(qq)));
+	}
+	else
+	    tt->_list.push_back(std::pair<T, std::shared_ptr<Tree<T>>>(pf(pp.first), std::shared_ptr<Tree<T>>()));
     }
     return tt;
 }
@@ -238,9 +247,14 @@ template<typename T> std::pair<std::unique_ptr<Tree<std::pair<int,T>>>,int> tree
     int i = k;
     for (auto& pp : tt._list)
     {
-	auto qq = treesEnumeratePreOrder(j, pp.second);
-	j = qq.second;
-	rr->_list.push_back(std::pair<std::pair<int,T>,Tree<std::pair<int,T>>>(std::pair<int,T>(i++,pp.first),*qq.first));
+	if (pp.second)
+	{
+	    auto qq = treesEnumeratePreOrder(j, *pp.second);
+	    j = qq.second;
+	    rr->_list.push_back(std::pair<std::pair<int, T>, std::shared_ptr<Tree<std::pair<int, T>>>>(std::pair<int, T>(i++, pp.first), std::move(qq.first)));
+	}
+	else
+	    rr->_list.push_back(std::pair<std::pair<int, T>, std::shared_ptr<Tree<std::pair<int, T>>>>(std::pair<int, T>(i++, pp.first), std::shared_ptr<Tree<std::pair<int, T>>>()));
     }
     return std::pair<std::unique_ptr<Tree<std::pair<int, T>>>, int>(std::move(rr),j);
 }
@@ -254,8 +268,13 @@ template<typename T> std::unique_ptr<std::vector<std::vector<T>>> treesPaths(con
     {
 	auto jj = ll;
 	jj.push_back(it->first);
-	auto yy = treesPaths(jj, it->second);
-	qq->insert(qq->end(), yy->begin(), yy->end());
+	if (it->second)
+	{
+	    auto yy = treesPaths(jj, *it->second);
+	    qq->insert(qq->end(), yy->begin(), yy->end());
+	}
+	else
+	    qq->push_back(jj);
     }
     return qq;
 }
@@ -281,8 +300,13 @@ template<typename T> std::unique_ptr<Tree<T>> pairTreesUnion(const Tree<T>& ss,c
 	    if (tt._list[i].first == ss._list[j].first)
 	    {
 		found = true;
-		auto uu = pairTreesUnion(ss._list[j].second, tt._list[i].second);
-		rr->_list[j].second = *uu;
+		if (ss._list[j].second && tt._list[i].second)
+		{
+		    auto uu = pairTreesUnion(*ss._list[j].second, *tt._list[i].second);
+		    rr->_list[j].second = std::move(uu);
+		}
+		else if (tt._list[i].second)
+		    rr->_list[j].second = tt._list[i].second;
 	    }
 	if (!found)
 	    rr->_list.push_back(tt._list[i]);
@@ -303,7 +327,7 @@ template<typename T> std::unique_ptr<Tree<T>> pathsTree(const std::vector<std::v
 	    jj.erase(jj.begin());
 	    std::vector<std::vector<T>> rr{ jj };
 	    auto uu = pathsTree(rr);
-	    ss._list.push_back(std::pair<T, Tree<T>>(ll[0], *uu));
+	    ss._list.push_back(std::pair<T, std::shared_ptr<Tree<T>>>(ll[0], std::move(uu)));
 	    tt = pairTreesUnion(*tt, ss);
 	}
     }
@@ -318,7 +342,12 @@ template<typename T> std::ostream& operator<<(std::ostream& out, const Tree<T>& 
     {
 	if (it != tt._list.begin())
 	    out << ",";
-	out << "(" << it->first << "," << it->second << ")";
+	out << "(" << it->first << ",";
+	if (it->second)
+	    out << *it->second;
+	else
+	    out << "{}";
+	out << ")";
     }
     out << "}";
     return out;

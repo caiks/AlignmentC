@@ -1643,69 +1643,69 @@ void main()
 
     if (true)
     {
-	Tree<int> x;
-	x._list.push_back(std::pair<int, Tree<int>>(3, Tree<int>()));
+	auto x = std::shared_ptr<Tree<int>>(new Tree<int>());
+	x->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(3, std::shared_ptr<Tree<int>>()));
 
 	cout << "x" << endl
-	    << x << endl << endl;
+	    << *x << endl << endl;
 
 	cout << "treesPaths(x)" << endl
-	    << *treesPaths(x) << endl << endl;
+	    << *treesPaths(*x) << endl << endl;
 
-	Tree<int> y;
-	y._list.push_back(std::pair<int, Tree<int>>(2, x));
-	y._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
+	auto y = std::shared_ptr<Tree<int>>(new Tree<int>());
+	y->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(2, x));
+	y->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(1, std::shared_ptr<Tree<int>>()));
 
 	cout << "y" << endl
-	    << y << endl << endl;
+	    << *y << endl << endl;
 
 	cout << "treesPaths(y)" << endl
-	    << *treesPaths(y) << endl << endl;
+	    << *treesPaths(*y) << endl << endl;
 
-	Tree<int> z;
-	z._list.push_back(std::pair<int, Tree<int>>(3, y));
-	z._list.push_back(std::pair<int, Tree<int>>(2, x));
-	z._list.push_back(std::pair<int, Tree<int>>(1, Tree<int>()));
+	auto z = std::shared_ptr<Tree<int>>(new Tree<int>());
+	z->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(3, y));
+	z->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(2, x));
+	z->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(1, std::shared_ptr<Tree<int>>()));
 
 	cout << "z" << endl
-	    << z << endl << endl;
+	    << *z << endl << endl;
 
 	cout << "treesPaths(z)" << endl
-	    << *treesPaths(z) << endl << endl;
+	    << *treesPaths(*z) << endl << endl;
 
 	cout << "y.sort()" << endl;
-	y.sort();
+	y->sort();
 
 	cout << "y" << endl
-	    << y << endl << endl;
+	    << *y << endl << endl;
 
 
 	cout << "z.sort()" << endl;
-	z.sort();
+	z->sort();
 
 	cout << "z" << endl
-	    << z << endl << endl;
+	    << *z << endl << endl;
 
 	cout << "treesPaths(z)" << endl
-	    << *treesPaths(z) << endl << endl;
+	    << *treesPaths(*z) << endl << endl;
 
 	cout << "pairTreesUnion(x,x)" << endl
-	    << *pairTreesUnion(x, x) << endl << endl;
+	    << *pairTreesUnion(*x, *x) << endl << endl;
 
 	cout << "pairTreesUnion(x,y)" << endl
-	    << *pairTreesUnion(x, y) << endl << endl;
+	    << *pairTreesUnion(*x, *y) << endl << endl;
 
 	cout << "pairTreesUnion(x,z)" << endl
-	    << *pairTreesUnion(x, z) << endl << endl;
+	    << *pairTreesUnion(*x, *z) << endl << endl;
 
 	cout << "pairTreesUnion(y,y)" << endl
-	    << *pairTreesUnion(y, y) << endl << endl;
+	    << *pairTreesUnion(*y, *y) << endl << endl;
 
 	cout << "pairTreesUnion(y,z)" << endl
-	    << *pairTreesUnion(y, z) << endl << endl;
+	    << *pairTreesUnion(*y, *z) << endl << endl;
 
 	cout << "pairTreesUnion(z,z)" << endl
-	    << *pairTreesUnion(z, z) << endl << endl;
+	    << *pairTreesUnion(*z, *z) << endl << endl;
 
 	auto tt = pathsTree(std::vector<std::vector<int>>{
 	    std::vector<int>{9},
