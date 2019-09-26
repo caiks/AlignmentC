@@ -1641,7 +1641,7 @@ void main()
 
     }
 
-    if (true)
+    if (false)
     {
 	auto x = std::shared_ptr<Tree<int>>(new Tree<int>());
 	x->_list.push_back(std::pair<int, std::shared_ptr<Tree<int>>>(3, std::shared_ptr<Tree<int>>()));
@@ -1740,7 +1740,7 @@ void main()
 	rpln(cout, *treesPaths(*ss)); cout << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -2325,7 +2325,7 @@ void main()
 	std::cout << n << " concurrent threads are supported.\n";
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2366,14 +2366,14 @@ void main()
 
 
 	/*
-	df = persistentsDecompFud(istrm) 0.171604s
+	df = persistentsDecompFud(istrm) 0.187205s
 	len(dfund(df))
 	134
 
 	len(fvars(dfff(df)))
 	515
 
-	decompFudsPersistentPretty(*df, str1) 0.156004s
+	decompFudsPersistentPretty(*df, str1) 0.140404s
 	df1 = persistentsDecompFud(str1) 0.156004s
 	len(dfund(df1))
 	134
@@ -2383,7 +2383,7 @@ void main()
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2424,15 +2424,15 @@ void main()
 
 
 	/*
-	df = persistentsDecompFud(istrm) 3.04208s
+	df = persistentsDecompFud(istrm) 3.05768s
 	len(dfund(df))
 	488
 
 	len(fvars(dfff(df)))
 	4040
 
-	decompFudsPersistentPretty(*df, str1) 2.43366s
-	df1 = persistentsDecompFud(str1) 2.80807s
+	decompFudsPersistentPretty(*df, str1) 2.60527s
+	df1 = persistentsDecompFud(str1) 2.87047s
 	len(dfund(df1))
 	488
 
@@ -2441,7 +2441,7 @@ void main()
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2482,15 +2482,15 @@ void main()
 
 
 	/*
-	df = persistentsDecompFud(istrm) 10.9359s
+	df = persistentsDecompFud(istrm) 11.4663s
 	len(dfund(df))
 	639
 
 	len(fvars(dfff(df)))
 	5966
 
-	decompFudsPersistentPretty(*df, str1) 8.82983s
-	df1 = persistentsDecompFud(str1) 10.5147s
+	decompFudsPersistentPretty(*df, str1) 9.26664s
+	df1 = persistentsDecompFud(str1) 10.889s
 	len(dfund(df1))
 	639
 
