@@ -215,6 +215,19 @@ template<typename T> std::unique_ptr<std::vector<T>> treesElements(const Tree<T>
     return qq;
 }
 
+// funcsTreesMap :: (Ord a, Ord (Tree a), Ord b, Ord (Tree b)) => (a -> b) -> Tree a -> Tree b
+template<typename S,typename T> std::unique_ptr<Tree<T>> funcsTreesMap(T (*pf)(const S&), const Tree<S>& ss)
+{
+    auto tt = std::make_unique<Tree<T>>();
+    tt->_list.reserve(ss._list.size());
+    for (auto& pp : ss._list)
+    {
+	auto qq = funcsTreesMap(pf, pp.second);
+	tt->_list.push_back(std::pair<T,Tree<T>>(pf(pp.first),*qq));
+    }
+    return tt;
+}
+
 // treesEnumeratePreOrder :: Int  -> Tree a -> (Tree (Int,a), Int)
 template<typename T> std::pair<std::unique_ptr<Tree<std::pair<int,T>>>,int> treesEnumeratePreOrder(int k, const Tree<T>& tt)
 {

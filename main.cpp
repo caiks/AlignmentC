@@ -23,6 +23,8 @@ using namespace Alignment;
 namespace js = rapidjson;
 using namespace std;
 
+double f(const int& i) { return 0.5*i; }
+
 void main()
 {
     if (false)
@@ -1424,7 +1426,7 @@ void main()
 	    << *dep(*gg, VarUSet{ red_face }) << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1639,7 +1641,7 @@ void main()
 
     }
 
-    if (false)
+    if (true)
     {
 	Tree<int> x;
 	x._list.push_back(std::pair<int, Tree<int>>(3, Tree<int>()));
@@ -1730,6 +1732,12 @@ void main()
 	cout << "tt1 = treesEnumeratePreOrder(0,tt)" << endl;
 	cout << "rpln(treesPaths(tt1))" << endl;
 	rpln(cout, *treesPaths(*tt1.first)); cout << endl;
+
+	auto ss = funcsTreesMap(f, *tt);
+	cout << "ss = funcsTreesMap(f, *tt)" << endl
+	    << *ss << endl << endl;
+	cout << "rpln(treesPaths(ss))" << endl;
+	rpln(cout, *treesPaths(*ss)); cout << endl;
     }
 
     if (false)
