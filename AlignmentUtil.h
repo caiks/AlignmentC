@@ -64,7 +64,7 @@ template<class T> std::set<T> sorted(const std::unordered_set<T>& qq)
 
 template<class T> std::vector<T> sorted(const std::vector<T>& qq)
 {
-    auto rr = qq;
+    std::vector<T> rr(qq);
     std::sort(rr.begin(), rr.end());
     return rr;
 }
