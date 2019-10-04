@@ -1740,7 +1740,7 @@ void main()
 	rpln(cout, *treesPaths(*ss)); cout << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto lluu = listsSystem_u;
 	auto cart = systemsSetVarsSetStateCartesian_u;
@@ -1990,6 +1990,23 @@ void main()
 	cout << v1 << endl;
 	v1 = stringsVariable("<<7,1>,2>");
 	cout << v1 << endl;
+    }
+
+    if (true)
+    {
+	StrVarPtrMap m;
+	auto v1 = stringsVariable("aa",m);
+	cout << *v1 << endl;
+	v1 = stringsVariable("1", m);
+	cout << *v1 << endl;
+	v1 = stringsVariable("123", m);
+	cout << *v1 << endl;
+	v1 = stringsVariable("<5,2>", m);
+	cout << *v1 << endl;
+	v1 = stringsVariable("<<7,1>,2>", m);
+	cout << *v1 << endl;
+	cout << "m" << endl
+	    << m << endl << endl;
     }
 
     if (false)
@@ -2325,7 +2342,7 @@ void main()
 	std::cout << n << " concurrent threads are supported.\n";
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2383,7 +2400,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2441,7 +2458,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;

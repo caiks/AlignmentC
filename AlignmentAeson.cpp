@@ -39,13 +39,50 @@ Variable Alignment::stringsVariable(const std::string& s)
 	catch (std::invalid_argument& e)
 	{
 	}
-    }	
+    }
     if (s.size() >= 2 && s.front() == '<' && s.back() == '>' && s.find(",") != std::string::npos)
     {
 	auto n = s.rfind(",");
-	return Variable(stringsVariable(s.substr(1,n-1)), stringsVariable(s.substr(n+1, s.size()-n-2)));
+	return Variable(stringsVariable(s.substr(1, n - 1)), stringsVariable(s.substr(n + 1, s.size() - n - 2)));
     }
     return Variable(s);
+}
+
+// stringsVariable :: String -> Variable
+VarPtr Alignment::stringsVariable(const std::string& s, StrVarPtrMap& map)
+{
+    auto it = map.find(s);
+    if (it != map.end())
+	return it->second;
+    if (isdigit(s))
+    {
+	std::size_t p = 0;
+	try
+	{
+	    int i = std::stoi(s, &p);
+	    if (isspace(s.substr(p, std::string::npos)))
+	    {
+		auto v = std::make_shared<Variable>(i);
+		map.insert_or_assign(s, v);
+		return v;
+	    }
+	}
+	catch (std::invalid_argument& e)
+	{
+	}
+    }
+    if (s.size() >= 2 && s.front() == '<' && s.back() == '>' && s.find(",") != std::string::npos)
+    {
+	auto n = s.rfind(",");
+	auto v0 = stringsVariable(s.substr(1, n - 1), map);
+	auto v1 = stringsVariable(s.substr(n + 1, s.size() - n - 2), map);
+	auto v = std::make_shared<Variable>(v0,v1);
+	map.insert_or_assign(s, v);
+	return v;
+    }
+    auto v = std::make_shared<Variable>(s);
+    map.insert_or_assign(s, v);
+    return v;
 }
 
 // stringsValue :: String -> Value

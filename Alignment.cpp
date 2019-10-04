@@ -25,6 +25,14 @@ Variable::Variable(const Variable& v0, const Variable& v1)
     _var1 = std::make_shared<Variable>(v1);
 }
 
+Variable::Variable(const std::shared_ptr<Variable>& v0, const std::shared_ptr<Variable>& v1)
+{
+    _hash = 0;
+    _cl = 5;
+    _var0 = v0;
+    _var1 = v1;
+}
+
 bool Alignment::operator==(const Variable& l, const Variable& r)
 {
     if (l._cl != r._cl)

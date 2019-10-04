@@ -8,6 +8,12 @@ namespace Alignment
     // stringsVariable :: String -> Variable
     Variable stringsVariable(const std::string&);
 
+    typedef std::shared_ptr<Variable> VarPtr;
+    typedef std::map<std::string, VarPtr> StrVarPtrMap;
+
+    // stringsVariable :: String -> Variable
+    VarPtr stringsVariable(const std::string&, StrVarPtrMap&);
+
     // stringsValue :: String -> Value
     Value stringsValue(const std::string&);
 

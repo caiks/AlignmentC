@@ -14,12 +14,10 @@ namespace Alignment
     class Variable
     {
     private: Variable() = default;
-
     public: Variable(const std::string& s);
-
     public: Variable(int i);
-
     public: Variable(const Variable& v0, const Variable& v1);
+    public: Variable(const std::shared_ptr<Variable>& v0, const std::shared_ptr<Variable>& v1);
 
     friend bool operator==(const Variable& l, const Variable& r);
     friend inline bool operator!=(const Variable& l, const Variable& r) { return !(l == r); }
