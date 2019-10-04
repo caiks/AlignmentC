@@ -2812,7 +2812,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2933,7 +2933,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2994,5 +2994,56 @@ void main()
 	5966
 	*/
     }
+
+    if (true)
+    {
+	auto fsys = fudsSystemImplied;
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model24.json");
+
+	StrVarPtrMap m;
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm,m);
+	auto end = chrono::system_clock::now();
+	cout << "df = persistentsDecompFud(istrm) " << ((chrono::duration<double>)(end - start)).count() << "s" << endl;
+
+	auto ff = dfff(*df);
+	auto uu = fsys(*ff);
+	cout << "len(uu)" << endl
+	    << uu->map_u().size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	systemsPersistent(*uu, str1);
+	end = chrono::system_clock::now();
+	cout << "systemsPersistent(*uu, str1) " << ((chrono::duration<double>)(end - start)).count() << "s" << endl;
+
+	StrVarPtrMap m2;
+
+	start = chrono::system_clock::now();
+	auto uu1 = persistentsSystem(str1, m2);
+	end = std::chrono::system_clock::now();
+	cout << "uu1 = persistentsSystem(str1) " << ((chrono::duration<double>)(end - start)).count() << "s" << endl;
+
+	cout << "len(uu1)" << endl
+	    << uu1->map_u().size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 10.3273s
+	len(uu)
+	5966
+
+	systemsPersistent(*uu, str1) 0.0624004s
+	uu1 = persistentsSystem(str1) 0.109201s
+	len(uu1)
+	5966
+	*/
+    }
+
 
 }
