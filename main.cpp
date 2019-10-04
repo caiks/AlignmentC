@@ -1992,7 +1992,7 @@ void main()
 	cout << v1 << endl;
     }
 
-    if (true)
+    if (false)
     {
 	StrVarPtrMap m;
 	auto v1 = stringsVariable("aa",m);
@@ -2338,6 +2338,297 @@ void main()
 
     if (false)
     {
+	auto uvars = systemsSetVar;
+	auto cart = systemsSetVarsSetStateCartesian_u;
+	auto llss = listsState;
+	auto vol = systemsSetVarsVolume_u;
+	auto ssplit = [](const VarUSet& vv, const Histogram& aa)
+	{
+	    return setVarsSetStatesSplit(vv, *histogramsStates(aa));
+	};
+	auto unit = setStatesHistogramUnit_u;
+	auto aall = histogramsList;
+	auto size = histogramsSize;
+	auto resize = histogramsResize;
+	auto norm = [](const Histogram& aa)
+	{
+	    return histogramsResize(1, aa);
+	};
+	auto add = pairHistogramsAdd_u;
+	auto scalar = histogramScalar_u;
+	auto regsing = histogramRegularUnitSingleton_u;
+	auto regdiag = histogramRegularUnitDiagonal_u;
+	auto regcart = histogramRegularCartesian_u;
+	auto ared = [](const Histogram& aa, const VarUSet& vv)
+	{
+	    return setVarsHistogramsReduce(vv, aa);
+	};
+	auto llhh = [llss](const VarList& vv, const IntValListPairList& ee)
+	{
+	    std::vector<IdStatePair> ii;
+	    for (auto& pp : ee)
+	    {
+		auto i = pp.first;
+		auto& ll = pp.second;
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(IdStatePair(Id(i), *llss(jj)));
+	    }
+	    return listsHistory_u(ii);
+	};
+	auto hhll = historiesList;
+	auto hvars = historiesSetVar;
+	auto hsize = historiesSize;
+	auto hred = [](const History& hh, const VarUSet& vv)
+	{
+	    return setVarsHistoriesReduce(vv, hh);
+	};
+	auto hhaa = historiesHistogram;
+	auto aahh = histogramsHistory_u;
+	auto ind = histogramsIndependent;
+	auto ent = histogramsEntropy;
+	auto lent = [size, ent, ared](const VarUSet& vv, const Histogram& aa)
+	{
+	    return size(aa).getDouble() * (ent(aa) - ent(*ared(aa, vv)));
+	};
+	auto algn = histogramsAlignment;
+	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
+	{
+	    return std::make_shared<Transform>(std::move(xx), ww);
+	};
+	auto ttaa = transformsHistogram;
+	auto und = transformsUnderlying;
+	auto der = transformsDerived;
+	auto tmul = [](const Histogram& aa, const Transform& tt)
+	{
+	    return transformsHistogramsApply(tt, aa);
+	};
+	auto lltt = [llss, trans](const VarList& kk, const VarList& ww, const ValListList& qq)
+	{
+	    VarList vv(kk.begin(), kk.end());
+	    vv.insert(vv.end(), ww.begin(), ww.end());
+	    std::vector<StateRationalPair> ii;
+	    for (auto& ll : qq)
+	    {
+		auto jj = std::vector<VarValPair>();
+		for (int j = 0; j < ll.size(); j++)
+		    jj.push_back(VarValPair(vv[j], ll[j]));
+		ii.push_back(StateRationalPair(*llss(jj), 1));
+	    }
+	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+	};
+	auto llff = setTransformsFud_u;
+	auto fhis = fudsSetHistogram;
+	auto fvars = fudsSetVar;
+	auto fder = fudsDerived;
+	auto fund = fudsUnderlying;
+	auto fftt = fudsTransform;
+	auto dep = fudsSetVarsDepends_u;
+
+	auto pressure = Variable("pressure");
+	auto cloud = Variable("cloud");
+	auto wind = Variable("wind");
+	auto rain = Variable("rain");
+	auto cloud_and_wind = Variable("cloud_and_wind");
+	auto cloud_and_pressure = Variable("cloud_and_pressure");
+	auto cloud_wind_pressure = Variable("cloud_wind_pressure");
+	auto low = Value("low");
+	auto medium = Value("medium");
+	auto high = Value("high");
+	auto none = Value("none");
+	auto light = Value("light");
+	auto heavy = Value("heavy");
+	auto strong = Value("strong");
+	auto uu = listsSystem_u(std::vector<VarValSetPair>{
+	    VarValSetPair(pressure, ValSet{ low,medium,high }),
+		VarValSetPair(cloud, ValSet{ none,light,heavy }),
+		VarValSetPair(wind, ValSet{ none,light,strong }),
+		VarValSetPair(rain, ValSet{ none,light,heavy })});
+	auto vv = uvars(*uu);
+	auto hh = llhh(VarList{ pressure, cloud, wind, rain }, IntValListPairList{
+	    IntValListPair(1, ValList{ high, none, none, none }),
+	    IntValListPair(2, ValList{ medium, light, none, light }),
+	    IntValListPair(3, ValList{ high, none, light, none }),
+	    IntValListPair(4, ValList{ low, heavy, strong, heavy }),
+	    IntValListPair(5, ValList{ low, none, light, light }),
+	    IntValListPair(6, ValList{ medium, none, light, light }),
+	    IntValListPair(7, ValList{ low, heavy, light, heavy }),
+	    IntValListPair(8, ValList{ high, none, light, none }),
+	    IntValListPair(9, ValList{ medium, light, strong, heavy }),
+	    IntValListPair(10, ValList{ medium, light, light, light }),
+	    IntValListPair(11, ValList{ high, light, light, heavy }),
+	    IntValListPair(12, ValList{ medium, none, none, none }),
+	    IntValListPair(13, ValList{ medium, light, none, none }),
+	    IntValListPair(14, ValList{ high, light, strong, light }),
+	    IntValListPair(15, ValList{ medium, none, light, light }),
+	    IntValListPair(16, ValList{ low, heavy, strong, heavy }),
+	    IntValListPair(17, ValList{ low, heavy, light, heavy }),
+	    IntValListPair(18, ValList{ high, none, none, none }),
+	    IntValListPair(19, ValList{ low, light, none, light }),
+	    IntValListPair(20, ValList{ high, none, none, none }) });
+	auto aa = hhaa(*hh);
+	auto ttcw = lltt(VarList{ cloud, wind }, VarList{ cloud_and_wind }, ValListList{
+	    ValList{ none, none, none },
+	    ValList{ none, light, light },
+	    ValList{ none, strong, light },
+	    ValList{ light, none, light },
+	    ValList{ light, light, light },
+	    ValList{ light, strong, light },
+	    ValList{ heavy, none, strong },
+	    ValList{ heavy, light, strong },
+	    ValList{ heavy, strong, strong } });
+	auto ttcp = lltt(VarList{ cloud, pressure }, VarList{ cloud_and_pressure }, ValListList{
+	    ValList{ none, high, none },
+	    ValList{ none, medium, light },
+	    ValList{ none, low, light },
+	    ValList{ light, high, light },
+	    ValList{ light, medium, light },
+	    ValList{ light, low, light },
+	    ValList{ heavy, high, strong },
+	    ValList{ heavy, medium, strong },
+	    ValList{ heavy, low, strong } });
+	auto ff = llff(TransformPtrList{ ttcw, ttcp });
+	auto ttcwp = lltt(VarList{ cloud_and_wind,cloud_and_pressure }, VarList{ cloud_wind_pressure }, ValListList{
+	    ValList{ none, none, none },
+	    ValList{ none, light, none },
+	    ValList{ none, strong, none },
+	    ValList{ light, none, none },
+	    ValList{ light, light, light },
+	    ValList{ light, strong, light },
+	    ValList{ strong, none, none },
+	    ValList{ strong, light, light },
+	    ValList{ strong, strong, strong } });
+	auto gg = llff(TransformPtrList{ ttcw, ttcp, ttcwp });
+
+	cout << "uu" << endl
+	    << *uu << endl << endl;
+
+	StrVarPtrMap m;
+
+	cout << "systemsPersistent(uu,cout)" << endl;
+	systemsPersistent(*uu, cout); cout << endl << endl;
+
+	cout << "systemsPersistentSorted(uu,cout)" << endl;
+	systemsPersistentSorted(*uu, cout); cout << endl << endl;
+
+	std::stringstream str;
+	systemsPersistent(*uu, str);
+	auto uu1 = persistentsSystem(str,m);
+	cout << "uu1 = persistentsSystem(str)" << endl
+	    << *uu1 << endl << endl;
+
+	std::stringstream str2;
+	systemsPersistentSorted(*uu, str2);
+	auto uu2 = persistentsSystem(str2,m);
+	cout << "uu2 = persistentsSystem(str2)" << endl
+	    << *uu2 << endl << endl;
+
+	cout << "historiesPersistent(hh,cout)" << endl;
+	historiesPersistent(*hh, cout); cout << endl << endl;
+
+	std::stringstream str3;
+	historiesPersistent(*hh, str3);
+	auto hh2 = persistentsHistory(str3,m);
+	cout << "hh2 = persistentsHistory(str3)" << endl
+	    << *hh2 << endl << endl;
+
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "rpln(aall(hhaa(hh2)))" << endl;
+	rpln(cout, sorted(*aall(*hhaa(*hh2)))); cout << endl;
+
+	cout << "historiesPersistentPretty(1,hh,cout)" << endl;
+	historiesPersistentPretty(1, *hh, cout); cout << endl << endl;
+
+	std::stringstream str4;
+	historiesPersistentPretty(1, *hh, str4);
+	auto hh3 = persistentsHistory(str4,m);
+	cout << "hh3 = persistentsHistory(str4)" << endl
+	    << *hh3 << endl << endl;
+
+	cout << "rpln(aall(aa))" << endl;
+	rpln(cout, sorted(*aall(*aa))); cout << endl;
+
+	cout << "rpln(aall(hhaa(hh3)))" << endl;
+	rpln(cout, sorted(*aall(*hhaa(*hh3)))); cout << endl;
+
+	cout << "transformsPersistent(ttcw,cout)" << endl;
+	transformsPersistent(*ttcw, cout); cout << endl << endl;
+
+	cout << "transformsPersistent(ttcp,cout)" << endl;
+	transformsPersistent(*ttcp, cout); cout << endl << endl;
+
+	cout << "transformsPersistent(ttcwp,cout)" << endl;
+	transformsPersistent(*ttcwp, cout); cout << endl << endl;
+
+	cout << "transformsPersistent(fftt(ff),cout)" << endl;
+	transformsPersistent(*fftt(*ff), cout); cout << endl << endl;
+
+	cout << "transformsPersistentPretty(1,ttcwp,cout)" << endl;
+	transformsPersistentPretty(1, *ttcwp, cout); cout << endl << endl;
+
+	cout << "transformsPersistentPretty(1,fftt(ff),cout)" << endl;
+	transformsPersistentPretty(1, *fftt(*ff), cout); cout << endl << endl;
+
+	std::stringstream str5;
+	transformsPersistentPretty(1, *ttcwp, str5);
+	auto tt5 = persistentsTransform(str5,m);
+	cout << "tt5 = persistentsTransform(str5)" << endl
+	    << *tt5 << endl << endl;
+
+	cout << "rpln(aall(ttaa(ttcwp)))" << endl;
+	rpln(cout, sorted(*aall(ttcwp->histogram_u()))); cout << endl;
+
+	cout << "rpln(aall(ttaa(tt5)))" << endl;
+	rpln(cout, sorted(*aall(tt5->histogram_u()))); cout << endl;
+
+	std::stringstream str6;
+	transformsPersistentPretty(1, *fftt(*ff), str6);
+	auto tt6 = persistentsTransform(str6,m);
+	cout << "tt6 = persistentsTransform(str6)" << endl
+	    << *tt6 << endl << endl;
+
+	cout << "fudsPersistent(ff,cout)" << endl;
+	fudsPersistent(*ff, cout); cout << endl << endl;
+
+	cout << "fudsPersistentPretty(1,ff,cout)" << endl;
+	fudsPersistentPretty(1, *ff, cout); cout << endl << endl;
+
+	std::stringstream str7;
+	fudsPersistentPretty(1, *ff, str7);
+	auto ff7 = persistentsFud(str7,m);
+	cout << "ff7 = persistentsFud(str7)" << endl
+	    << *ff7 << endl << endl;
+
+	cout << "rpln(aall(ttaa(fftt(ff))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*ff)->histogram_u()))); cout << endl;
+
+	cout << "rpln(aall(ttaa(fftt(ff7))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*ff7)->histogram_u()))); cout << endl;
+
+	cout << "fudsPersistent(gg,cout)" << endl;
+	fudsPersistent(*gg, cout); cout << endl << endl;
+
+	cout << "fudsPersistentPretty(1,gg,cout)" << endl;
+	fudsPersistentPretty(1, *gg, cout); cout << endl << endl;
+
+	std::stringstream str8;
+	fudsPersistentPretty(1, *gg, str8);
+	auto ff8 = persistentsFud(str8,m);
+	cout << "ff8 = persistentsFud(str8)" << endl
+	    << *ff8 << endl << endl;
+
+	cout << "rpln(aall(ttaa(fftt(gg))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*gg)->histogram_u()))); cout << endl;
+
+	cout << "rpln(aall(ttaa(fftt(ff8))))" << endl;
+	rpln(cout, sorted(*aall(fftt(*ff8)->histogram_u()))); cout << endl;
+    }
+
+    if (false)
+    {
 	unsigned int n = std::thread::hardware_concurrency();
 	std::cout << n << " concurrent threads are supported.\n";
     }
@@ -2406,6 +2697,69 @@ void main()
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model2.json");
+
+	StrVarPtrMap m;
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm,m);
+	auto end = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "df = persistentsDecompFud(istrm) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df))" << endl
+	    << dfund(*df)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df)))" << endl
+	    << fvars(*dfff(*df))->size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	decompFudsPersistentPretty(*df, str1);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "decompFudsPersistentPretty(*df, str1) " << elapsed_seconds.count() << "s" << endl;
+
+	StrVarPtrMap m2;
+
+	start = chrono::system_clock::now();
+	auto df1 = persistentsDecompFud(str1,m2);
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "df1 = persistentsDecompFud(str1) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df1))" << endl
+	    << dfund(*df1)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df1)))" << endl
+	    << fvars(*dfff(*df1))->size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 0.156007s
+	len(dfund(df))
+	134
+
+	len(fvars(dfff(df)))
+	515
+
+	decompFudsPersistentPretty(*df, str1) 0.156007s
+	df1 = persistentsDecompFud(str1) 0.171608s
+	len(dfund(df1))
+	134
+
+	len(fvars(dfff(df1)))
+	515
+	*/
+    }
+
+
+    if (false)
+    {
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
 	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model35.json");
 
 	auto start = chrono::system_clock::now();
@@ -2458,6 +2812,69 @@ void main()
 	*/
     }
 
+    if (true)
+    {
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model35.json");
+
+	StrVarPtrMap m;
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm,m);
+	auto end = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "df = persistentsDecompFud(istrm) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df))" << endl
+	    << dfund(*df)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df)))" << endl
+	    << fvars(*dfff(*df))->size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	decompFudsPersistentPretty(*df, str1);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "decompFudsPersistentPretty(*df, str1) " << elapsed_seconds.count() << "s" << endl;
+
+	StrVarPtrMap m2;
+
+	start = chrono::system_clock::now();
+	auto df1 = persistentsDecompFud(str1,m2);
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "df1 = persistentsDecompFud(str1) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df1))" << endl
+	    << dfund(*df1)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df1)))" << endl
+	    << fvars(*dfff(*df1))->size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 2.96406s
+	len(dfund(df))
+	488
+
+	len(fvars(dfff(df)))
+	4040
+
+	decompFudsPersistentPretty(*df, str1) 2.46485s
+	df1 = persistentsDecompFud(str1) 2.84025s
+	len(dfund(df1))
+	488
+
+	len(fvars(dfff(df1)))
+	4040
+	*/
+    }
+
+
     if (false)
     {
 	auto dfund = decompFudsUnderlying;
@@ -2508,6 +2925,68 @@ void main()
 
 	decompFudsPersistentPretty(*df, str1) 9.26664s
 	df1 = persistentsDecompFud(str1) 10.889s
+	len(dfund(df1))
+	639
+
+	len(fvars(dfff(df1)))
+	5966
+	*/
+    }
+
+    if (true)
+    {
+	auto dfund = decompFudsUnderlying;
+	auto dfff = decompFudsFud;
+	auto fvars = fudsSetVar;
+
+	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model24.json");
+
+	StrVarPtrMap m;
+
+	auto start = chrono::system_clock::now();
+	auto df = persistentsDecompFud(istrm,m);
+	auto end = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "df = persistentsDecompFud(istrm) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df))" << endl
+	    << dfund(*df)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df)))" << endl
+	    << fvars(*dfff(*df))->size() << endl << endl;
+
+	std::stringstream str1;
+	start = chrono::system_clock::now();
+	decompFudsPersistentPretty(*df, str1);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "decompFudsPersistentPretty(*df, str1) " << elapsed_seconds.count() << "s" << endl;
+
+	StrVarPtrMap m2;
+
+	start = chrono::system_clock::now();
+	auto df1 = persistentsDecompFud(str1,m2);
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	cout << "df1 = persistentsDecompFud(str1) " << elapsed_seconds.count() << "s" << endl;
+
+	cout << "len(dfund(df1))" << endl
+	    << dfund(*df1)->size() << endl << endl;
+
+	cout << "len(fvars(dfff(df1)))" << endl
+	    << fvars(*dfff(*df1))->size() << endl << endl;
+
+
+	/*
+	df = persistentsDecompFud(istrm) 10.6394s
+	len(dfund(df))
+	639
+
+	len(fvars(dfff(df)))
+	5966
+
+	decompFudsPersistentPretty(*df, str1) 8.92337s
+	df1 = persistentsDecompFud(str1) 9.79699s
 	len(dfund(df1))
 	639
 

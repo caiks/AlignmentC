@@ -215,6 +215,45 @@ std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
     return std::move(jssSystem(d));
 }
 
+std::unique_ptr<System> jssSystem(const js::Value& d, StrVarPtrMap& m)
+{
+    if (!d.IsArray())
+	return std::make_unique<System>();
+    auto uu = std::make_unique<System>();
+    uu->map_u().reserve(d.Size());
+    for (js::SizeType i = 0; i < d.Size(); i++)
+    {
+	const js::Value& a = d[i];
+	if (!a.IsObject() || !a.HasMember("var") || !a["var"].IsString() || !a.HasMember("values") || !a["values"].IsArray())
+	    return std::make_unique<System>();
+	const js::Value& b = a["values"];
+	ValSet ww;
+	for (js::SizeType j = 0; j < b.Size(); j++)
+	    if (b[j].IsString())
+		ww.insert(stringsValue(b[j].GetString()));
+	if (ww.size())
+	    uu->map_u().insert_or_assign(*stringsVariable(a["var"].GetString(),m), ww);
+    }
+    return uu;
+}
+
+// persistentsSystem :: SystemPersistent -> Maybe System
+std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is, StrVarPtrMap& m)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<System>();
+    }
+    return std::move(jssSystem(d,m));
+}
+
+
 // historiesPersistent :: History -> HistoryPersistent
 void Alignment::historiesPersistent(const History& hh, std::ostream& out)
 {
@@ -351,6 +390,61 @@ std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
     return std::move(jssHistory(d));
 }
 
+std::unique_ptr<History> jssHistory(const js::Value& d, StrVarPtrMap& m)
+{
+    if (!d.IsObject() || !d.HasMember("hsystem") || !d.HasMember("hstates"))
+	return std::make_unique<History>();
+    auto uu = jssSystem(d["hsystem"],m);
+    VarSet qq;
+    std::unordered_map<Variable, ValList> mm(uu->map_u().size());
+    for (auto& vww : uu->map_u())
+    {
+	qq.insert(vww.first);
+	ValList ww(vww.second.begin(), vww.second.end());
+	mm.insert_or_assign(vww.first, ww);
+    }
+    VarList ll(qq.begin(), qq.end());
+    const js::Value& a = d["hstates"];
+    if (!a.IsArray())
+	return std::make_unique<History>();
+    auto hh = std::make_unique<History>();
+    hh->map_u().reserve(a.Size());
+    for (js::SizeType i = 0; i < a.Size(); i++)
+    {
+	const js::Value& b = a[i];
+	if (!b.IsArray() || b.Size() != ll.size())
+	    return std::make_unique<History>();
+	State ss;
+	for (js::SizeType j = 0; j < b.Size(); j++)
+	{
+	    auto v = ll[j];
+	    auto ww = mm[v];
+	    const js::Value& c = b[j];
+	    if (!c.IsInt() || c.GetInt() >= ww.size())
+		return std::make_unique<History>();
+	    ss.map_u().insert_or_assign(v, ww[c.GetInt()]);
+	}
+	hh->map_u().insert_or_assign(Id(i + 1), ss);
+    }
+    return hh;
+}
+
+// persistentsHistory :: HistoryPersistent -> Maybe History
+std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is, StrVarPtrMap& m)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<History>();
+    }
+    return std::move(jssHistory(d,m));
+}
+
 // transformsPersistent :: Transform -> TransformPersistent
 void Alignment::transformsPersistent(const Transform& tt, std::ostream& out)
 {
@@ -430,6 +524,42 @@ std::unique_ptr<Transform> Alignment::persistentsTransform(std::istream& is)
     return std::move(jssTransform(d));
 }
 
+std::unique_ptr<Transform> jssTransform(const js::Value& d, StrVarPtrMap& m)
+{
+    if (!d.IsObject() || !d.HasMember("derived") || !d.HasMember("history"))
+	return std::make_unique<Transform>();
+    auto hh = jssHistory(d["history"],m);
+    const js::Value& a = d["derived"];
+    if (!a.IsArray())
+	return std::make_unique<Transform>();
+    VarUSet ww;
+    for (js::SizeType i = 0; i < a.Size(); i++)
+    {
+	const js::Value& b = a[i];
+	if (!b.IsString())
+	    return std::make_unique<Transform>();
+	ww.insert(*stringsVariable(b.GetString(),m));
+    }
+    auto aa = historiesHistogram(*hh);
+    return std::make_unique<Transform>(aa, ww);
+}
+
+// persistentsTransform :: TransformPersistent -> Maybe Transform
+std::unique_ptr<Transform> Alignment::persistentsTransform(std::istream& is, StrVarPtrMap& m)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<Transform>();
+    }
+    return std::move(jssTransform(d,m));
+}
+
 
 // fudsPersistent :: Fud -> FudPersistent
 void Alignment::fudsPersistent(const Fud& ff, std::ostream& out)
@@ -486,6 +616,31 @@ std::unique_ptr<Fud> Alignment::persistentsFud(std::istream& is)
     return std::move(jssFud(d));
 }
 
+std::unique_ptr<Fud> jssFud(const js::Value& d, StrVarPtrMap& m)
+{
+    if (!d.IsArray())
+	return std::make_unique<Fud>();
+    auto ff = std::make_unique<Fud>();
+    for (js::SizeType i = 0; i < d.Size(); i++)
+	ff->list_u().push_back(jssTransform(d[i],m));
+    return ff;
+}
+
+// persistentsFud :: FudPersistent -> Maybe Fud
+std::unique_ptr<Fud> Alignment::persistentsFud(std::istream& is, StrVarPtrMap& m)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<Fud>();
+    }
+    return std::move(jssFud(d,m));
+}
 
 // decompFudsPersistent :: DecompFud -> DecompFudPersistent
 void Alignment::decompFudsPersistent(const DecompFud& df, std::ostream& out)
@@ -620,4 +775,63 @@ std::unique_ptr<DecompFud> Alignment::persistentsDecompFud(std::istream& is)
 	return std::make_unique<DecompFud>();
     }
     return std::move(jssDecompFud(d));
+}
+
+std::unique_ptr<DecompFud> jssDecompFud(const js::Value& d, StrVarPtrMap& m)
+{
+    if (!d.IsObject() || !d.HasMember("paths") || !d["paths"].IsArray() || !d.HasMember("nodes") || !d["nodes"].IsArray())
+	return std::make_unique<DecompFud>();
+    const js::Value& n = d["nodes"];
+    std::vector<StatePtrFudPtrPair> ll;
+    ll.reserve(n.Size());
+    for (js::SizeType i = 0; i < n.Size(); i++)
+    {
+	const js::Value& q = n[i];
+	if (!q.IsArray() || q.Size() != 2)
+	    return std::make_unique<DecompFud>();
+	auto hh = jssHistory(q[0],m);
+	if (hh->map_u().size() != 1)
+	    return std::make_unique<DecompFud>();
+	auto ss = std::make_shared<State>(hh->map_u().begin()->second);
+	auto ff = jssFud(q[1],m);
+	ll.push_back(StatePtrFudPtrPair(ss, std::move(ff)));
+    }
+    const js::Value& p = d["paths"];
+    std::vector<std::vector<StatePtrFudPtrPair>> pp;
+    pp.reserve(p.Size());
+    for (js::SizeType i = 0; i < p.Size(); i++)
+    {
+	const js::Value& q = p[i];
+	if (!q.IsArray())
+	    return std::make_unique<DecompFud>();
+	std::vector<StatePtrFudPtrPair> qq;
+	qq.reserve(q.Size());
+	for (js::SizeType j = 0; j < q.Size(); j++)
+	{
+	    const js::Value& r = q[j];
+	    if (!r.IsInt())
+		return std::make_unique<DecompFud>();
+	    qq.push_back(ll[r.GetInt()]);
+	}
+	pp.push_back(qq);
+    }
+    auto tt = pathsTree(pp);
+    auto df = std::make_unique<DecompFud>(*tt);
+    return df;
+}
+
+// persistentsDecompFud :: DecompFudPersistent -> Maybe DecompFud
+std::unique_ptr<DecompFud> Alignment::persistentsDecompFud(std::istream& is, StrVarPtrMap& m)
+{
+    js::IStreamWrapper isw(is);
+    js::Document d;
+    try
+    {
+	d.ParseStream(isw);
+    }
+    catch (std::exception& e)
+    {
+	return std::make_unique<DecompFud>();
+    }
+    return std::move(jssDecompFud(d,m));
 }

@@ -32,6 +32,9 @@ namespace Alignment
     // persistentsSystem :: SystemPersistent -> Maybe System
     std::unique_ptr<System> persistentsSystem(std::istream&);
 
+    // persistentsSystem :: SystemPersistent -> Maybe System
+    std::unique_ptr<System> persistentsSystem(std::istream&, StrVarPtrMap&);
+
     // historiesPersistent :: History -> HistoryPersistent
     void historiesPersistent(const History&, std::ostream&);
 
@@ -40,6 +43,9 @@ namespace Alignment
 
     // persistentsHistory :: HistoryPersistent -> Maybe History
     std::unique_ptr<History> persistentsHistory(std::istream&);
+
+    // persistentsHistory :: HistoryPersistent -> Maybe History
+    std::unique_ptr<History> persistentsHistory(std::istream&, StrVarPtrMap&);
 
     // transformsPersistent :: Transform -> TransformPersistent
     void transformsPersistent(const Transform&, std::ostream&);
@@ -50,6 +56,9 @@ namespace Alignment
     // persistentsTransform :: TransformPersistent -> Maybe Transform
     std::unique_ptr<Transform> persistentsTransform(std::istream&);
 
+    // persistentsTransform :: TransformPersistent -> Maybe Transform
+    std::unique_ptr<Transform> persistentsTransform(std::istream&, StrVarPtrMap&);
+
     // fudsPersistent :: Fud -> FudPersistent
     void fudsPersistent(const Fud&, std::ostream&);
 
@@ -59,6 +68,9 @@ namespace Alignment
     // persistentsFud :: FudPersistent -> Maybe Fud
     std::unique_ptr<Fud> persistentsFud(std::istream&);
 
+    // persistentsFud :: FudPersistent -> Maybe Fud
+    std::unique_ptr<Fud> persistentsFud(std::istream&, StrVarPtrMap&);
+
     // decompFudsPersistent :: DecompFud -> DecompFudPersistent
     void decompFudsPersistent(const DecompFud&, std::ostream&);
 
@@ -67,6 +79,9 @@ namespace Alignment
 
     // persistentsDecompFud :: DecompFudPersistent -> Maybe DecompFud
     std::unique_ptr<DecompFud> persistentsDecompFud(std::istream&);
+
+    // persistentsDecompFud :: DecompFudPersistent -> Maybe DecompFud
+    std::unique_ptr<DecompFud> persistentsDecompFud(std::istream&, StrVarPtrMap&);
 
 }
 
