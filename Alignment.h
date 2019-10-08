@@ -45,13 +45,16 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream&, const Alignment::Variable&);
 
-template<> struct std::hash<Alignment::Variable>
+namespace std
 {
-    std::size_t operator()(Alignment::Variable const& v) const noexcept
-    {
-	return v.hash();
-    }
-};
+	template<> struct hash<Alignment::Variable>
+	{
+    	std::size_t operator()(Alignment::Variable const& v) const noexcept
+    	{
+		return v.hash();
+    	}
+	};
+}
 
 namespace Alignment
 {
@@ -105,14 +108,16 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream&, const Alignment::Value&);
 
-
-template<> struct std::hash<Alignment::Value>
+namespace std
 {
-    std::size_t operator()(Alignment::Value const& v) const noexcept
-    {
-	return v.hash();
-    }
-};
+	template<> struct hash<Alignment::Value>
+	{
+    	std::size_t operator()(Alignment::Value const& v) const noexcept
+    	{
+		return v.hash();
+    	}
+	};
+}
 
 namespace Alignment
 {
@@ -146,14 +151,16 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream&, const Alignment::Id&);
 
-
-template<> struct std::hash<Alignment::Id>
+namespace std
 {
-    std::size_t operator()(Alignment::Id const& v) const noexcept
-    {
-	return v.hash();
-    }
-};
+	template<> struct hash<Alignment::Id>
+	{
+		std::size_t operator()(Alignment::Id const& v) const noexcept
+		{
+		return v.hash();
+		}
+	};
+}
 
 namespace Alignment
 {
@@ -275,14 +282,16 @@ namespace Alignment
 
 std::ostream& operator<<(std::ostream&, const Alignment::State&);
 
-
-template<> struct std::hash<Alignment::State>
+namespace std
 {
-    std::size_t operator()(Alignment::State const& v) const noexcept
-    {
-	return v.hash();
-    }
-};
+	template<> struct hash<Alignment::State>
+	{
+		std::size_t operator()(Alignment::State const& v) const noexcept
+		{
+		return v.hash();
+		}
+	};
+}
 
 namespace Alignment
 {

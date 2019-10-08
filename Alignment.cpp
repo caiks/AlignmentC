@@ -62,11 +62,11 @@ std::size_t Alignment::Variable::hash() const
     if (!_hash)
     {
 	if (_cl == 1)
-	    (std::size_t)_hash = _cl + (std::hash<std::string>{}(*_str) << 3);
+	    const_cast<Variable*>(this)->_hash = _cl + (std::hash<std::string>{}(*_str) << 3);
 	else if (_cl == 2)
-	    (std::size_t)_hash = _cl + (std::hash<int>{}(_int) << 3);
+	    const_cast<Variable*>(this)->_hash = _cl + (std::hash<int>{}(_int) << 3);
 	else
-	    (std::size_t)_hash = _cl + (_var0->hash() << 3) + (_var1->hash() << 4);
+	    const_cast<Variable*>(this)->_hash = _cl + (_var0->hash() << 3) + (_var1->hash() << 4);
     }
     return _hash;
 }
@@ -143,11 +143,11 @@ std::size_t Alignment::Value::hash() const
     if (!_hash)
     {
 	if (_cl == 1)
-	    (std::size_t)_hash = _cl + (std::hash<std::string>{}(*_str) << 2);
+	    const_cast<Value*>(this)->_hash = _cl + (std::hash<std::string>{}(*_str) << 2);
 	else if (_cl == 2)
-	    (std::size_t)_hash = _cl + (std::hash<int>{}(_int) << 2);
+	    const_cast<Value*>(this)->_hash = _cl + (std::hash<int>{}(_int) << 2);
 	else
-	    (std::size_t)_hash = _cl + (std::hash<double>{}(_double) << 2);
+	    const_cast<Value*>(this)->_hash = _cl + (std::hash<double>{}(_double) << 2);
     }
     return _hash;
 }
@@ -207,9 +207,9 @@ std::size_t Alignment::Id::hash() const
     if (!_hash)
     {
 	if (_cl == 1)
-	    (std::size_t)_hash = _cl + (std::hash<std::string>{}(*_str) << 2);
+	    const_cast<Id*>(this)->_hash = _cl + (std::hash<std::string>{}(*_str) << 2);
 	else
-	    (std::size_t)_hash = _cl + (std::hash<int>{}(_int) << 2);
+	    const_cast<Id*>(this)->_hash = _cl + (std::hash<int>{}(_int) << 2);
     }
     return _hash;
 }
@@ -346,8 +346,8 @@ std::size_t Alignment::State::hash() const
     if (!_hash)
 	for (auto it = _map.begin(); it != _map.end(); ++it)
 	{
-	    (std::size_t)_hash *= 3;
-	    (std::size_t)_hash += it->first.hash() + it->second.hash();
+	    const_cast<State*>(this)->_hash *= 3;
+	    const_cast<State*>(this)->_hash += it->first.hash() + it->second.hash();
 	}
     return _hash;
 }
