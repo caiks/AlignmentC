@@ -25,9 +25,9 @@ using namespace std;
 
 double f(const int& i) { return 0.5*i; }
 
-void main()
+int main(int argc, char **argv)
 {
-    if (false)
+    if (true)
     {
 	Rational a, b;
 	a = 5;
@@ -1271,7 +1271,7 @@ void main()
 	auto hhaa = historiesHistogram;
 	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
 	{
-	    return std::make_shared<Transform>(std::move(xx), ww);
+	    return std::make_shared<Transform>(xx, ww);
 	};
 	auto ttaa = transformsHistogram;
 	auto und = transformsUnderlying;
@@ -1292,7 +1292,8 @@ void main()
 		    jj.push_back(VarValPair(vv[j], ll[j]));
 		ii.push_back(StateRationalPair(*llss(jj), 1));
 	    }
-	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+            auto aa = std::make_unique<Histogram>(ii);
+	    return trans(aa, VarUSet(ww.begin(), ww.end()));
 	};
 	auto llff = setTransformsFud_u;
 	auto fhis = fudsSetHistogram;
@@ -1485,7 +1486,7 @@ void main()
 	auto algn = histogramsAlignment;
 	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
 	{
-	    return std::make_shared<Transform>(std::move(xx), ww);
+	    return std::make_shared<Transform>(xx, ww);
 	};
 	auto ttaa = transformsHistogram;
 	auto und = transformsUnderlying;
@@ -1506,7 +1507,8 @@ void main()
 		    jj.push_back(VarValPair(vv[j], ll[j]));
 		ii.push_back(StateRationalPair(*llss(jj), 1));
 	    }
-	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+            auto aa = std::make_unique<Histogram>(ii);
+	    return trans(aa, VarUSet(ww.begin(), ww.end()));
 	};
 	auto llff = setTransformsFud_u;
 	auto fhis = fudsSetHistogram;
@@ -1779,7 +1781,7 @@ void main()
 	auto hhaa = historiesHistogram;
 	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
 	{
-	    return std::make_shared<Transform>(std::move(xx), ww);
+	    return std::make_shared<Transform>(xx, ww);
 	};
 	auto ttaa = transformsHistogram;
 	auto und = transformsUnderlying;
@@ -1800,7 +1802,8 @@ void main()
 		    jj.push_back(VarValPair(vv[j], ll[j]));
 		ii.push_back(StateRationalPair(*llss(jj), 1));
 	    }
-	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+            auto aa = std::make_unique<Histogram>(ii);
+	    return trans(aa, VarUSet(ww.begin(), ww.end()));
 	};
 	auto llff = setTransformsFud_u;
 	auto fhis = fudsSetHistogram;
@@ -2106,7 +2109,7 @@ void main()
 	auto algn = histogramsAlignment;
 	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
 	{
-	    return std::make_shared<Transform>(std::move(xx), ww);
+	    return std::make_shared<Transform>(xx, ww);
 	};
 	auto ttaa = transformsHistogram;
 	auto und = transformsUnderlying;
@@ -2127,7 +2130,8 @@ void main()
 		    jj.push_back(VarValPair(vv[j], ll[j]));
 		ii.push_back(StateRationalPair(*llss(jj), 1));
 	    }
-	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+            auto aa = std::make_unique<Histogram>(ii);
+	    return trans(aa, VarUSet(ww.begin(), ww.end()));
 	};
 	auto llff = setTransformsFud_u;
 	auto fhis = fudsSetHistogram;
@@ -2395,7 +2399,7 @@ void main()
 	auto algn = histogramsAlignment;
 	auto trans = [](std::unique_ptr<Histogram>& xx, const VarUSet& ww)
 	{
-	    return std::make_shared<Transform>(std::move(xx), ww);
+	    return std::make_shared<Transform>(xx, ww);
 	};
 	auto ttaa = transformsHistogram;
 	auto und = transformsUnderlying;
@@ -2416,7 +2420,8 @@ void main()
 		    jj.push_back(VarValPair(vv[j], ll[j]));
 		ii.push_back(StateRationalPair(*llss(jj), 1));
 	    }
-	    return trans(std::make_unique<Histogram>(ii), VarUSet(ww.begin(), ww.end()));
+            auto aa = std::make_unique<Histogram>(ii);
+	    return trans(aa, VarUSet(ww.begin(), ww.end()));
 	};
 	auto llff = setTransformsFud_u;
 	auto fhis = fudsSetHistogram;
@@ -2995,7 +3000,7 @@ void main()
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto fsys = fudsSystemImplied;
 	auto dfund = decompFudsUnderlying;
@@ -3045,5 +3050,5 @@ void main()
 	*/
     }
 
-
+    return 0;
 }

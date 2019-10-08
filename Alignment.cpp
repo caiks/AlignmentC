@@ -1023,7 +1023,7 @@ std::unique_ptr<Transform> Alignment::fudsTransform(const Fud& ff)
     for (auto& v : *ww)
 	vv->insert(v);
     aa = ared(*aa, *vv);
-    return std::make_unique<Transform>(std::move(aa),*ww);
+    return std::make_unique<Transform>(aa,*ww);
 }
 
 // fudsDefinitions :: Fud -> Map.Map Variable Transform

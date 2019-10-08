@@ -37,6 +37,9 @@ namespace Alignment
     private: std::size_t _hash;
     };
 
+    bool operator==(const Variable& l, const Variable& r);
+    bool operator<(const Variable& l, const Variable& r);
+
     typedef std::set<Variable> VarSet;
     typedef std::unordered_set<Variable> VarUSet;
     typedef std::vector<Variable> VarList;
@@ -87,6 +90,9 @@ namespace Alignment
     private: double _double;
     private: std::size_t _hash;
     };
+
+    bool operator==(const Value& l, const Value& r);
+    bool operator<(const Value& l, const Value& r);
 
     typedef std::set<Value> ValSet;
     typedef std::unordered_set<Value> ValUSet;
@@ -147,6 +153,9 @@ namespace Alignment
     private: int _int;
     private: std::size_t _hash;
     };
+
+    bool operator==(const Id& l, const Id& r);
+    bool operator<(const Id& l, const Id& r);
 }
 
 std::ostream& operator<<(std::ostream&, const Alignment::Id&);
