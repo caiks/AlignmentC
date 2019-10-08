@@ -27,7 +27,7 @@ double f(const int& i) { return 0.5*i; }
 
 int main(int argc, char **argv)
 {
-    if (true)
+    if (false)
     {
 	Rational a, b;
 	a = 5;
@@ -1963,7 +1963,7 @@ int main(int argc, char **argv)
 
     if (false)
     {
-	FILE* fp = std::fopen("../NISTPy-master/NIST_model1.json", "rb");
+	FILE* fp = std::fopen("../NISTPy/NIST_model1.json", "rb");
 	assert(fp);
 	char readBuffer[65536];
 	js::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
@@ -2638,13 +2638,13 @@ int main(int argc, char **argv)
 	std::cout << n << " concurrent threads are supported.\n";
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model2.json");
+	ifstream istrm("../NISTPy/NIST_model2.json");
 
 	auto start = chrono::system_clock::now();
 	auto df = persistentsDecompFud(istrm);
@@ -2696,13 +2696,13 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model2.json");
+	ifstream istrm("../NISTPy/NIST_model2.json");
 
 	StrVarPtrMap m;
 
@@ -2759,13 +2759,13 @@ int main(int argc, char **argv)
     }
 
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model35.json");
+	ifstream istrm("../NISTPy/NIST_model35.json");
 
 	auto start = chrono::system_clock::now();
 	auto df = persistentsDecompFud(istrm);
@@ -2817,13 +2817,13 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model35.json");
+	ifstream istrm("../NISTPy/NIST_model35.json");
 
 	StrVarPtrMap m;
 
@@ -2880,13 +2880,13 @@ int main(int argc, char **argv)
     }
 
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model24.json");
+	ifstream istrm("../NISTPy/NIST_model24.json");
 
 	auto start = chrono::system_clock::now();
 	auto df = persistentsDecompFud(istrm);
@@ -2938,13 +2938,13 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model24.json");
+	ifstream istrm("../NISTPy/NIST_model24.json");
 
 	StrVarPtrMap m;
 
@@ -3000,14 +3000,14 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (false)
+    if (true)
     {
 	auto fsys = fudsSystemImplied;
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
 	auto fvars = fudsSetVar;
 
-	ifstream istrm("C:/zzz/caiks/NISTPy-master/NIST_model24.json");
+	ifstream istrm("../NISTPy/NIST_model24.json");
 
 	StrVarPtrMap m;
 
