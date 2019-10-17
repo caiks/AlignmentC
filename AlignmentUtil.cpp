@@ -194,7 +194,7 @@ istream& operator >> (istream& in, Rational& obj) {
 	else if (temp <= '9' && temp >= '0') {
 	    if (dotExist) {
 		if (virtualDenominator > INT_MAX / 10) {
-		    cout << "this frational is too long to handle.";
+		    throw std::out_of_range("operator>>(istream& in, Rational& obj)");
 		    validInput = false;
 		    break;
 		}
@@ -203,7 +203,7 @@ istream& operator >> (istream& in, Rational& obj) {
 		}
 	    }
 	    if (num > INT_MAX / 10) {
-		cout << "this number is too long to handle.";
+		throw std::out_of_range("operator>>(istream&, Rational&)");
 		validInput = false;
 		break;
 	    }
@@ -219,7 +219,7 @@ istream& operator >> (istream& in, Rational& obj) {
     if (validInput == false) {
 	obj.setNumerator(0);
 	obj.setDenominator(1);
-	cout << "Input is not valid! The whole set to 0" << endl;
+	throw std::out_of_range("operator>>(istream&, Rational&)");
     }
     else {
 	if (slashExist == true) {
@@ -251,7 +251,7 @@ Rational::Rational(double x) {
     long long i = 1;
     while (x*i - static_cast<long long>(x*i) != 0) {
 	if (i > INT_MAX / 10) {
-	    cout << "this frational number : " << x << " can not be transfer to rational number, it's too long, now set it 0." << endl;
+	    throw std::out_of_range("Rational::Rational(double)");
 	    setNumerator(0);
 	    setDenominator(1);
 	    return;
@@ -347,7 +347,7 @@ void Rational::setDenominator(long long denominator_) {
     if (denominator_ == 0) {
 	denominator = 1;
 	numerator = 0;
-	cout << "Denominator is 0! Not good! THe whole is set to 0." << endl;
+	throw std::out_of_range("Rational::setDenominator");
     }
     else {
 	denominator = denominator_;

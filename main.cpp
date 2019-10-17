@@ -27,7 +27,7 @@ double f(const int& i) { return 0.5*i; }
 
 int main(int argc, char **argv)
 {
-    if (false)
+    if (true)
     {
 	Rational a, b;
 	a = 5;
@@ -38,6 +38,16 @@ int main(int argc, char **argv)
 	cout << b << endl;
 	a++;
 	cout << a << endl;
+
+	try
+	{
+	    cout << Rational(2.0) << endl;
+	    cout << Rational(1.0/9.0) << endl;
+	}
+	catch (const std::exception& e)
+	{
+	    cout << "caught exception: " << e.what() << endl << endl;
+	}
     }
 
     if (false) 
@@ -2638,7 +2648,7 @@ int main(int argc, char **argv)
 	std::cout << n << " concurrent threads are supported.\n";
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2696,7 +2706,7 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2759,7 +2769,7 @@ int main(int argc, char **argv)
     }
 
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2817,7 +2827,7 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2880,7 +2890,7 @@ int main(int argc, char **argv)
     }
 
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -2938,7 +2948,7 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto dfund = decompFudsUnderlying;
 	auto dfff = decompFudsFud;
@@ -3000,7 +3010,7 @@ int main(int argc, char **argv)
 	*/
     }
 
-    if (true)
+    if (false)
     {
 	auto fsys = fudsSystemImplied;
 	auto dfund = decompFudsUnderlying;
