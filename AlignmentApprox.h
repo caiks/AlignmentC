@@ -3,6 +3,8 @@
 
 #include "Alignment.h"
 
+#include <math.h>
+
 namespace Alignment
 {
     inline double alngam(double xvalue)

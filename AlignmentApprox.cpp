@@ -1,7 +1,5 @@
 ﻿#include "AlignmentApprox.h"
 
-#include <math.h>
-
 using namespace Alignment;
 
 // histogramsEntropy :: Histogram -> Double
