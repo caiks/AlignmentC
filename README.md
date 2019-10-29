@@ -22,6 +22,8 @@ Ubuntu release -
 cd /home/cliff/Documents/projects/CAIKS4
 git clone https://github.com/Tencent/rapidjson.git
 
+cd AlignmentC
+
 g++ -I../rapidjson/include -std=gnu++17 -O3 -o main main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
 
 ./main
