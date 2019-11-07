@@ -748,6 +748,33 @@ std::unique_ptr<Histogram> Alignment::histogramRegularUnitDiagonal_u(int d, int 
     return llaa(qq);
 }
 
+// histogramRegularUnitPivot_u :: Integer -> Integer -> Maybe Histogram
+std::unique_ptr<Histogram> Alignment::histogramRegularUnitPivot_u(int d, int n)
+{
+    auto uvars = systemsSetVar;
+    auto lluu = listsSystem_u;
+    auto unit = setStatesHistogramUnit_u;
+    auto single = histogramRegularUnitSingleton_u;
+    auto cart = systemsSetVarsSetStateCartesian_u;
+    auto add = pairHistogramsAdd_u;
+
+    if (d < 1 || n < 1)
+	return std::make_unique<Histogram>();
+    auto bb = single(d, n);
+    if (d == 1 && n >= 1)
+	return bb;
+    ValSet ww;
+    for (int j = 2; j <= d; j++)
+	ww.insert(Value(j));
+    VarValSetUMap mm(n);
+    for (int i = 1; i <= n; i++)
+	mm[Variable(i)] = ww;
+    System uu(mm);
+    auto vv = uvars(uu);
+    auto aa = unit(*cart(uu, *vv));
+    return add(*bb,*aa);
+}
+
 // historiesHistogram :: History -> Histogram
 std::unique_ptr<Histogram> Alignment::historiesHistogram(const History& hh)
 {

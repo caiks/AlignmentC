@@ -390,7 +390,7 @@ int main(int argc, char **argv)
 	    << *hsys(*hh) << endl << endl;
     }
 
-    if (false)
+    if (true)
     {
 	auto cart = systemsSetVarsSetStateCartesian_u;
 
@@ -506,6 +506,14 @@ int main(int argc, char **argv)
 	auto regdiag = histogramRegularUnitDiagonal_u;
 	cout << "rpln(aall(regdiag(3,2)))" << endl;
 	rpln(cout, sorted(*aall(*regdiag(3, 2)))); cout << endl;
+
+	auto regpivot = histogramRegularUnitPivot_u;
+	cout << "rpln(aall(regpivot(1,2)))" << endl;
+	rpln(cout, sorted(*aall(*regpivot(1, 2)))); cout << endl;
+	cout << "rpln(aall(regpivot(3,2)))" << endl;
+	rpln(cout, sorted(*aall(*regpivot(3, 2)))); cout << endl;
+	cout << "rpln(aall(regpivot(3,4)))" << endl;
+	rpln(cout, sorted(*aall(*regpivot(3, 4)))); cout << endl;
 
 	auto sys = histogramsSystemImplied;
 
@@ -862,7 +870,7 @@ int main(int argc, char **argv)
 	    << setprecision(17) << algn(*resize(100, *regdiag(3, 2))) << endl << endl;
     }
 
-    if (true)
+    if (false)
     {
 	auto uvars = systemsSetVar;
 	auto cart = systemsSetVarsSetStateCartesian_u;

@@ -440,6 +440,9 @@ namespace Alignment
     // histogramRegularUnitDiagonal_u :: Integer -> Integer -> Histogram
     std::unique_ptr<Histogram> histogramRegularUnitDiagonal_u(int, int);
 
+    // histogramRegularUnitPivot_u :: Integer -> Integer -> Histogram
+    std::unique_ptr<Histogram> histogramRegularUnitPivot_u(int, int);
+
     // historiesHistogram :: History -> Histogram
     std::unique_ptr<Histogram> historiesHistogram(const History&);
 
