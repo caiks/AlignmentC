@@ -194,6 +194,13 @@ template<typename T> struct Tree
 
 };
 
+template<typename T> struct TreeNode
+{
+    std::shared_ptr<TreeNode<T>> _parent;
+    T _element;
+    std::vector<std::shared_ptr<TreeNode<T>>> _children;
+};
+
 template<typename T> int treesSize(const Tree<T>& tt)
 {
     int s = 0;
@@ -218,6 +225,33 @@ template<typename T> std::unique_ptr<std::vector<T>> treesElements(const Tree<T>
     }
     return qq;
 }
+
+// treesNodes :: (Ord a, Ord (Tree a)) => TreeNode -> Tree a -> Set.Set TreeNode
+template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesNodes(const std::shared_ptr<TreeNode<T>>& p, const Tree<T>& tt)
+{
+    auto qq = std::make_unique<std::vector<TreeNode<T>>>();
+    qq->reserve(tt._list.size());
+    for (auto& pp : tt._list)
+    {
+	auto q = std::make_shared<TreeNode<T>>();
+	q->_parent = p;
+	q->_element = pp.first;
+	if (pp.second)
+	{
+	    auto ee = treesNodes(q, *pp.second);
+	    q->_children.insert(q->_children.end(), ee->begin(), ee->end());
+	}
+	qq->push_back(q);
+    }
+    return qq;
+}
+
+// treesNodes :: (Ord a, Ord (Tree a)) => Tree a -> Set.Set TreeNode
+template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesNodes(const Tree<T>& tt)
+{
+    return treesNodes(std::shared_ptr<TreeNode<T>>(), tt);
+}
+
 
 // funcsTreesMap :: (Ord a, Ord (Tree a), Ord b, Ord (Tree b)) => (a -> b) -> Tree a -> Tree b
 template<typename S,typename T> std::unique_ptr<Tree<T>> funcsTreesMap(T (*pf)(const S&), const Tree<S>& ss)
