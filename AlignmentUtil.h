@@ -226,8 +226,25 @@ template<typename T> std::unique_ptr<std::vector<T>> treesElements(const Tree<T>
     return qq;
 }
 
+// treesNodes :: (Ord a, Ord (Tree a)) => Tree a -> Set.Set (a, Tree a)
+template<typename T> std::unique_ptr<std::vector<std::pair<T, std::shared_ptr<Tree<T>>>>> treesNodes(const Tree<T>& tt)
+{
+    auto qq = std::make_unique<std::vector<std::pair<T, std::shared_ptr<Tree<T>>>>>();
+    qq->reserve(treesSize(tt));
+    for (auto& pp : tt._list)
+    {
+	qq->push_back(pp);
+	if (pp.second)
+	{
+	    auto ee = treesNodes(*pp.second);
+	    qq->insert(qq->end(), ee->begin(), ee->end());
+	}
+    }
+    return qq;
+}
+
 // treesNodes :: (Ord a, Ord (Tree a)) => TreeNode -> Tree a -> Set.Set TreeNode
-template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesNodes(const std::shared_ptr<TreeNode<T>>& p, const Tree<T>& tt)
+template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesTreeNodes(const std::shared_ptr<TreeNode<T>>& p, const Tree<T>& tt)
 {
     auto qq = std::make_unique<std::vector<TreeNode<T>>>();
     qq->reserve(tt._list.size());
@@ -238,7 +255,7 @@ template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> 
 	q->_element = pp.first;
 	if (pp.second)
 	{
-	    auto ee = treesNodes(q, *pp.second);
+	    auto ee = treesTreeNodes(q, *pp.second);
 	    q->_children.insert(q->_children.end(), ee->begin(), ee->end());
 	}
 	qq->push_back(q);
@@ -247,7 +264,7 @@ template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> 
 }
 
 // treesNodes :: (Ord a, Ord (Tree a)) => Tree a -> Set.Set TreeNode
-template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesNodes(const Tree<T>& tt)
+template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesTreeNodes(const Tree<T>& tt)
 {
     return treesNodes(std::shared_ptr<TreeNode<T>>(), tt);
 }
