@@ -243,6 +243,18 @@ template<typename T> std::unique_ptr<std::vector<std::pair<T, std::shared_ptr<Tr
     return qq;
 }
 
+// treesNodes :: (Ord a, Ord (Tree a)) => Tree a -> Set.Set (a, Tree a)
+template<typename T> std::unique_ptr<std::vector<std::pair<T, std::shared_ptr<Tree<T>>>>> treesLeafNodes(const Tree<T>& tt)
+{
+    auto pp = treesNodes(tt);
+    auto qq = std::make_unique<std::vector<std::pair<T, std::shared_ptr<Tree<T>>>>>();
+    qq->reserve(pp->size());
+    for (auto& p : *pp)
+	if (!p.second || !p.second->_list.size())
+	    qq->push_back(p);
+     return qq;
+}
+
 // treesNodes :: (Ord a, Ord (Tree a)) => TreeNode -> Tree a -> Set.Set TreeNode
 template<typename T> std::unique_ptr<std::vector<std::shared_ptr<TreeNode<T>>>> treesTreeNodes(const std::shared_ptr<TreeNode<T>>& p, const Tree<T>& tt)
 {
