@@ -40,6 +40,7 @@ namespace Alignment
     bool operator==(const Variable& l, const Variable& r);
     bool operator<(const Variable& l, const Variable& r);
 
+    typedef std::shared_ptr<Variable> VarPtr;
     typedef std::set<Variable> VarSet;
     typedef std::unordered_set<Variable> VarUSet;
     typedef std::vector<Variable> VarList;
