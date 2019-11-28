@@ -29,11 +29,11 @@ namespace Alignment
     public: std::size_t hash() const;
     public: void write(std::ostream& out) const;
 
-    private: char _cl;
-    private: std::shared_ptr<std::string> _str;
-    private: int _int;
-    private: std::shared_ptr<Variable> _var0;
-    private: std::shared_ptr<Variable> _var1;
+    public: char _cl;
+    public: std::shared_ptr<std::string> _str;
+    public: int _int;
+    public: std::shared_ptr<Variable> _var0;
+    public: std::shared_ptr<Variable> _var1;
     private: std::size_t _hash;
     };
 
