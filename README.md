@@ -15,6 +15,7 @@ sudo apt install -y g++
 ```
 Then download the zip file or use git to get the rapidjson and AlignmentC repositories -
 ```
+git clone https://github.com/Tencent/rapidjson.git
 git clone https://github.com/caiks/AlignmentC.git
 ```
 
@@ -22,9 +23,6 @@ git clone https://github.com/caiks/AlignmentC.git
 
 Ubuntu release -
 ```sh
-cd /home/cliff/Documents/projects/CAIKS4
-git clone https://github.com/Tencent/rapidjson.git
-
 cd AlignmentC
 
 g++ -I../rapidjson/include -std=gnu++17 -O3 -o main main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
@@ -34,7 +32,7 @@ g++ -I../rapidjson/include -std=gnu++17 -O3 -o main main.cpp AlignmentUtil.cpp A
 ```
 Windows debug -
 ```sh
-cd /d C:\zzz\caiks\AlignmentC-master
+cd AlignmentC-master
 
 cl -IC:../rapidjson-master\include /EHsc /DEBUG /Zi main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
 
@@ -42,7 +40,7 @@ main
 ```
 Windows release -
 ```sh
-cd /d C:\zzz\caiks\AlignmentC-master
+cd AlignmentC-master
 
 cl -IC:../rapidjson-master\include /EHsc /O2 main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
 
