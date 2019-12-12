@@ -21,7 +21,16 @@ git clone https://github.com/caiks/AlignmentC.git
 
 ## Build
 
-Ubuntu release -
+Unix debug  -
+```sh
+cd AlignmentC
+
+g++ -I../rapidjson/include -std=gnu++17 -g -o main main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
+
+./main
+
+```
+Unix release -
 ```sh
 cd AlignmentC
 
