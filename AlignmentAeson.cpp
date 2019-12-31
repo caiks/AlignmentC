@@ -36,7 +36,7 @@ Variable Alignment::stringsVariable(const std::string& s)
 	    if (isspace(s.substr(p, std::string::npos)))
 		return Variable(i);
 	}
-	catch (std::invalid_argument& e)
+	catch (std::invalid_argument&)
 	{
 	}
     }
@@ -67,7 +67,7 @@ VarPtr Alignment::stringsVariable(const std::string& s, StrVarPtrMap& map)
 		return v;
 	    }
 	}
-	catch (std::invalid_argument& e)
+	catch (std::invalid_argument&)
 	{
 	}
     }
@@ -95,7 +95,7 @@ Value Alignment::stringsValue(const std::string& s)
 	if (isspace(s.substr(p, std::string::npos)))
 	    return Value(i);
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
     }
     try 
@@ -104,7 +104,7 @@ Value Alignment::stringsValue(const std::string& s)
 	if (isspace(s.substr(p, std::string::npos)))
 	    return Value(d);
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
     }
     return Value(s);
@@ -123,7 +123,7 @@ Rational Alignment::stringsRational(const std::string& s)
 	if (d > 0)
 	    return Rational(n, d);
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
     }
     return Rational();
@@ -208,7 +208,7 @@ std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is)
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<System>();
     }
@@ -246,7 +246,7 @@ std::unique_ptr<System> Alignment::persistentsSystem(std::istream& is, StrVarPtr
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<System>();
     }
@@ -383,7 +383,7 @@ std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is)
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<History>();
     }
@@ -438,7 +438,7 @@ std::unique_ptr<History> Alignment::persistentsHistory(std::istream& is, StrVarP
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<History>();
     }
@@ -517,7 +517,7 @@ std::unique_ptr<Transform> Alignment::persistentsTransform(std::istream& is)
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<Transform>();
     }
@@ -553,7 +553,7 @@ std::unique_ptr<Transform> Alignment::persistentsTransform(std::istream& is, Str
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<Transform>();
     }
@@ -609,7 +609,7 @@ std::unique_ptr<Fud> Alignment::persistentsFud(std::istream& is)
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<Fud>();
     }
@@ -635,7 +635,7 @@ std::unique_ptr<Fud> Alignment::persistentsFud(std::istream& is, StrVarPtrMap& m
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<Fud>();
     }
@@ -770,7 +770,7 @@ std::unique_ptr<DecompFud> Alignment::persistentsDecompFud(std::istream& is)
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<DecompFud>();
     }
@@ -829,7 +829,7 @@ std::unique_ptr<DecompFud> Alignment::persistentsDecompFud(std::istream& is, Str
     {
 	d.ParseStream(isw);
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
 	return std::make_unique<DecompFud>();
     }

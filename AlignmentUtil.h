@@ -317,7 +317,7 @@ template<typename T> std::pair<std::unique_ptr<Tree<std::pair<int,T>>>,int> tree
     auto rr = std::make_unique<Tree<std::pair<int, T>>>();
     auto s = tt._list.size();
     rr->_list.reserve(s);
-    int j = k + s;
+    int j = k + (int)s;
     int i = k;
     for (auto& pp : tt._list)
     {
