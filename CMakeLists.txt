@@ -11,15 +11,15 @@ include_directories(../rapidjson/include)
 
 add_library(libAlignmentC AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp)
 
-add_executable(AlignmentC main.cpp)
+add_executable(main main.cpp)
 
-target_link_libraries(AlignmentC PUBLIC libAlignmentC)
+target_link_libraries(main PUBLIC libAlignmentC)
 
-target_include_directories(AlignmentC PUBLIC
+target_include_directories(main PUBLIC
                           "${PROJECT_BINARY_DIR}"
                           )
 
-install(TARGETS AlignmentC DESTINATION bin)
+install(TARGETS main DESTINATION bin)
 install(TARGETS libAlignmentC DESTINATION lib)
 install(FILES AlignmentUtil.h Alignment.h AlignmentApprox.h AlignmentAeson.h
   DESTINATION include
