@@ -63,7 +63,7 @@ void simplifyFun(long long& a, long long& b) {
     }
 
     getFactors(small, factorSet);
-    for (long long i = 0; i < factorSet.size(); i++) {
+    for (size_t i = 0; i < factorSet.size(); i++) {
 	temp = factorSet[i];
 	while (tempN%temp == 0 && tempD%temp == 0) {
 	    tempN /= temp;
@@ -156,7 +156,7 @@ istream& operator >> (istream& in, Rational& obj) {
     bool validInput = true;
     long long virtualDenominator = 1;
     cin >> inputstr;
-    for (long long i = 0; i < inputstr.size(); i++) {
+    for (size_t i = 0; i < inputstr.size(); i++) {
 	char temp = inputstr[i];
 	if (temp == '.') {
 	    if (dotExist == false && slashExist == false && i != 0) {
@@ -260,7 +260,7 @@ Rational::Rational(double x) {
 	    i *= 10;
 	}
     }
-    setNumerator(x*i);
+    setNumerator((long long)x*i);
     setDenominator(i);
     simplify();
 }

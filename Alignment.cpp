@@ -298,7 +298,7 @@ ValSet Alignment::systemsVarsSetValue(const System& uu, const Variable& u)
 // systemsSetVarsVolume_u :: System -> Set.Set Variable -> Integer
 unsigned long long Alignment::systemsSetVarsVolume_u(const System& uu, const VarUSet& vv)
 {
-    auto v = 1;
+    unsigned long long v = 1;
     for (auto it = vv.begin(); it != vv.end(); ++it)
     {
 	auto it2 = uu.map_u().find(*it);
@@ -792,7 +792,7 @@ std::unique_ptr<History> Alignment::histogramsHistory_u(const Histogram& aa)
     auto llhh = listsHistory_u;
     auto size = histogramsSize;
     std::vector<IdStatePair> qq;
-    int s = size(aa).getNumerator();
+    auto s = size(aa).getNumerator();
     qq.reserve(s);
     int i = 1;
     for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
