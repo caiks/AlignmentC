@@ -8,51 +8,77 @@ The AlignmentC repository is designed to be used with the fast implementation of
 
 The `AlignmentC` module requires [modern C++](https://en.cppreference.com/w/) version 17 or later to be installed.
 
-For example in Ubuntu,
+For example, in Ubuntu bionic (18.04),
 ```
-sudo apt-get update -y
-sudo apt install -y g++
+sudo apt-get update -y && sudo apt install -y git g++ cmake
+
 ```
 Then download the zip file or use git to get the rapidjson and AlignmentC repositories -
 ```
 git clone https://github.com/Tencent/rapidjson.git
 git clone https://github.com/caiks/AlignmentC.git
+
 ```
 
 ## Build
 
-Unix debug  -
+Ubuntu debug -
 ```sh
-cd AlignmentC
-
-g++ -I../rapidjson/include -std=gnu++17 -g -o main main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
-
-./main
+mkdir AlignmentC_build
+cd AlignmentC_build
+cmake -DCMAKE_BUILD_TYPE=DEBUG ../AlignmentC
+make
 
 ```
-Unix release -
+Ubuntu release -
 ```sh
-cd AlignmentC
-
-g++ -I../rapidjson/include -std=gnu++17 -O3 -o main main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
-
-./main
+mkdir AlignmentC_build
+cd AlignmentC_build
+cmake -DCMAKE_BUILD_TYPE=RELEASE ../AlignmentC
+make
 
 ```
 Windows debug -
 ```sh
-cd AlignmentC-master
+mkdir AlignmentC_build
+cd /d AlignmentC_build
+"C:\Program Files\CMake\bin\cmake" -G "Visual Studio 14 2015" -A x64 ../AlignmentC
+"C:\Program Files\CMake\bin\cmake" --build . --config Debug
 
-cl -IC:../rapidjson-master\include /EHsc /DEBUG /Zi main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
-
-main
 ```
 Windows release -
 ```sh
-cd AlignmentC-master
+mkdir AlignmentC_build
+cd /d AlignmentC_build
+"C:\Program Files\CMake\bin\cmake" -G "Visual Studio 14 2015" -A x64 ../AlignmentC
+"C:\Program Files\CMake\bin\cmake" --build . --config Release
 
-cl -IC:../rapidjson-master\include /EHsc /O2 main.cpp AlignmentUtil.cpp Alignment.cpp AlignmentApprox.cpp AlignmentAeson.cpp 
+```
 
-main
+## Usage
+
+Ubuntu -
+```sh
+cd ..
+mkdir AlignmentC_run
+cd AlignmentC_run
+../AlignmentC_build/AlignmentC_test 
+
+```
+Windows debug -
+```sh
+cd ..
+mkdir AlignmentC_run
+cd AlignmentC_run
+..\AlignmentC_build\Debug\AlignmentC_test.exe
+
+```
+Windows release -
+```sh
+cd ..
+mkdir AlignmentC_run
+cd AlignmentC_run
+..\AlignmentC_build\Release\AlignmentC_test.exe 
+
 ```
 
