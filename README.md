@@ -60,24 +60,24 @@ cd /d AlignmentC_build
 Ubuntu -
 ```sh
 cd ..
-mkdir AlignmentC_run
-cd AlignmentC_run
+mkdir AlignmentC_ws
+cd AlignmentC_ws
 ../AlignmentC_build/AlignmentC_test 
 
 ```
 Windows debug -
 ```sh
 cd ..
-mkdir AlignmentC_run
-cd AlignmentC_run
+mkdir AlignmentC_ws
+cd AlignmentC_ws
 ..\AlignmentC_build\Debug\AlignmentC_test.exe
 
 ```
 Windows release -
 ```sh
 cd ..
-mkdir AlignmentC_run
-cd AlignmentC_run
+mkdir AlignmentC_ws
+cd AlignmentC_ws
 ..\AlignmentC_build\Release\AlignmentC_test.exe 
 
 ```
