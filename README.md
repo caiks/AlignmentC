@@ -4,7 +4,7 @@ The AlignmentC repository is a literal C++ implementation of some of the set-the
 
 The AlignmentC repository is designed to be used with the fast implementation of *practicable inducers* in the [AlignmentRepaC repository](https://github.com/caiks/AlignmentRepaC).
 
-## Installation
+## Download
 
 The `AlignmentC` module requires [modern C++](https://en.cppreference.com/w/) version 17 or later to be installed.
 
