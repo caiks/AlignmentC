@@ -459,6 +459,9 @@ namespace Alignment
 	// pairHistogramsAdd_u_1 :: Histogram -> Histogram -> Histogram 
 	std::unique_ptr<Histogram> pairHistogramsAdd_u_1(const Histogram&, const Histogram&);
 
+	// pairHistogramsSubtract_u :: Histogram -> Histogram -> Histogram 
+	std::unique_ptr<Histogram> pairHistogramsSubtract_u(const Histogram&, const Histogram&);
+
 	// pairHistogramsMultiply :: Histogram -> Histogram -> Histogram 
 	std::unique_ptr<Histogram> pairHistogramsMultiply(const Histogram&, const Histogram&);
 

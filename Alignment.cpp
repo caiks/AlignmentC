@@ -817,7 +817,7 @@ std::unique_ptr<Histogram> Alignment::setVarsHistogramsReduce(const VarUSet& vv,
 std::unique_ptr<Histogram> Alignment::pairHistogramsAdd_u(const Histogram& aa, const Histogram& bb)
 {
 	auto cc = std::make_unique<Histogram>();
-	cc->map_u().reserve(aa.map_u().size()+ aa.map_u().size());
+	cc->map_u().reserve(aa.map_u().size()+ bb.map_u().size());
 	for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
 		cc->map_u().insert_or_assign(it->first, it->second);
 	for (auto it = bb.map_u().begin(); it != bb.map_u().end(); ++it)
@@ -835,6 +835,25 @@ std::unique_ptr<Histogram> Alignment::pairHistogramsAdd_u_1(const Histogram& aa,
 	pp->reserve(pp->size() + qq->size());
 	pp->insert(pp->end(), qq->begin(), qq->end());
 	return llaa(*qq);
+}
+
+// pairHistogramsSubtract_u :: Histogram -> Histogram -> Histogram 
+std::unique_ptr<Histogram> Alignment::pairHistogramsSubtract_u(const Histogram& aa, const Histogram& bb)
+{
+	auto cc = std::make_unique<Histogram>();
+	cc->map_u().reserve(aa.map_u().size());
+	for (auto it = aa.map_u().begin(); it != aa.map_u().end(); ++it)
+		cc->map_u().insert_or_assign(it->first, it->second);
+	for (auto it = bb.map_u().begin(); it != bb.map_u().end(); ++it)
+		if (cc->map_u().find(it->first) != cc->map_u().end())
+		{
+			auto a = cc->map_u()[it->first] - it->second;
+			if (a > Rational())
+				cc->map_u()[it->first] = a;
+			else
+				cc->map_u()[it->first] = Rational();
+		}
+	return cc;
 }
 
 // pairHistogramsMultiply :: Histogram -> Histogram -> Histogram 
